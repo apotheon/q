@@ -22,11 +22,13 @@ describe Repository do
       Dir.delete 'tmp'
     end
 
-    it 'initializes a new repository' do
+    it 'initializes a new, empty repository' do
       repo.path.must_equal FILE_PATH
-
       repo.init
+
       File.exist?(FILE_PATH).must_equal true, "failed to init #{FILE_PATH}"
+      repo.checkins.must_equal 0, "failure: #{repo.checkins} checkins found"
+      repo.admin.must_equal ENV['USER'], "failure: admin is #{repo.admin}"
     end
   end
 end
