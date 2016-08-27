@@ -1,7 +1,16 @@
+require 'syck'
+require 'ostruct'
+
 class Repository
-  attr_accessor :path
+  attr_accessor :admin, :path
 
   def initialize args={}
+    if args[:admin]
+      @admin = args[:admin]
+    else
+      @admin = ENV['USER']
+    end
+
     if args[:dir].to_s.match /^\//
       @dir = args[:dir]
     else
@@ -31,6 +40,25 @@ class Repository
     end
   end
 
-  def init
+  def init initial_checkin=nil
+    arguments = Array.new
+    arguments << '--empty' unless initial_checkin
+    arguments << "--admin-user #{admin}" if admin
+
+    `fossil init #{arguments.join ' '} #{path}`
+  end
+
+  def info
+    info = Hash.new
+
+    Syck.load(`fossil info -R #{path}`).each_pair do |k, v|
+      info[k.sub '-', '_'] = v
+    end
+
+    OpenStruct.new info
+  end
+
+  def checkins
+    info.checkins
   end
 end
