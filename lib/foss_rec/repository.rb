@@ -4,7 +4,7 @@ require 'ostruct'
 class Repository
   attr_accessor :admin, :path
 
-  def initialize args={}
+  def initialize args=Hash.new
     if args[:admin]
       @admin = args[:admin]
     else
