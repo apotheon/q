@@ -2,12 +2,12 @@ require 'syck'
 
 class CLI
   attr_reader :usage, :help_text, :config
-  attr_accessor :command
+  attr_accessor :name
 
   def initialize config=Hash.new
-    @command = 'fossrec'
+    @name = (config[:name] or 'fossrec')
 
-    @usage = "USAGE: #{@command} COMMAND [ARGUMENTS]"
+    @usage = "USAGE: #{@name} COMMAND [ARGUMENTS]"
 
     @help_text = ''
 
@@ -26,7 +26,10 @@ class CLI
 
     Config.new.tap do |c|
       default_config = {
-        local: { admin: user, checkout: checkout, repo: repo, user: user },
+        local: {
+          admin: user, checkout: checkout, path: path, repo: repo, user: user
+        },
+
         remote: { account: user, admin: user, user: user }
       }
 

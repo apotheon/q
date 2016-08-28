@@ -52,7 +52,7 @@ describe CLI do
     end
 
     it 'uses fossrec as default command' do
-      cli.command.must_equal 'fossrec'
+      cli.name.must_equal 'fossrec'
     end
 
     it 'provides basic usage help' do
