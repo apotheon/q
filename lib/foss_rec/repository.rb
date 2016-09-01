@@ -2,7 +2,7 @@ require 'syck'
 require 'ostruct'
 
 class Repository
-  attr_accessor :admin, :path
+  attr_accessor :admin, :filename, :path
 
   def initialize args=Hash.new
     if args[:admin]
@@ -60,5 +60,12 @@ class Repository
 
   def checkins
     info.checkins
+  end
+
+  def open open_path, *args
+    Dir.chdir open_path do
+      arg_string = args.map {|arg| arg.to_s.sub(/^/, '--') }.join ', '
+      `fossil open #{arg_string} #{path}`
+    end
   end
 end
