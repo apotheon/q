@@ -9,7 +9,23 @@ class CLI
 
     @usage = "USAGE: #{@name} COMMAND [ARGUMENTS]"
 
-    @help_text = ''
+    @help_text = <<-EOF
+
+      COMMANDS:
+
+          init          Create a local repository.
+          #{@name} init <projectname>
+
+          clone         Clone a repository from FossRec.
+          #{@name} clone <projectname>
+
+          create        Create a repository on FossRec.
+          (not currently implemented)
+
+          help          Display this help text.
+          #{@name} help
+
+    EOF
 
     @config = configure config
   end

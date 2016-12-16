@@ -58,5 +58,20 @@ describe CLI do
     it 'provides basic usage help' do
       cli.usage.must_equal 'USAGE: fossrec COMMAND [ARGUMENTS]'
     end
+
+    it 'provides command help' do
+      [
+        /init +Create a local repository\./,
+        /fossrec init <projectname>/,
+        /clone +Clone a repository from FossRec\./,
+        /fossrec clone <projectname>/,
+        /create +Create a repository on FossRec\./,
+        /not currently implemented/,
+        /help +Display this help text\./,
+        /fossrec help/
+      ].each do |regex|
+        cli.help_text.must_match regex
+      end
+    end
   end
 end
