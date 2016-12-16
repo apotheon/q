@@ -30,6 +30,14 @@ class CLI
     @config = configure config
   end
 
+  def ensure_local_dirs *dirs
+    dirs.each {|dir| ensure_dir dir if dir }
+  end
+
+  def ensure_dir path
+    Dir.mkdir(path) unless Dir.exist? path
+  end
+
   private
 
   def configure config
