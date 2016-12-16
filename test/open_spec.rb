@@ -2,6 +2,8 @@ require 'minitest/spec'
 require 'minitest/autorun'
 require 'minitest/rg'
 
+require 'fileutils'
+
 require_relative '../lib/foss_rec/repository.rb'
 
 describe Repository do
@@ -23,22 +25,11 @@ describe Repository do
   }
 
   before do
-    Dir.mkdir TMP
-    Dir.mkdir DIR
+    [TMP, DIR].each {|directory| Dir.mkdir directory }
   end
 
   after do
-    Dir.entries(DIR).each do |file|
-      File.delete File.join(DIR, file) unless File.directory? file
-    end
-
-    Dir.delete DIR
-
-    Dir.entries(TMP).each do |file|
-      File.delete File.join(TMP, file) unless File.directory? file
-    end
-
-    Dir.delete TMP
+    [DIR, TMP].each {|directory| FileUtils.remove_dir directory }
   end
 
   Repository.new(CONFIG).tap do |repo|
