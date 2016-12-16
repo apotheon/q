@@ -27,7 +27,7 @@ class Mirror
     @repo = repo
   end
 
-  def create_mirror skipmarks=false
+  def create skipmarks=false
     fossil_args = ['--git']
     #fossil_args << "--export-marks #{@fossil_marks}" unless skipmarks
     fossil_args << (@repo or Dir.pwd)
@@ -39,6 +39,6 @@ class Mirror
     `fossil export #{fossil_args.join ' '} | git #{git_args.join ' '}`
   end
 
-  def update_mirror
+  def update
   end
 end

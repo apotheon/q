@@ -48,11 +48,18 @@ describe Mirror do
       it 'exports Git format' do
         repo.open DIR, :nested
 
-        mirror.create_mirror
+        mirror.create
 
         File.exist?(
           File.join(GITDIR, 'README')
         ).must_equal true, "no README found in #{GITDIR}"
+      end
+
+      it 'updates Git mirror' do
+        repo.open Dir, :nested
+        mirror.create
+
+        mirror.update
       end
     end
   end
