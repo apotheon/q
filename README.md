@@ -51,8 +51,8 @@ to do the work, before starting work.  Just determine whether the one thing
 sitting there staring at you is something you will do right now, and if not, do
 the next thing instead.
 
-Another reat thing about task queues that you can rotate that way is that, when
-you look at the task in the front of the queue, it's always the the task you
+Another great thing about task queues that you can rotate that way is that,
+when you look at the task in the front of the queue, it's always the task you
 have neglected the longest.  Because the only way to put off the current item
 in the queue (as long as you actually use it as a queue) is to move it to the
 back of the queue, you have to look at every other task currently in the queue
@@ -76,16 +76,16 @@ be easiest, and most convenient, to do.  Almost everything else is a
 second-class citizen in the world of q.  The single exception is
 `create-fresh-queue`, the command to set up q for use in the first place, a
 first-class operation that should only ever be used once in a given user
-environment.  It is the least convenient command (with the possible exeption of
-`remove-number`, if only because `remove-number` requires you to know the
+environment.  It is the least convenient command (with the possible exception
+of `remove-number`, if only because `remove-number` requires you to know the
 number of the item you want to remove, thus necessitating either `list-all`
 first or a truly superlative memory) because it is the one operation you should
 never use after initially setting up q for use.
 
 Superficially, a checklist and a queue are very similar.  In terms of a couple
-of key, definining characteristics, and a deeper philosophical usage model,
-they are like night and day: part of a continuum of  similar functionality, but
-with radically different benefits.  Checklist are great when you have a single,
+of key, defining characteristics, and a deeper philosophical usage model, they
+are like night and day: part of a continuum of  similar functionality, but with
+radically different benefits.  Checklist are great when you have a single,
 multi-step task to complete, following which you throw away the list.
 
 Checklists are also great when you just need to have the list on-hand to make
