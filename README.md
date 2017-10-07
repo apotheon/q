@@ -1,4 +1,4 @@
-# q
+# About Q
 
 a simple todo queue tool
 
