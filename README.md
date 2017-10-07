@@ -1,4 +1,4 @@
-# Q
+# FossRec
  
 At the moment, this is a catch-all project for nascent infrastructure and
 tooling development related to the Fossil Record ideal.  At this time, it is
