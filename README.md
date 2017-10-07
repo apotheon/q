@@ -2,6 +2,16 @@
 
 a simple todo queue tool
 
+## Why isn't this repository real?
+
+Okay, that's obviously a contrived question.  Still:
+
+The "home" version control repository is [at FossRec][qfr].
+
+I also mirror the repository [on GitHub][qgh].
+
+Now you know everything.
+
 ## Why is q awesome?
 
 Todo lists and task trackers abound.  There are many ways to track what you
@@ -111,3 +121,6 @@ the must-do tasks we face, in the most effective way it can.  Toward that end,
 it refuses to be anything but a task queue management tool, because trying to
 be everything to everyone is a great way to fail to be the best at anything to
 anyone at all.
+
+[qfr]: https://fossrec.com/u/apotheon/q
+[qgh]: https://github.com/apotheon/q
