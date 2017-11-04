@@ -71,14 +71,14 @@ int help() {
 	puts("correct our mistakes.  A virtuous queuer user will not abuse these");
 	puts("features.  With great power comes great responsibility.");
 	puts("");
-	puts("SYNTAX: q <command> [argument]");
+	puts("SYNTAX: q [command [argument]]");
 	puts("Running q with no <command> does the same thing as \"show\".");
 	puts("");
 	puts("COMMANDS:");
 	puts("");
 	puts("In general, the longer the command, the less you should use it.");
 	puts("Anything in brackets is optional.  Thus, you can use \"h\" for help");
-	puts("and \"rot\" for rotate.");
+	puts("and \"rot\" for rotate, or you can use \"help\" and \"rotate\".");
 	puts("");
 	puts("    h[elp]                  display this help message");
 	puts("    add <item>              add item to end of queue");
@@ -86,7 +86,7 @@ int help() {
 	puts("    list-all                display complete queue, numbered");
 	puts("    remove-number <num>     remove item in position <num>");
 	puts("    rot[ate]                move first item to last position");
-	puts("    show                    show top item in queue");
+	puts("    [show]                  show top item in queue");
 	puts("    create-fresh-queue      set up queuer for use");
 	puts("");
 
