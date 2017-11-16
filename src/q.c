@@ -1,11 +1,16 @@
+#include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 int help();
 int match_cmd();
 int match_help();
 int match_rot();
 int not_implemented();
+int start_queuer();
 int try_help();
 int usage();
 
@@ -17,7 +22,7 @@ int main(int argc, char *argv[]) {
 		else if (match_cmd(argv[1], "list-all")) not_implemented(argv[1]);
 		else if (match_cmd(argv[1], "remove-number")) not_implemented(argv[1]);
 		else if (match_cmd(argv[1], "show")) not_implemented(argv[1]);
-		else if (match_cmd(argv[1], "create-fresh-queue")) not_implemented(argv[1]);
+		else if (match_cmd(argv[1], "create-fresh-queue")) start_queuer();
 		else if (match_rot(argv[1])) not_implemented(argv[1]);
 		else printf("Command \"%s\" is not valid.\n", argv[1]);
 	} else {
@@ -55,6 +60,27 @@ int match_rot(char *cmd) {
 
 int not_implemented(char *cmd) {
 	printf("Command \"%s\" was not yet implemented.\n", cmd);
+	return 0;
+}
+
+int start_queuer() {
+	char *home = getenv("HOME");
+
+	struct stat st1 = {0};
+	char *dirname = ".quebert";
+
+	chdir(home);
+	if (stat(dirname, &st1) == -1) mkdir(dirname, 0700);
+
+	struct stat st2 = {0};
+	char *qname = "queue.txt";
+
+	chdir(dirname);
+	if (stat(qname, &st2) == -1) open(qname, O_CREAT, 0600);
+	else printf(
+		"A file named \"%s/%s/%s\" already exists.\n", home, dirname, qname
+	);
+
 	return 0;
 }
 
