@@ -10,6 +10,7 @@ int match_cmd();
 int match_help();
 int match_rot();
 int not_implemented();
+int show_head();
 int start_queuer();
 int try_help();
 int usage();
@@ -21,13 +22,16 @@ int main(int argc, char *argv[]) {
 		else if (match_cmd(argv[1], "del")) not_implemented(argv[1]);
 		else if (match_cmd(argv[1], "list-all")) not_implemented(argv[1]);
 		else if (match_cmd(argv[1], "remove-number")) not_implemented(argv[1]);
-		else if (match_cmd(argv[1], "show")) not_implemented(argv[1]);
+		else if (match_cmd(argv[1], "show")) show_head();
 		else if (match_cmd(argv[1], "create-fresh-queue")) start_queuer();
 		else if (match_rot(argv[1])) not_implemented(argv[1]);
-		else printf("Command \"%s\" is not valid.\n", argv[1]);
+		else {
+			printf("Command \"%s\" is not valid.\n", argv[1]);
+			usage(argv[0]);
+			try_help(argv[0]);
+		}
 	} else {
-		usage(argv[0]);
-		try_help(argv[0]);
+		show_head();
 	}
 
 	return 0;
@@ -60,6 +64,11 @@ int match_rot(char *cmd) {
 
 int not_implemented(char *cmd) {
 	printf("Command \"%s\" was not yet implemented.\n", cmd);
+	return 0;
+}
+
+int show_head() {
+	not_implemented("show");
 	return 0;
 }
 
