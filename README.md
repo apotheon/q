@@ -12,6 +12,14 @@ I also mirror the repository [on GitHub][qgh].
 
 Now you know everything.
 
+## Why doesn't it do anything?
+
+This is a C rewrite of the original shell script implementation.  The C version
+is far from complete, because I have been unmotivated and very busy and deeply
+tired.  Every few days or weeks, I get the urge to write a dozen lines of code
+(give or take), and it progresses slightly because of that.  For now, the C
+version is vaporware, but you can get [the source of the shell version][sh].
+
 ## Why is q awesome?
 
 Todo lists and task trackers abound.  There are many ways to track what you
@@ -124,3 +132,4 @@ anyone at all.
 
 [qfr]: https://fossrec.com/u/apotheon/q
 [qgh]: https://github.com/apotheon/q
+[sh]: http://sprunge.us/ZJRZ
