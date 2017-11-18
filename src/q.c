@@ -47,8 +47,9 @@ int try_help(char *self) {
 	return 1;
 }
 
-int dirmk(dirname) {
+int newdir(char *dirname) {
 	mkdir(dirname, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+	return 0;
 }
 
 int match_cmd(char *cmd, char *cmdtarget) {
@@ -83,7 +84,7 @@ int start_queuer() {
 	char *dirname = ".quebert";
 
 	chdir(home);
-	if (stat(dirname, &st1) == -1) dirmk(dirname);
+	if (stat(dirname, &st1) == -1) newdir(dirname);
 
 	struct stat st2 = {0};
 	char *qname = "queue.txt";
