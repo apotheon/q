@@ -51,8 +51,7 @@ int try_help(char *self) {
 }
 
 int newdir(char *dirname) {
-	mkdir(dirname, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-	return 0;
+	return mkdir(dirname, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
 
 int match_cmd(char *cmd, char *cmdtarget) {
