@@ -60,7 +60,12 @@ int match_cmd(char *cmd, char *cmdtarget) {
 }
 
 int match_help(char *cmd) {
-	return (match_cmd(cmd, "h") || match_cmd(cmd, "help"));
+	return (
+		match_cmd(cmd, "h") ||
+		match_cmd(cmd, "help") ||
+		match_cmd(cmd, "-h") ||
+		match_cmd(cmd, "--help")
+	);
 }
 
 int match_rot(char *cmd) {
