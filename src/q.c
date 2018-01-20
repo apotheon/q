@@ -15,20 +15,23 @@ int start_queuer();
 int try_help();
 int usage();
 
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
 	if (argc > 1) {
-		if (match_help(argv[1])) usage(argv[0]) && help();
-		else if (match_cmd(argv[1], "add")) not_implemented(argv[1]);
-		else if (match_cmd(argv[1], "del")) not_implemented(argv[1]);
-		else if (match_cmd(argv[1], "list-all")) not_implemented(argv[1]);
-		else if (match_cmd(argv[1], "remove-number")) not_implemented(argv[1]);
-		else if (match_cmd(argv[1], "show")) show_head();
-		else if (match_cmd(argv[1], "create-fresh-queue")) start_queuer();
-		else if (match_rot(argv[1])) not_implemented(argv[1]);
+		char *program = *(argv);
+		char *cmd = *(argv + 1);
+
+		if (match_help(cmd)) usage(program) && help();
+		else if (match_cmd(cmd, "add")) not_implemented(cmd);
+		else if (match_cmd(cmd, "del")) not_implemented(cmd);
+		else if (match_cmd(cmd, "list-all")) not_implemented(cmd);
+		else if (match_cmd(cmd, "remove-number")) not_implemented(cmd);
+		else if (match_cmd(cmd, "show")) show_head();
+		else if (match_cmd(cmd, "create-fresh-queue")) start_queuer();
+		else if (match_rot(cmd)) not_implemented(cmd);
 		else {
-			printf("Command \"%s\" is not valid.\n", argv[1]);
-			usage(argv[0]);
-			try_help(argv[0]);
+			printf("Command \"%s\" is not valid.\n", cmd);
+			usage(program);
+			try_help(program);
 		}
 	} else {
 		show_head();
