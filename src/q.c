@@ -5,19 +5,26 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#define LINESIZE 1000000
+
+int cd();
+int cd_qdir();
+int exists();
 int help();
 int match_cmd();
 int match_help();
 int match_rot();
 int not_implemented();
+int print_file_exists();
 int show_head();
 int start_queuer();
 int try_help();
 int usage();
 
 int main(int argc, char **argv) {
+	char *program = *(argv);
+
 	if (argc > 1) {
-		char *program = *(argv);
 		char *cmd = *(argv + 1);
 
 		if (match_help(cmd)) usage(program) && help();
@@ -79,28 +86,61 @@ int not_implemented(char *cmd) {
 	return 0;
 }
 
+int exists(char *fname) {
+	struct stat st = {0};
+	return !stat(fname, &st);
+}
+
+int cd(char *dirname) {
+	return !chdir(dirname);
+}
+
+int cd_qdir() {
+	char *home = getenv("HOME");
+	return (cd(home) && cd(".quebert"));
+}
+
 int show_head() {
-	not_implemented("show");
+	char *queue = "queue.txt";
+
+	if (cd_qdir() && exists(queue)) {
+		FILE *qfile;
+		qfile = fopen(queue, "r");
+
+		char str[LINESIZE];
+
+		if (qfile == NULL) {
+			perror("Error opening queuefile.");
+		} else if (fgets(str, LINESIZE - 1, qfile) != NULL) {
+			printf("%s", str);
+		} else {
+			perror("Error reading from queuefile: file may be empty.");
+		}
+
+		fclose(qfile);
+	} else {
+		puts("No queuefile found.  Create one with `q create-fresh-queue`.");
+	}
+
+	return 0;
+}
+
+int print_file_exists(char *home, char *dir, char *q) {
+	printf("A file named \"%s/%s/%s\" already exists.\n", home, dir, q);
 	return 0;
 }
 
 int start_queuer() {
 	char *home = getenv("HOME");
-
-	struct stat st1 = {0};
-	char *dirname = ".quebert";
-
 	chdir(home);
-	if (stat(dirname, &st1) == -1) newdir(dirname);
 
-	struct stat st2 = {0};
-	char *qname = "queue.txt";
-
+	char *dirname = ".quebert";
+	if (!exists(dirname)) newdir(dirname);
 	chdir(dirname);
-	if (stat(qname, &st2) == -1) open(qname, O_CREAT, 0600);
-	else printf(
-		"A file named \"%s/%s/%s\" already exists.\n", home, dirname, qname
-	);
+
+	char *qname = "queue.txt";
+	if (exists(qname)) print_file_exists(home, dirname, qname);
+	else open(qname, O_CREAT, 0600);
 
 	return 0;
 }
