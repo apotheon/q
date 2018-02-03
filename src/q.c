@@ -20,6 +20,7 @@ int match_help();
 int match_rot();
 int not_implemented();
 int print_empty_queuefile();
+int print_numbered_file_listing();
 int print_queuefile_exists();
 int print_no_queuefile();
 int show_head();
