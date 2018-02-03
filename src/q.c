@@ -112,6 +112,28 @@ int add(char *input) {
 	return 0;
 }
 
+int print_numbered_file_listing(char c, FILE *qfile) {
+	bool new_item = false;
+	int n = 1;
+
+	printf("%4d ", n);
+
+	while (c != EOF) {
+		putchar(c);
+
+		c = fgetc(qfile);
+
+		if (new_item && (c != EOF)) {
+			printf("%4d ", ++n);
+			new_item = false;
+		}
+
+		if (c == '\n') new_item = true;
+	}
+
+	return 0;
+}
+
 int list_all() {
 	char *queue = "queue.txt";
 
@@ -124,23 +146,7 @@ int list_all() {
 		if (qfile == NULL) {
 			perror("Error opening queuefile.");
 		} else if ((c = fgetc(qfile))) {
-			bool new_item = false;
-			int n = 1;
-
-			printf("%4d ", n);
-
-			while (c != EOF) {
-				putchar(c);
-
-				c = fgetc(qfile);
-
-				if (new_item && (c != EOF)) {
-					printf("%4d ", ++n);
-					new_item = false;
-				}
-
-				if (c == '\n') new_item = true;
-			}
+			print_numbered_file_listing(c, qfile);
 		} else {
 			print_empty_queuefile();
 		}
