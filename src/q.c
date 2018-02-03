@@ -7,15 +7,20 @@
 
 #define LINESIZE 1000000
 
+typedef enum { false, true } bool;
+
 int cd();
 int cd_qdir();
 int exists();
 int help();
+int list_all();
 int match_cmd();
 int match_help();
 int match_rot();
 int not_implemented();
-int print_file_exists();
+int print_empty_queuefile();
+int print_queuefile_exists();
+int print_no_queuefile();
 int show_head();
 int start_queuer();
 int try_help();
@@ -30,7 +35,7 @@ int main(int argc, char **argv) {
 		if (match_help(cmd)) usage(program) && help();
 		else if (match_cmd(cmd, "add")) not_implemented(cmd);
 		else if (match_cmd(cmd, "del")) not_implemented(cmd);
-		else if (match_cmd(cmd, "list-all")) not_implemented(cmd);
+		else if (match_cmd(cmd, "list-all")) list_all();
 		else if (match_cmd(cmd, "remove-number")) not_implemented(cmd);
 		else if (match_cmd(cmd, "show")) show_head();
 		else if (match_cmd(cmd, "create-fresh-queue")) start_queuer();
@@ -100,6 +105,47 @@ int cd_qdir() {
 	return (cd(home) && cd(".quebert"));
 }
 
+int list_all() {
+	char *queue = "queue.txt";
+
+	if (cd_qdir() && exists(queue)) {
+		FILE *qfile;
+		qfile = fopen(queue, "r");
+
+		char c;
+
+		if (qfile == NULL) {
+			perror("Error opening queuefile.");
+		} else if ((c = fgetc(qfile))) {
+			bool new_item = false;
+			int n = 1;
+
+			printf("%4d ", n);
+
+			while (c != EOF) {
+				putchar(c);
+
+				c = fgetc(qfile);
+
+				if (new_item && (c != EOF)) {
+					printf("%4d ", ++n);
+					new_item = false;
+				}
+
+				if (c == '\n') new_item = true;
+			}
+		} else {
+			print_empty_queuefile();
+		}
+
+		fclose(qfile);
+	} else {
+		print_no_queuefile();
+	}
+
+	return 0;
+}
+
 int show_head() {
 	char *queue = "queue.txt";
 
@@ -114,19 +160,29 @@ int show_head() {
 		} else if (fgets(str, LINESIZE - 1, qfile) != NULL) {
 			printf("%s", str);
 		} else {
-			perror("Error reading from queuefile: file may be empty.");
+			print_empty_queuefile();
 		}
 
 		fclose(qfile);
 	} else {
-		puts("No queuefile found.  Create one with `q create-fresh-queue`.");
+		print_no_queuefile();
 	}
 
 	return 0;
 }
 
-int print_file_exists(char *home, char *dir, char *q) {
+int print_empty_queuefile() {
+	perror("Error reading from queuefile (it may be empty)");
+	return 0;
+}
+
+int print_queuefile_exists(char *home, char *dir, char *q) {
 	printf("A file named \"%s/%s/%s\" already exists.\n", home, dir, q);
+	return 0;
+}
+
+int print_no_queuefile() {
+	puts("No queuefile found.  Create one with `q create-fresh-queue`.");
 	return 0;
 }
 
@@ -139,7 +195,7 @@ int start_queuer() {
 	chdir(dirname);
 
 	char *qname = "queue.txt";
-	if (exists(qname)) print_file_exists(home, dirname, qname);
+	if (exists(qname)) print_queuefile_exists(home, dirname, qname);
 	else open(qname, O_CREAT, 0600);
 
 	return 0;
