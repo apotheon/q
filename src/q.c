@@ -9,7 +9,7 @@
 
 typedef enum { false, true } bool;
 
-int add();
+int add(char *input);
 int cd();
 int cd_qdir();
 int exists();
@@ -20,7 +20,7 @@ int match_help();
 int match_rot();
 int not_implemented();
 int print_empty_queuefile();
-int print_numbered_file_listing();
+int print_numbered_file_listing(char c, FILE *qfile);
 int print_queuefile_exists();
 int print_no_queuefile();
 int show_head();
@@ -33,17 +33,24 @@ int main(int argc, char **argv) {
 
 	if (argc > 1) {
 		char *cmd = *(argv + 1);
-		char *input = *(argv + 2);
 
-		if (match_help(cmd)) usage(program) && help();
-		else if (match_cmd(cmd, "add")) add(input);
-		else if (match_cmd(cmd, "del")) not_implemented(cmd);
-		else if (match_cmd(cmd, "list-all")) list_all();
-		else if (match_cmd(cmd, "remove-number")) not_implemented(cmd);
-		else if (match_cmd(cmd, "show")) show_head();
-		else if (match_cmd(cmd, "create-fresh-queue")) start_queuer();
-		else if (match_rot(cmd)) not_implemented(cmd);
-		else {
+		if (match_help(cmd)) {
+			usage(program) && help();
+		} else if (argc > 2) {
+			char *input = *(argv + 2);
+			if (match_cmd(cmd, "add")) add(input);
+			else if (match_cmd(cmd, "remove-number")) not_implemented(cmd);
+		} else if (match_cmd(cmd, "del")) {
+			not_implemented(cmd);
+		} else if (match_cmd(cmd, "list-all")) {
+			list_all();
+		} else if (match_cmd(cmd, "show")) {
+			show_head();
+		} else if (match_cmd(cmd, "create-fresh-queue")) {
+			start_queuer();
+		} else if (match_rot(cmd)) {
+			not_implemented(cmd);
+		} else {
 			printf("Command \"%s\" is not valid.\n", cmd);
 			usage(program);
 			try_help(program);
@@ -78,10 +85,10 @@ int match_cmd(char *cmd, char *cmdtarget) {
 
 int match_help(char *cmd) {
 	return (
-		match_cmd(cmd, "h") ||
-		match_cmd(cmd, "help") ||
+		match_cmd(cmd, "--help") ||
 		match_cmd(cmd, "-h") ||
-		match_cmd(cmd, "--help")
+		match_cmd(cmd, "help") ||
+		match_cmd(cmd, "h")
 	);
 }
 
@@ -110,28 +117,6 @@ int cd_qdir() {
 
 int add(char *input) {
 	not_implemented("add");
-	return 0;
-}
-
-int print_numbered_file_listing(char c, FILE *qfile) {
-	bool new_item = false;
-	int n = 1;
-
-	printf("%4d ", n);
-
-	while (c != EOF) {
-		putchar(c);
-
-		c = fgetc(qfile);
-
-		if (new_item && (c != EOF)) {
-			printf("%4d ", ++n);
-			new_item = false;
-		}
-
-		if (c == '\n') new_item = true;
-	}
-
 	return 0;
 }
 
@@ -190,13 +175,35 @@ int print_empty_queuefile() {
 	return 0;
 }
 
-int print_queuefile_exists(char *home, char *dir, char *q) {
-	printf("A file named \"%s/%s/%s\" already exists.\n", home, dir, q);
+int print_no_queuefile() {
+	puts("No queuefile found.  Create one with `q create-fresh-queue`.");
 	return 0;
 }
 
-int print_no_queuefile() {
-	puts("No queuefile found.  Create one with `q create-fresh-queue`.");
+int print_numbered_file_listing(char c, FILE *qfile) {
+	bool new_item = false;
+	int n = 1;
+
+	printf("%4d ", n);
+
+	while (c != EOF) {
+		putchar(c);
+
+		c = fgetc(qfile);
+
+		if (new_item && (c != EOF)) {
+			printf("%4d ", ++n);
+			new_item = false;
+		}
+
+		if (c == '\n') new_item = true;
+	}
+
+	return 0;
+}
+
+int print_queuefile_exists(char *home, char *dir, char *q) {
+	printf("A file named \"%s/%s/%s\" already exists.\n", home, dir, q);
 	return 0;
 }
 
