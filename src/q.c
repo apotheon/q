@@ -79,7 +79,7 @@ int newdir(char *dirname) {
 }
 
 int match_cmd(char *cmd, char *cmdtarget) {
-	int l = strnlen(cmd, 1000);
+	int l = strnlen(cmd, LINESIZE);
 
 	if (!strncmp(cmd, cmdtarget, l)) return 1;
 	else return 0;
