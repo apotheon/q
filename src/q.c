@@ -177,8 +177,7 @@ int show_head() {
 
 	if (cd_qdir() && exists(qname)) {
 		FILE *qfile = fopen(qname, "r");
-
-		char str[LINESIZE];
+		char *str = (char*) malloc(LINESIZE);
 
 		if (! qfile) print_error_open();
 		else if (fgets(str, LINESIZE - 1, qfile)) printf("%s", str);
