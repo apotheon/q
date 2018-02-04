@@ -9,7 +9,7 @@
 
 typedef enum { false, true } bool;
 
-int add(char *input);
+int add_item(char *input);
 int cd();
 int cd_qdir();
 int exists();
@@ -38,7 +38,8 @@ int main(int argc, char **argv) {
 			usage(program) && help();
 		} else if (argc > 2) {
 			char *input = *(argv + 2);
-			if (match_cmd(cmd, "add")) add(input);
+
+			if (match_cmd(cmd, "add")) add_item(input);
 			else if (match_cmd(cmd, "remove-number")) not_implemented(cmd);
 		} else if (match_cmd(cmd, "del")) {
 			not_implemented(cmd);
@@ -115,7 +116,7 @@ int cd_qdir() {
 	return (cd(home) && cd(".quebert"));
 }
 
-int add(char *input) {
+int add_item(char *input) {
 	not_implemented("add");
 	return 0;
 }
