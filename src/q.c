@@ -183,7 +183,7 @@ int show_head() {
 		char *line = (char*) malloc(LINESIZE);
 
 		if (! qfile) print_error_open();
-		else if (fgets(line, LINESIZE - 1, qfile)) printf("%s", line);
+		else if (get_line(line, qfile)) printf("%s", line);
 		else print_error_empty();
 
 		fclose(qfile);
