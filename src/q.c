@@ -10,6 +10,7 @@
 typedef enum { false, true } bool;
 char *qname = "queue.txt";
 
+bool get_line(char *line, FILE *qfile);
 int add_item(char *input);
 int cd();
 int cd_qdir();
@@ -24,7 +25,7 @@ int print_error_empty();
 int print_error_exists();
 int print_error_open();
 int print_error_qfile_missing();
-int print_numbered_file_listing(char c, FILE *qfile);
+int print_numbered_file_listing(FILE *qfile);
 int show_head();
 int start_queuer();
 int try_help();
@@ -139,6 +140,11 @@ int print_error_qfile_missing() {
 	return 0;
 }
 
+bool get_line(char *line, FILE *qfile) {
+	if (fgets(line, LINESIZE - 1, qfile)) return true;
+	else return false;
+}
+
 int add_item(char *input) {
 	if (qexists()) {
 		FILE *qfile = fopen(qname, "a");
@@ -158,11 +164,8 @@ int list_all() {
 	if (qexists()) {
 		FILE *qfile = fopen(qname, "r");
 
-		char c;
-
 		if (! qfile) print_error_open();
-		else if ((c = fgetc(qfile))) print_numbered_file_listing(c, qfile);
-		else print_error_empty();
+		else print_numbered_file_listing(qfile);
 
 		fclose(qfile);
 	} else {
@@ -177,10 +180,10 @@ int show_head() {
 
 	if (cd_qdir() && exists(qname)) {
 		FILE *qfile = fopen(qname, "r");
-		char *str = (char*) malloc(LINESIZE);
+		char *line = (char*) malloc(LINESIZE);
 
 		if (! qfile) print_error_open();
-		else if (fgets(str, LINESIZE - 1, qfile)) printf("%s", str);
+		else if (fgets(line, LINESIZE - 1, qfile)) printf("%s", line);
 		else print_error_empty();
 
 		fclose(qfile);
@@ -191,23 +194,18 @@ int show_head() {
 	return 0;
 }
 
-int print_numbered_file_listing(char c, FILE *qfile) {
-	bool new_item = false;
-	int n = 1;
+int print_numbered_file_listing(FILE *qfile) {
+	int n = 0;
+	char *line = (char*) malloc(LINESIZE);
+	bool next = false;
 
-	printf("%4d ", n);
-
-	while (c != EOF) {
-		putchar(c);
-
-		c = fgetc(qfile);
-
-		if (new_item && (c != EOF)) {
-			printf("%4d ", ++n);
-			new_item = false;
+	if ((next = get_line(line, qfile))) {
+		while (next) {
+			printf("%4d %s", ++n, line);
+			next = get_line(line, qfile);
 		}
-
-		if (c == '\n') new_item = true;
+	} else {
+		print_error_empty();
 	}
 
 	return 0;
