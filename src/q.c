@@ -17,8 +17,6 @@ bool exists(char *fname);
 bool get_line(char *line, FILE *qfile);
 bool help();
 bool match_cmd(char *cmd, char *cmdtarget);
-bool match_cmd_add_remove(char *cmd);
-bool match_cmd_with_arg(char *cmd, int argc);
 bool match_help(char *cmd);
 bool match_rot(char *cmd);
 bool missing(char *fname);
@@ -28,6 +26,7 @@ bool usage(char *self);
 
 void add_item(char *input);
 void cmd_with_arg(int argc, char **argv, char *cmd);
+void invalid_command_line(char *program);
 void list_all();
 void not_implemented(char *cmd);
 void print_error_empty();
@@ -46,29 +45,14 @@ int main(int argc, char **argv) {
 	if (argc > 1) {
 		char *cmd = *(argv + 1);
 
-		if (match_help(cmd)) {
-			usage(program) && help();
-		} else if (match_cmd_with_arg(cmd, argc)) {
-			cmd_with_arg(argc, argv, cmd);
-		} else if (match_cmd(cmd, "create-fresh-queue")) {
-			start_queuer();
-		} else if (match_cmd(cmd, "del")) {
-			not_implemented(cmd);
-		} else if (match_cmd(cmd, "list-all")) {
-			list_all();
-		} else if (match_cmd(cmd, "show")) {
-			show_head();
-		} else if (match_rot(cmd)) {
-			not_implemented(cmd);
-		} else if (match_cmd_add_remove(cmd)) {
-			printf("Command \"%s\" requires exactly one argument.", cmd);
-			usage(program);
-			try_help(program);
-		} else {
-			printf("Command \"%s\" is not valid.\n", cmd);
-			usage(program);
-			try_help(program);
-		}
+		if (match_help(cmd)) usage(program) && help();
+		else if (argc > 2) cmd_with_arg(argc, argv, cmd);
+		else if (match_cmd(cmd, "create-fresh-queue")) start_queuer();
+		else if (match_cmd(cmd, "del")) not_implemented(cmd);
+		else if (match_cmd(cmd, "list-all")) list_all();
+		else if (match_cmd(cmd, "show")) show_head();
+		else if (match_rot(cmd)) not_implemented(cmd);
+		else invalid_command_line(program);
 	} else {
 		show_head();
 	}
@@ -112,14 +96,6 @@ bool get_line(char *line, FILE *qfile) {
 bool match_cmd(char *cmd, char *cmdtarget) {
 	if (strncmp(cmd, cmdtarget, strnlen(cmd, LINESIZE)) == 0) return true;
 	else return false;
-}
-
-bool match_cmd_add_remove(char *cmd) {
-	return match_cmd(cmd, "add") || match_cmd(cmd, "remove-number");
-}
-
-bool match_cmd_with_arg(char *cmd, int argc) {
-	return match_cmd_add_remove(cmd) && argc == 3;
 }
 
 bool match_help(char *cmd) {
@@ -191,6 +167,7 @@ void cmd_with_arg(int argc, char **argv, char *cmd) {
 
 	if (match_cmd(cmd, "add")) add_item(input);
 	else if (match_cmd(cmd, "remove-number")) remove_item_number(cmd);
+	else invalid_command_line(*argv);
 }
 
 void add_item(char *input) {
@@ -204,6 +181,12 @@ void add_item(char *input) {
 	} else {
 		print_error_qfile_missing();
 	}
+}
+
+void invalid_command_line(char *self) {
+	puts("Command or argument(s) invalid.");
+	usage(self);
+	try_help(self);
 }
 
 void list_all() {
