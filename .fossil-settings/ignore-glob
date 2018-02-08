@@ -1,4 +1,4 @@
 *.gem
-a.out
-fossil.marks
-git.marks
+*a.out
+*fossil.marks
+*git.marks
