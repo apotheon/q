@@ -66,18 +66,13 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
-int usage(char *self) {
-	printf("%s <command> [argument]\n", self);
-	return 1;
-}
+  /*******************/
+ /* OTHER FUNCTIONS */
+/*******************/
 
-int try_help(char *self) {
-	printf("Try \"%s help\" for more info.\n", self);
-	return 1;
-}
-
-int newdir(char *dirname) {
-	return mkdir(dirname, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+bool get_line(char *line, FILE *qfile) {
+	if (fgets(line, LINESIZE - 1, qfile)) return true;
+	else return false;
 }
 
 bool match_cmd(char *cmd, char *cmdtarget) {
@@ -96,6 +91,20 @@ bool match_help(char *cmd) {
 
 bool match_rot(char *cmd) {
 	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
+}
+
+int usage(char *self) {
+	printf("%s <command> [argument]\n", self);
+	return 1;
+}
+
+int try_help(char *self) {
+	printf("Try \"%s help\" for more info.\n", self);
+	return 1;
+}
+
+int newdir(char *dirname) {
+	return mkdir(dirname, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
 
 int not_implemented(char *cmd) {
@@ -139,11 +148,6 @@ int print_error_open() {
 int print_error_qfile_missing() {
 	puts("No queuefile found.  Create one with `q create-fresh-queue`.");
 	return 0;
-}
-
-bool get_line(char *line, FILE *qfile) {
-	if (fgets(line, LINESIZE - 1, qfile)) return true;
-	else return false;
 }
 
 int add_item(char *input) {
