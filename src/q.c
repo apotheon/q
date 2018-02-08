@@ -8,29 +8,31 @@
 #define LINESIZE 1000000
 
 typedef enum { false, true } bool;
+char *dirname = ".quebert";
 char *qname = "queue.txt";
 
+bool exists(char *fname);
 bool get_line(char *line, FILE *qfile);
-bool match_cmd();
-bool match_help();
-bool match_rot();
+bool match_cmd(char *cmd, char *cmdtarget);
+bool match_help(char *cmd);
+bool match_rot(char *cmd);
+bool qexists();
 
 int add_item(char *input);
 int cd();
 int cd_qdir();
-int exists();
 int help();
 int list_all();
 int not_implemented(char *cmd);
 int print_error_empty();
-int print_error_exists();
+int print_error_exists(char *dir, char *q);
 int print_error_open();
 int print_error_qfile_missing();
 int print_numbered_file_listing(FILE *qfile);
 int show_head();
 int start_queuer();
 int try_help();
-int usage();
+int usage(char *self);
 
 int main(int argc, char **argv) {
 	char *program = *(argv);
@@ -44,16 +46,20 @@ int main(int argc, char **argv) {
 			char *input = *(argv + 2);
 			if (match_cmd(cmd, "add")) add_item(input);
 			else if (match_cmd(cmd, "remove-number")) not_implemented(cmd);
+		} else if (match_cmd(cmd, "create-fresh-queue")) {
+			start_queuer();
 		} else if (match_cmd(cmd, "del")) {
 			not_implemented(cmd);
 		} else if (match_cmd(cmd, "list-all")) {
 			list_all();
 		} else if (match_cmd(cmd, "show")) {
 			show_head();
-		} else if (match_cmd(cmd, "create-fresh-queue")) {
-			start_queuer();
 		} else if (match_rot(cmd)) {
 			not_implemented(cmd);
+		} else if (match_cmd(cmd, "add")) {
+			puts("Command \"add\" requires an argument.");
+			usage(program);
+			try_help(program);
 		} else {
 			printf("Command \"%s\" is not valid.\n", cmd);
 			usage(program);
@@ -69,6 +75,13 @@ int main(int argc, char **argv) {
   /*******************/
  /* OTHER FUNCTIONS */
 /*******************/
+
+bool exists(char *fname) {
+	struct stat st = {0};
+
+	if (!stat(fname, &st)) return true;
+	else return false;
+}
 
 bool get_line(char *line, FILE *qfile) {
 	if (fgets(line, LINESIZE - 1, qfile)) return true;
@@ -93,6 +106,10 @@ bool match_rot(char *cmd) {
 	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
 }
 
+bool qexists() {
+	return (cd_qdir() && exists(qname));
+}
+
 int usage(char *self) {
 	printf("%s <command> [argument]\n", self);
 	return 1;
@@ -103,8 +120,8 @@ int try_help(char *self) {
 	return 1;
 }
 
-int newdir(char *dirname) {
-	return mkdir(dirname, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+int newdir(char *dir) {
+	return mkdir(dir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
 
 int not_implemented(char *cmd) {
@@ -112,22 +129,20 @@ int not_implemented(char *cmd) {
 	return 0;
 }
 
-int qexists() {
-	return (cd_qdir() && exists(qname));
-}
-
-int exists(char *fname) {
-	struct stat st = {0};
-	return !stat(fname, &st);
-}
-
-int cd(char *dirname) {
-	return !chdir(dirname);
+int cd(char *dir) {
+	return !chdir(dir);
 }
 
 int cd_qdir() {
+	int success = 0;
 	char *home = getenv("HOME");
-	return (cd(home) && cd(".quebert"));
+
+	if (cd(home)) {
+		if (!exists(dirname)) newdir(dirname);
+		success = cd(dirname);
+	}
+
+	return success;
 }
 
 int print_error_empty() {
@@ -135,8 +150,9 @@ int print_error_empty() {
 	return 0;
 }
 
-int print_error_exists(char *home, char *dir, char *q) {
-	printf("A file named \"%s/%s/%s\" already exists.\n", home, dir, q);
+int print_error_exists(char *dir, char *q) {
+	char *home = getenv("HOME");
+	printf("The file \"%s/%s/%s\" already exists.\n", home, dir, q);
 	return 0;
 }
 
@@ -181,8 +197,6 @@ int list_all() {
 }
 
 int show_head() {
-	char *qname = "queue.txt";
-
 	if (cd_qdir() && exists(qname)) {
 		FILE *qfile = fopen(qname, "r");
 		char *line = (char*) malloc(LINESIZE);
@@ -217,15 +231,9 @@ int print_numbered_file_listing(FILE *qfile) {
 }
 
 int start_queuer() {
-	char *home = getenv("HOME");
-	chdir(home);
+	cd_qdir();
 
-	char *dirname = ".quebert";
-	if (!exists(dirname)) newdir(dirname);
-	chdir(dirname);
-
-	char *qname = "queue.txt";
-	if (exists(qname)) print_error_exists(home, dirname, qname);
+	if (exists(qname)) print_error_exists(dirname, qname);
 	else open(qname, O_CREAT, 0600);
 
 	return 0;
