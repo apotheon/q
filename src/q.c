@@ -1,13 +1,11 @@
 #include <fcntl.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "lib/help.h"
 
 #define LINESIZE 1000000
 
-typedef enum { false, true } bool;
 char *dirname = ".quebert";
 char *qname = "queue.txt";
 
@@ -15,16 +13,15 @@ bool cd(char *dir);
 bool cd_qdir();
 bool exists(char *fname);
 bool get_line(char *line, FILE *qfile);
-bool help();
 bool match_cmd(char *cmd, char *cmdtarget);
 bool match_help(char *cmd);
 bool match_rot(char *cmd);
 bool newdir(char *dir);
 bool qexists();
-bool usage(char *self);
 
 void add_item(char *input);
 void cmd_with_arg(int argc, char **argv, char *cmd);
+int del_item();
 void invalid_command_line(char *program);
 void list_all();
 void not_implemented(char *cmd);
@@ -36,7 +33,6 @@ void print_numbered_file_listing(FILE *qfile);
 void remove_item_number(char *cmd);
 void show_head();
 void start_queuer();
-void try_help(char *self);
 
 int main(int argc, char **argv) {
 	char *program = *(argv);
@@ -47,7 +43,7 @@ int main(int argc, char **argv) {
 		if (match_help(cmd)) usage(program) && help();
 		else if (argc > 2) cmd_with_arg(argc, argv, cmd);
 		else if (match_cmd(cmd, "create-fresh-queue")) start_queuer();
-		else if (match_cmd(cmd, "del")) not_implemented(cmd);
+		else if (match_cmd(cmd, "del")) del_item();
 		else if (match_cmd(cmd, "list-all")) list_all();
 		else if (match_cmd(cmd, "show")) show_head();
 		else if (match_rot(cmd)) not_implemented(cmd);
@@ -117,54 +113,6 @@ bool qexists() {
 	return (cd_qdir() && exists(qname));
 }
 
-bool usage(char *self) {
-	if (printf("%s <command> [argument]\n", self)) return true;
-	else return false;
-}
-
-bool help() {
-	puts("");
-	puts("This queuer is a simple queue manager.  You can add things to the");
-	puts("end of the queue.  You can pop things off the beginning.  You can");
-	puts("move the first item to the end of the queue.  What more could you");
-	puts("possibly need?  It provides the simplest way to intelligently");
-	puts("manage a todo list, and simplicity is virtuous.  Of course, it");
-	puts("also lets you cheat a little bit, because you can view the whole");
-	puts("queue and delete items out of the middle of it, but only because");
-	puts("people are imperfect and it would be nice to have simple ways to");
-	puts("correct our mistakes.  A virtuous queuer user will not abuse these");
-	puts("features.  With great power comes great responsibility.");
-	puts("");
-	puts("SYNTAX: q [command [argument]]");
-	puts("Running q with no <command> does the same thing as \"show\".");
-	puts("");
-	puts("COMMANDS:");
-	puts("");
-	puts("In general, the longer the command, the less you should use it.");
-	puts("Anything in brackets is optional.  Thus, you can use \"h\" for help");
-	puts("and \"rot\" for rotate, or you can use \"help\" and \"rotate\".");
-	puts("");
-	puts("    h[elp]                  display this help message");
-	puts("    add <item>              add item to end of queue");
-	puts("    del                     delete top item from queue");
-	puts("    list-all                display complete queue, numbered");
-	puts("    remove-number <num>     remove item in position <num>");
-	puts("    rot[ate]                move first item to last position");
-	puts("    [show]                  show top item in queue");
-	puts("    create-fresh-queue      set up queuer for use");
-	puts("");
-
-	return true;
-}
-
-void cmd_with_arg(int argc, char **argv, char *cmd) {
-	char *input = *(argv + 2);
-
-	if (match_cmd(cmd, "add")) add_item(input);
-	else if (match_cmd(cmd, "remove-number")) remove_item_number(cmd);
-	else invalid_command_line(*argv);
-}
-
 void add_item(char *input) {
 	if (qexists()) {
 		FILE *qfile = fopen(qname, "a");
@@ -176,6 +124,57 @@ void add_item(char *input) {
 	} else {
 		print_error_qfile_missing();
 	}
+}
+
+void cmd_with_arg(int argc, char **argv, char *cmd) {
+	char *input = *(argv + 2);
+
+	if (match_cmd(cmd, "add")) add_item(input);
+	else if (match_cmd(cmd, "remove-number")) remove_item_number(cmd);
+	else invalid_command_line(*argv);
+}
+
+int del_item() {
+	if (qexists()) {
+		FILE *qfile = fopen(qname, "r");
+
+		if (! qfile) {
+			print_error_open();
+		} else {
+			int lnsize = LINESIZE - 1;
+			char *tmp_file = (char*) malloc(LINESIZE);
+			memset(tmp_file, 0, LINESIZE);
+			strlcpy(tmp_file, "/tmp/tempq.XXXXXXXXXXXXX", lnsize);
+
+			if (mkstemp(tmp_file) > 0) {
+				unlink(tmp_file);
+			} else {
+				puts("No tempfile.");
+				return 0;
+			}
+
+			FILE *tfile = fopen(tmp_file, "a");
+
+			char *line = (char*) malloc(LINESIZE);
+			memset(line, 0, LINESIZE);
+
+			fgets(line, lnsize, qfile);
+			char *deleted = line;
+
+			while (fgets(line, lnsize, qfile)) fprintf(tfile, "%s", line);
+			fclose(tfile);
+
+			tfile = fopen(tmp_file, "r");
+			while (fgets(line, lnsize, tfile)) fprintf(qfile, "%s", line);
+			fclose(tfile);
+		}
+
+		fclose(qfile);
+	} else {
+		print_error_qfile_missing();
+	}
+
+	return 0;
 }
 
 void invalid_command_line(char *self) {
@@ -201,6 +200,7 @@ void show_head() {
 	if (cd_qdir() && exists(qname)) {
 		FILE *qfile = fopen(qname, "r");
 		char *line = (char*) malloc(LINESIZE);
+		memset(line, 0, LINESIZE);
 
 		if (! qfile) print_error_open();
 		else if (get_line(line, qfile)) printf("%s", line);
@@ -235,8 +235,9 @@ void print_error_qfile_missing() {
 
 void print_numbered_file_listing(FILE *qfile) {
 	int n = 0;
-	char *line = (char*) malloc(LINESIZE);
 	bool next = false;
+	char *line = (char*) malloc(LINESIZE);
+	memset(line, 0, LINESIZE);
 
 	if ((next = get_line(line, qfile))) {
 		while (next) {
@@ -257,8 +258,4 @@ void start_queuer() {
 
 	if (exists(qname)) print_error_exists(dirname, qname);
 	else open(qname, O_CREAT, 0600);
-}
-
-void try_help(char *self) {
-	printf("Try \"%s help\" for more info.\n", self);
 }
