@@ -11,7 +11,7 @@ typedef enum { false, true } bool;
 char *dirname = ".quebert";
 char *qname = "queue.txt";
 
-bool cd();
+bool cd(char *dir);
 bool cd_qdir();
 bool exists(char *fname);
 bool get_line(char *line, FILE *qfile);
@@ -38,7 +38,7 @@ void print_numbered_file_listing(FILE *qfile);
 void remove_item_number(char *cmd);
 void show_head();
 void start_queuer();
-void try_help();
+void try_help(char *self);
 
 int main(int argc, char **argv) {
 	char *program = *(argv);
