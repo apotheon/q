@@ -11,16 +11,17 @@ typedef enum { false, true } bool;
 char *qname = "queue.txt";
 
 bool get_line(char *line, FILE *qfile);
+bool match_cmd();
+bool match_help();
+bool match_rot();
+
 int add_item(char *input);
 int cd();
 int cd_qdir();
 int exists();
 int help();
 int list_all();
-int match_cmd();
-int match_help();
-int match_rot();
-int not_implemented();
+int not_implemented(char *cmd);
 int print_error_empty();
 int print_error_exists();
 int print_error_open();
@@ -79,21 +80,21 @@ int newdir(char *dirname) {
 	return mkdir(dirname, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
 
-int match_cmd(char *cmd, char *cmdtarget) {
+bool match_cmd(char *cmd, char *cmdtarget) {
 	int l = strnlen(cmd, LINESIZE);
 
-	if (!strncmp(cmd, cmdtarget, l)) return 1;
-	else return 0;
+	if (!strncmp(cmd, cmdtarget, l)) return true;
+	else return false;
 }
 
-int match_help(char *cmd) {
+bool match_help(char *cmd) {
 	return (
 		match_cmd(cmd, "--help") || match_cmd(cmd, "-h") ||
 		match_cmd(cmd, "help") || match_cmd(cmd, "h")
 	);
 }
 
-int match_rot(char *cmd) {
+bool match_rot(char *cmd) {
 	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
 }
 
