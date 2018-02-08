@@ -19,7 +19,6 @@ bool help();
 bool match_cmd(char *cmd, char *cmdtarget);
 bool match_help(char *cmd);
 bool match_rot(char *cmd);
-bool missing(char *fname);
 bool newdir(char *dir);
 bool qexists();
 bool usage(char *self);
@@ -74,7 +73,7 @@ bool cd_qdir() {
 	char *home = getenv("HOME");
 
 	if (cd(home)) {
-		if (missing(dirname)) newdir(dirname);
+		if (! exists(dirname)) newdir(dirname);
 		success = cd(dirname);
 	}
 
@@ -107,10 +106,6 @@ bool match_help(char *cmd) {
 
 bool match_rot(char *cmd) {
 	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
-}
-
-bool missing(char *fname) {
-	return ! exists(fname);
 }
 
 bool newdir(char *dir) {
