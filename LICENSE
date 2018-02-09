@@ -1,3 +1,12 @@
+The Q project uses the Copyfree Open Innovation License, as included in this
+file.
+
+The test suite depends on BDD-For-C, whose license terms are included in the
+file `bdd-for-c.h`.
+
+See the C stdlib and POSIX/Unix library implementation used when compiling Q
+for the license terms of other relevant libraries.
+
 # Copyfree Open Innovation License
 
 This is version 0.5 of the Copyfree Open Innovation License.

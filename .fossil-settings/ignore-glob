@@ -1,4 +1,5 @@
 *.gem
 *a.out
+*.gch
 *fossil.marks
 *git.marks

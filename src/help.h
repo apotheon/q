@@ -1,12 +1,12 @@
 #ifndef HELP_H_
 #define HELP_H_
-#include <stdio.h>
-#include <string.h>
 
-typedef enum { false, true } bool;
+#include "globals.h"
 
-bool help();
+bool print_help();
 bool usage(char *self);
+
+char * help_text();
 
 void try_help(char *self);
 
