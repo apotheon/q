@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "lib/help.h"
-
-#define LINESIZE 1000000
+#include "globals.h"
+#include "help.h"
 
 char *dirname = ".quebert";
 char *qname = "queue.txt";
@@ -40,7 +39,7 @@ int main(int argc, char **argv) {
 	if (argc > 1) {
 		char *cmd = *(argv + 1);
 
-		if (match_help(cmd)) usage(program) && help();
+		if (match_help(cmd)) usage(program) && print_help();
 		else if (argc > 2) cmd_with_arg(argc, argv, cmd);
 		else if (match_cmd(cmd, "create-fresh-queue")) start_queuer();
 		else if (match_cmd(cmd, "del")) del_item();
