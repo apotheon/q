@@ -8,5 +8,6 @@ sync:
 helptest:
 	clang src/help_spec.c src/help.c
 	a.out
+	rm a.out
 
 test: helptest

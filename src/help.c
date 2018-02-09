@@ -1,3 +1,4 @@
+#include "globals.h"
 #include "help.h"
 
 char * help_text() {
@@ -54,6 +55,13 @@ char * usage_text(char *self) {
 	return text;
 }
 
-void try_help(char *self) {
-	printf("Try \"%s help\" for more info.\n", self);
+char * try_text(char *self) {
+	char *text = (char*) malloc(LINESIZE);
+	const char *endtext = " help\" for more info.";
+
+	strlcpy(text, "Try \"", LINESIZE);
+	strlcat(text, self, LINESIZE);
+	strlcat(text, endtext, LINESIZE);
+
+	return text;
 }

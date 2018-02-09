@@ -178,7 +178,7 @@ int del_item() {
 void invalid_command_line(char *self) {
 	puts("Command or argument(s) invalid.");
 	puts(usage_text(self));
-	try_help(self);
+	puts(try_text(self));
 }
 
 void list_all() {
