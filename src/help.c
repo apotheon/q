@@ -37,14 +37,21 @@ char * help_text() {
 	return text;
 }
 
-bool print_help() {
+bool print_help(char *self) {
+	puts(usage_text(self));
 	puts(help_text());
 	return true;
 }
 
-bool usage(char *self) {
-	if (printf("%s <command> [argument]\n", self)) return true;
-	else return false;
+char * usage_text(char *self) {
+	char *text = (char*) malloc(LINESIZE);
+	const char *endtext = " <command> [argument]";
+
+	strlcpy(text, "USAGE: ", LINESIZE);
+	strlcat(text, self, LINESIZE);
+	strlcat(text, endtext, LINESIZE);
+
+	return text;
 }
 
 void try_help(char *self) {
