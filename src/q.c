@@ -1,5 +1,4 @@
 #include <fcntl.h>
-#include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include "globals.h"
@@ -39,7 +38,7 @@ int main(int argc, char **argv) {
 	if (argc > 1) {
 		char *cmd = *(argv + 1);
 
-		if (match_help(cmd)) usage(program) && print_help();
+		if (match_help(cmd)) print_help(program);
 		else if (argc > 2) cmd_with_arg(argc, argv, cmd);
 		else if (match_cmd(cmd, "create-fresh-queue")) start_queuer();
 		else if (match_cmd(cmd, "del")) del_item();
@@ -178,7 +177,7 @@ int del_item() {
 
 void invalid_command_line(char *self) {
 	puts("Command or argument(s) invalid.");
-	usage(self);
+	puts(usage_text(self));
 	try_help(self);
 }
 
