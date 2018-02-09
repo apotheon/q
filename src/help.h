@@ -3,11 +3,10 @@
 
 #include "globals.h"
 
-bool print_help();
+bool print_help(char *self);
 
 char * help_text();
-char * usage_text();
-
-void try_help(char *self);
+char * usage_text(char *self);
+char * try_text(char *self);
 
 #endif

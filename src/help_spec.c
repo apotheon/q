@@ -11,10 +11,15 @@ spec("Help") {
 
 	describe("usage_text()") {
 		it("should return usage text") {
-			char *usage_text_string_start = "USAGE:";
-			char *usage_text_string_end = "<command> [argument]";
-			check(strstr(usage_text(), usage_text_string_start));
-			check(strstr(usage_text(), usage_text_string_end));
+			char *usage_text_string = "USAGE: q <command> [argument]";
+			check(strcmp(usage_text("q"), usage_text_string) == 0);
+		}
+	}
+
+	describe("try_text()") {
+		it("should return try text") {
+			char *try_text_string = "Try \"q help\" for more info.";
+			check(strcmp(try_text("q"), try_text_string) == 0);
 		}
 	}
 }

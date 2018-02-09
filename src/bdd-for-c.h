@@ -143,8 +143,8 @@ __bdd_test_step__ * __bdd_test_step_create__(size_t level, __bdd_node__ * node) 
     step->level = level;
     step->type = node->type;
     step->full_name = calloc(strlen(node->prefix) + strlen(node->name) + 1, sizeof(char));
-    strncat(step->full_name, node->prefix, sizeof(step->full_name));
-    strncat(step->full_name, node->name, sizeof(step->full_name));
+    strcat(step->full_name, node->prefix);
+    strcat(step->full_name, node->name);
     step->name = node->name;
     return step;
 }
@@ -248,8 +248,8 @@ char* __bdd_node_names_concat__(__bdd_array__ *list, const char *delimiter) {
     }
     char* result = calloc(result_size + 1, sizeof(char));
     for (size_t i = 0; i < list->size; ++i) {
-        result = strncat(result, ((__bdd_node__ *) list->values[i])->name, result_size);
-        result = strncat(result, delimiter, result_size);
+        result = strcat(result, ((__bdd_node__ *) list->values[i])->name);
+        result = strcat(result, delimiter);
     }
     return result;
 }
@@ -561,7 +561,7 @@ void __bdd_sprintf__(char* buffer, const char* fmt, const char* message) {
 #pragma warning(push)
 #pragma warning(disable: 4996) // _CRT_SECURE_NO_WARNINGS
 #endif
-    snprintf(buffer, sizeof(buffer), fmt, message);
+    sprintf(buffer, fmt, message);
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
