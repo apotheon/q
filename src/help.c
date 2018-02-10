@@ -45,6 +45,8 @@ bool print_help(char *self) {
 
 char * usage_text(char *self) {
 	char *text = (char*) malloc(LINESIZE);
+	memset(text, 0, LINESIZE);
+
 	const char *endtext = " <command> [argument]";
 
 	strlcpy(text, "USAGE: ", LINESIZE);
@@ -56,6 +58,8 @@ char * usage_text(char *self) {
 
 char * try_text(char *self) {
 	char *text = (char*) malloc(LINESIZE);
+	memset(text, 0, LINESIZE);
+
 	const char *endtext = " help\" for more info.";
 
 	strlcpy(text, "Try \"", LINESIZE);
