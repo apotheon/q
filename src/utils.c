@@ -1,5 +1,10 @@
 #include "utils.h"
 
+bool cd(char *dir) {
+	if (chdir(dir) == 0) return true;
+	else return false;
+}
+
 bool exists(char *fname) {
 	struct stat st = {0};
 

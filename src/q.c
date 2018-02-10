@@ -7,7 +7,6 @@
 char *dirname = ".quebert";
 char *qname = "queue.txt";
 
-bool cd(char *dir);
 bool cd_qdir();
 bool get_line(char *line, FILE *qfile);
 bool match_cmd(char *cmd, char *cmdtarget);
@@ -55,11 +54,6 @@ int main(int argc, char **argv) {
   /*******************/
  /* OTHER FUNCTIONS */
 /*******************/
-
-bool cd(char *dir) {
-	if (chdir(dir) == 0) return true;
-	else return false;
-}
 
 bool cd_qdir() {
 	int success = false;
