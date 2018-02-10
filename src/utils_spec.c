@@ -2,9 +2,19 @@
 #include "bdd-for-c.h"
 
 spec("Utils") {
+	static char *dirname = "test_directory";
+
 	describe("exists()") {
+		after() {
+			if (exists(dirname)) rmdir(dirname);
+		}
+
+		before() {
+			if (! exists(dirname)) newdir(dirname);
+		}
+
 		it("returns true if a directory exists") {
-			check(exists("."));
+			check(exists(dirname));
 		}
 
 		it("returns true if a file exists") {
@@ -17,8 +27,6 @@ spec("Utils") {
 	}
 
 	describe("newdir()") {
-		static char *dirname = "test_directory";
-
 		after() {
 			if (exists(dirname)) rmdir(dirname);
 		}
