@@ -1,4 +1,3 @@
-#include "globals.h"
 #include "help.h"
 
 char * help_text() {
