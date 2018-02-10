@@ -5,6 +5,18 @@ bool cd(char *dir) {
 	else return false;
 }
 
+bool cd_qdir() {
+	int success = false;
+	char *home = getenv("HOME");
+
+	if (cd(home)) {
+		if (! exists(DIRNAME)) newdir(DIRNAME);
+		success = cd(DIRNAME);
+	}
+
+	return success;
+}
+
 bool exists(char *fname) {
 	struct stat st = {0};
 

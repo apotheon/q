@@ -1,13 +1,8 @@
 #include <fcntl.h>
-#include <unistd.h>
 #include "globals.h"
 #include "help.h"
 #include "utils.h"
 
-char *dirname = ".quebert";
-char *qname = "queue.txt";
-
-bool cd_qdir();
 bool get_line(char *line, FILE *qfile);
 bool match_cmd(char *cmd, char *cmdtarget);
 bool match_help(char *cmd);
@@ -55,18 +50,6 @@ int main(int argc, char **argv) {
  /* OTHER FUNCTIONS */
 /*******************/
 
-bool cd_qdir() {
-	int success = false;
-	char *home = getenv("HOME");
-
-	if (cd(home)) {
-		if (! exists(dirname)) newdir(dirname);
-		success = cd(dirname);
-	}
-
-	return success;
-}
-
 bool get_line(char *line, FILE *qfile) {
 	if (fgets(line, LINESIZE - 1, qfile) > 0) return true;
 	else return false;
@@ -89,12 +72,12 @@ bool match_rot(char *cmd) {
 }
 
 bool qexists() {
-	return (cd_qdir() && exists(qname));
+	return (cd_qdir() && exists(QNAME));
 }
 
 void add_item(char *input) {
 	if (qexists()) {
-		FILE *qfile = fopen(qname, "a");
+		FILE *qfile = fopen(QNAME, "a");
 
 		if (! qfile) print_error_open();
 		else fprintf(qfile, "%s\n", input);
@@ -115,7 +98,7 @@ void cmd_with_arg(int argc, char **argv, char *cmd) {
 
 int del_item() {
 	if (qexists()) {
-		FILE *qfile = fopen(qname, "r");
+		FILE *qfile = fopen(QNAME, "r");
 
 		if (! qfile) {
 			print_error_open();
@@ -164,7 +147,7 @@ void invalid_command_line(char *self) {
 
 void list_all() {
 	if (qexists()) {
-		FILE *qfile = fopen(qname, "r");
+		FILE *qfile = fopen(QNAME, "r");
 
 		if (! qfile) print_error_open();
 		else print_numbered_file_listing(qfile);
@@ -177,7 +160,7 @@ void list_all() {
 
 void show_head() {
 	if (qexists()) {
-		FILE *qfile = fopen(qname, "r");
+		FILE *qfile = fopen(QNAME, "r");
 		char *line = (char*) malloc(LINESIZE);
 		memset(line, 0, LINESIZE);
 
@@ -235,6 +218,6 @@ void remove_item_number(char *cmd) {
 void start_queuer() {
 	cd_qdir();
 
-	if (exists(qname)) print_error_exists(dirname, qname);
-	else open(qname, O_CREAT, 0600);
+	if (exists(QNAME)) print_error_exists(DIRNAME, QNAME);
+	else open(QNAME, O_CREAT, 0600);
 }
