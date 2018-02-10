@@ -1,5 +1,5 @@
-#ifndef FEATURES_H_
-#define FEATURES_H_
+#ifndef GLOBALS_H_
+#define GLOBALS_H_
 
 #include <stdio.h>
 #include <stdlib.h>
