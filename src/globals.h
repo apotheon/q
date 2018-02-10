@@ -6,6 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#define memzero(b,len) memset((b),0,(len))
 #define DIRNAME ".quebert"
 #define QNAME "queue.txt"
 #define LINESIZE 1000000

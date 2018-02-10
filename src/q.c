@@ -100,7 +100,7 @@ int del_item() {
 		} else {
 			int lnsize = LINESIZE - 1;
 			char *tmp_file = (char*) malloc(LINESIZE);
-			memset(tmp_file, 0, LINESIZE);
+			memzero(tmp_file, LINESIZE);
 			strlcpy(tmp_file, "/tmp/tempq.XXXXXXXXXXXXX", lnsize);
 
 			if (mkstemp(tmp_file) > 0) {
@@ -113,7 +113,7 @@ int del_item() {
 			FILE *tfile = fopen(tmp_file, "a");
 
 			char *line = (char*) malloc(LINESIZE);
-			memset(line, 0, LINESIZE);
+			memzero(line, LINESIZE);
 
 			fgets(line, lnsize, qfile);
 			char *deleted = line;
@@ -157,7 +157,7 @@ void show_head() {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "r");
 		char *line = (char*) malloc(LINESIZE);
-		memset(line, 0, LINESIZE);
+		memzero(line, LINESIZE);
 
 		if (! qfile) print_error_open();
 		else if (get_line(line, qfile)) printf("%s", line);
@@ -194,7 +194,7 @@ void print_numbered_file_listing(FILE *qfile) {
 	int n = 0;
 	bool next = false;
 	char *line = (char*) malloc(LINESIZE);
-	memset(line, 0, LINESIZE);
+	memzero(line, LINESIZE);
 
 	if ((next = get_line(line, qfile))) {
 		while (next) {

@@ -17,7 +17,7 @@ spec("Utils") {
 		describe("cd()") {
 			it("changes directory") {
 				char *original_dir = (char*) malloc(PATH_MAX + 1);
-				memset(original_dir, 0, PATH_MAX+1);
+				memzero(original_dir, PATH_MAX+1);
 				getcwd(original_dir, PATH_MAX);
 
 				check(cd(dirname));
