@@ -12,7 +12,7 @@ int del_item(char *self);
 
 void add_item(char *input, char *self);
 void cmd_with_arg(int argc, char **argv, char *cmd);
-void invalid_command_line(char *program);
+void invalid_command_line(int count, char **arguments);
 void list_all();
 void not_implemented(char *cmd);
 void print_error_empty();
@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 		else if (match_cmd(cmd, "list-all")) list_all();
 		else if (match_cmd(cmd, "show")) show_head();
 		else if (match_rot(cmd)) not_implemented(cmd);
-		else invalid_command_line(program);
+		else invalid_command_line(argc, argv);
 	} else {
 		show_head();
 	}
@@ -89,7 +89,7 @@ void cmd_with_arg(int argc, char **argv, char *cmd) {
 
 	if (match_cmd(cmd, "add")) add_item(input, program);
 	else if (match_cmd(cmd, "remove-number")) remove_item_number(cmd);
-	else invalid_command_line(program);
+	else invalid_command_line(argc, argv);
 }
 
 int del_item(char *self) {
@@ -135,8 +135,13 @@ int del_item(char *self) {
 	return 0;
 }
 
-void invalid_command_line(char *self) {
-	puts("Command or argument(s) invalid.");
+void invalid_command_line(int count, char **arguments) {
+	char *self = *(arguments);
+
+	printf("Command or argument(s) invalid: %s", self);
+	for (int i = 1; i < count; ++i) printf(" %s", *(arguments + i));
+	puts("");
+
 	puts(usage_text(self));
 	puts(try_text(self));
 }
