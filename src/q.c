@@ -8,9 +8,9 @@ bool match_cmd(char *cmd, char *cmdtarget);
 bool match_help(char *cmd);
 bool match_rot(char *cmd);
 
-int del_item();
+int del_item(char *self);
 
-void add_item(char *input);
+void add_item(char *input, char *self);
 void cmd_with_arg(int argc, char **argv, char *cmd);
 void invalid_command_line(char *program);
 void list_all();
@@ -18,7 +18,7 @@ void not_implemented(char *cmd);
 void print_error_empty();
 void print_error_exists(char *dir, char *q);
 void print_error_open();
-void print_error_qfile_missing();
+void print_error_qfile_missing(char *self);
 void print_numbered_file_listing(FILE *qfile);
 void remove_item_number(char *cmd);
 void show_head();
@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
 		if (match_help(cmd)) print_help(program);
 		else if (argc > 2) cmd_with_arg(argc, argv, cmd);
 		else if (match_cmd(cmd, "create-fresh-queue")) start_queuer();
-		else if (match_cmd(cmd, "del")) del_item();
+		else if (match_cmd(cmd, "del")) del_item(program);
 		else if (match_cmd(cmd, "list-all")) list_all();
 		else if (match_cmd(cmd, "show")) show_head();
 		else if (match_rot(cmd)) not_implemented(cmd);
@@ -70,7 +70,7 @@ bool match_rot(char *cmd) {
 	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
 }
 
-void add_item(char *input) {
+void add_item(char *input, char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "a");
 
@@ -79,19 +79,20 @@ void add_item(char *input) {
 
 		fclose(qfile);
 	} else {
-		print_error_qfile_missing();
+		print_error_qfile_missing(self);
 	}
 }
 
 void cmd_with_arg(int argc, char **argv, char *cmd) {
+	char *program = *(argv);
 	char *input = *(argv + 2);
 
-	if (match_cmd(cmd, "add")) add_item(input);
+	if (match_cmd(cmd, "add")) add_item(input, program);
 	else if (match_cmd(cmd, "remove-number")) remove_item_number(cmd);
-	else invalid_command_line(*argv);
+	else invalid_command_line(program);
 }
 
-int del_item() {
+int del_item(char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "r");
 
@@ -128,7 +129,7 @@ int del_item() {
 
 		fclose(qfile);
 	} else {
-		print_error_qfile_missing();
+		print_error_qfile_missing(self);
 	}
 
 	return 0;
@@ -140,7 +141,7 @@ void invalid_command_line(char *self) {
 	puts(try_text(self));
 }
 
-void list_all() {
+void list_all(char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "r");
 
@@ -149,11 +150,11 @@ void list_all() {
 
 		fclose(qfile);
 	} else {
-		print_error_qfile_missing();
+		print_error_qfile_missing(self);
 	}
 }
 
-void show_head() {
+void show_head(char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "r");
 		char *line = (char*) malloc(LINESIZE);
@@ -165,7 +166,7 @@ void show_head() {
 
 		fclose(qfile);
 	} else {
-		print_error_qfile_missing();
+		print_error_qfile_missing(self);
 	}
 }
 
@@ -186,8 +187,8 @@ void print_error_open() {
 	perror("Error opening queuefile.");
 }
 
-void print_error_qfile_missing() {
-	puts("No queuefile found.  Create one with `q create-fresh-queue`.");
+void print_error_qfile_missing(char *self) {
+	printf("No queuefile found.  Try `%s create-fresh-queue`.\n", self);
 }
 
 void print_numbered_file_listing(FILE *qfile) {
