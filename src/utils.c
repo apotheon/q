@@ -28,3 +28,7 @@ bool newdir(char *dir) {
 	if (mkdir(dir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) return true;
 	else return false;
 }
+
+bool qexists() {
+	return (cd_qdir() && exists(QNAME));
+}

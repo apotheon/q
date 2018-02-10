@@ -7,7 +7,6 @@ bool get_line(char *line, FILE *qfile);
 bool match_cmd(char *cmd, char *cmdtarget);
 bool match_help(char *cmd);
 bool match_rot(char *cmd);
-bool qexists();
 
 int del_item();
 
@@ -69,10 +68,6 @@ bool match_help(char *cmd) {
 
 bool match_rot(char *cmd) {
 	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
-}
-
-bool qexists() {
-	return (cd_qdir() && exists(QNAME));
 }
 
 void add_item(char *input) {
