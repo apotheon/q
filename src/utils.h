@@ -6,5 +6,6 @@
 #include "globals.h"
 
 bool exists(char *fname);
+bool newdir(char *dir);
 
 #endif

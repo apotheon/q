@@ -13,12 +13,12 @@ bool get_line(char *line, FILE *qfile);
 bool match_cmd(char *cmd, char *cmdtarget);
 bool match_help(char *cmd);
 bool match_rot(char *cmd);
-bool newdir(char *dir);
 bool qexists();
+
+int del_item();
 
 void add_item(char *input);
 void cmd_with_arg(int argc, char **argv, char *cmd);
-int del_item();
 void invalid_command_line(char *program);
 void list_all();
 void not_implemented(char *cmd);
@@ -92,11 +92,6 @@ bool match_help(char *cmd) {
 
 bool match_rot(char *cmd) {
 	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
-}
-
-bool newdir(char *dir) {
-	if (mkdir(dir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) return true;
-	else return false;
 }
 
 bool qexists() {
