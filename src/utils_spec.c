@@ -2,7 +2,7 @@
 #include "bdd-for-c.h"
 
 spec("Utils") {
-	static char *dirname = "test_directory";
+	static char *dirname = "test_directory_name";
 
 	describe("exists()") {
 		after() {
