@@ -1,4 +1,3 @@
-#include "globals.h"
 #include "utils.h"
 
 bool exists(char *fname) {
