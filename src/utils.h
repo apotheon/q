@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include "globals.h"
 
+bool cd(char *dir);
 bool exists(char *fname);
 bool newdir(char *dir);
 

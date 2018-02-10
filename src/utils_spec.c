@@ -1,28 +1,43 @@
+#include <limits.h>
 #include "utils.h"
 #include "bdd-for-c.h"
 
 spec("Utils") {
 	static char *dirname = "test_directory_name";
 
-	describe("exists()") {
+	context("with an existing directory") {
 		after() {
 			if (exists(dirname)) rmdir(dirname);
 		}
 
-		before() {
+		before_each() {
 			if (! exists(dirname)) newdir(dirname);
 		}
 
-		it("returns true if a directory exists") {
-			check(exists(dirname));
+		describe("cd()") {
+			after() {
+				char *current_dir = (char*) malloc(PATH_MAX + 1);
+				getwd(current_dir);
+				if (strstr(current_dir, dirname)) cd("..");
+			}
+
+			it("changes directory") {
+				check(cd(dirname));
+			}
 		}
 
-		it("returns true if a file exists") {
-			check(exists("a.out"));
-		}
+		describe("exists()") {
+			it("returns true if a directory exists") {
+				check(exists(dirname));
+			}
 
-		it("returns false if a directory or file doesn't exist") {
-			check(! exists("nonexistent_file.txt"));
+			it("returns true if a file exists") {
+				check(exists("a.out"));
+			}
+
+			it("returns false if a directory or file doesn't exist") {
+				check(! exists("nonexistent_file.txt"));
+			}
 		}
 	}
 
