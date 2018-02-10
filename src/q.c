@@ -1,15 +1,14 @@
 #include <fcntl.h>
-#include <sys/stat.h>
 #include <unistd.h>
 #include "globals.h"
 #include "help.h"
+#include "utils.h"
 
 char *dirname = ".quebert";
 char *qname = "queue.txt";
 
 bool cd(char *dir);
 bool cd_qdir();
-bool exists(char *fname);
 bool get_line(char *line, FILE *qfile);
 bool match_cmd(char *cmd, char *cmdtarget);
 bool match_help(char *cmd);
@@ -72,13 +71,6 @@ bool cd_qdir() {
 	}
 
 	return success;
-}
-
-bool exists(char *fname) {
-	struct stat st = {0};
-
-	if (stat(fname, &st) == 0) return true;
-	else return false;
 }
 
 bool get_line(char *line, FILE *qfile) {
@@ -195,7 +187,7 @@ void list_all() {
 }
 
 void show_head() {
-	if (cd_qdir() && exists(qname)) {
+	if (qexists()) {
 		FILE *qfile = fopen(qname, "r");
 		char *line = (char*) malloc(LINESIZE);
 		memset(line, 0, LINESIZE);
