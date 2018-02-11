@@ -9,6 +9,7 @@ bool cd_qdir();
 bool exists(char *fname);
 bool get_line(char *line, FILE *qfile);
 bool newdir(char *dir);
+bool pain(char *parray, size_t parray_size);
 bool qexists();
 
 #endif
