@@ -45,7 +45,7 @@ bool print_help(char *self) {
 
 char * usage_text(char *self) {
 	char *text = (char*) malloc(LINESIZE);
-	memzero(text, LINESIZE);
+	pain(text, LINESIZE);
 
 	const char *endtext = " <command> [argument]";
 
@@ -58,7 +58,7 @@ char * usage_text(char *self) {
 
 char * try_text(char *self) {
 	char *text = (char*) malloc(LINESIZE);
-	memzero(text, LINESIZE);
+	pain(text, LINESIZE);
 
 	const char *endtext = " help\" for more info.";
 
