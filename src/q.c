@@ -93,7 +93,7 @@ int del_item(char *self) {
 		if (! qfile) {
 			print_error_open();
 		} else {
-			char *tmp_file = (char*) malloc(LINESIZE);
+			char *tmp_file = malloc(sizeof(*tmp_file) * LINESIZE);
 			pain(tmp_file, LINESIZE);
 
 			strlcpy(tmp_file, "/tmp/tempq.XXXXXXXXXXXXX", LINESIZE);
@@ -107,7 +107,7 @@ int del_item(char *self) {
 
 			FILE *tfile = fopen(tmp_file, "a");
 
-			char *line = (char*) malloc(LINESIZE);
+			char *line = malloc(sizeof(*line) * LINESIZE);
 			pain(line, LINESIZE);
 
 			fgets(line, LINESIZE, qfile);
@@ -156,7 +156,7 @@ void list_all(char *self) {
 void show_head(char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "r");
-		char *line = (char*) malloc(LINESIZE);
+		char *line = malloc(sizeof(*line) * LINESIZE);
 		pain(line, LINESIZE);
 
 		if (! qfile) print_error_open();
@@ -193,7 +193,7 @@ void print_error_qfile_missing(char *self) {
 void print_numbered_file_listing(FILE *qfile) {
 	int n = 0;
 	bool next = false;
-	char *line = (char*) malloc(LINESIZE);
+	char *line = malloc(sizeof(*line) * LINESIZE);
 	pain(line, LINESIZE);
 
 	if ((next = get_line(line, qfile))) {
