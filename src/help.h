@@ -2,6 +2,7 @@
 #define HELP_H_
 
 #include "globals.h"
+#include "utils.h"
 
 bool print_help(char *self);
 

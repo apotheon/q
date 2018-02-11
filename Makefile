@@ -6,7 +6,7 @@ sync:
 	fossgit $(GITCLONES)/q/
 
 helptest:
-	clang src/help_spec.c src/help.c
+	clang src/help_spec.c src/help.c src/utils.c
 	a.out
 	rm a.out
 
