@@ -16,13 +16,15 @@ spec("Utils") {
 
 		describe("cd()") {
 			it("changes directory") {
-				char *original_dir = malloc(sizeof(*original_dir) * (PATH_MAX + 1));
-				pain(original_dir, PATH_MAX+1);
+				char *original_dir = calloc(PATH_MAX, sizeof(*original_dir));
+				check_alloc(original_dir);
+
 				getcwd(original_dir, PATH_MAX);
 
 				check(cd(dirname));
 
 				cd(original_dir);
+				free(original_dir);
 			}
 		}
 

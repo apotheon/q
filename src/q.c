@@ -93,8 +93,8 @@ int del_item(char *self) {
 		if (! qfile) {
 			print_error_open();
 		} else {
-			char *tmp_file = malloc(sizeof(*tmp_file) * LINESIZE);
-			pain(tmp_file, LINESIZE);
+			char *tmp_file = calloc(LINESIZE, sizeof(*tmp_file));
+			check_alloc(tmp_file);
 
 			strlcpy(tmp_file, "/tmp/tempq.XXXXXXXXXXXXX", LINESIZE);
 
@@ -107,8 +107,8 @@ int del_item(char *self) {
 
 			FILE *tfile = fopen(tmp_file, "a");
 
-			char *line = malloc(sizeof(*line) * LINESIZE);
-			pain(line, LINESIZE);
+			char *line = calloc(LINESIZE, sizeof(*line));
+			check_alloc(line);
 
 			fgets(line, LINESIZE, qfile);
 			char *deleted = line;
@@ -118,7 +118,10 @@ int del_item(char *self) {
 
 			tfile = fopen(tmp_file, "r");
 			while (fgets(line, LINESIZE, tfile)) fprintf(qfile, "%s", line);
+
 			fclose(tfile);
+			free(tmp_file);
+			free(line);
 		}
 
 		fclose(qfile);
@@ -136,8 +139,8 @@ void invalid_command_line(int count, char **arguments) {
 	for (int i = 1; i < count; ++i) printf(" %s", *(arguments + i));
 	puts("");
 
-	puts(usage_text(self));
-	puts(try_text(self));
+	clearprint(usage_text(self));
+	clearprint(try_text(self));
 }
 
 void list_all(char *self) {
@@ -156,14 +159,16 @@ void list_all(char *self) {
 void show_head(char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "r");
-		char *line = malloc(sizeof(*line) * LINESIZE);
-		pain(line, LINESIZE);
+
+		char *line = calloc(LINESIZE, sizeof(*line));
+		check_alloc(line);
 
 		if (! qfile) print_error_open();
 		else if (get_line(line, qfile)) printf("%s", line);
 		else print_error_empty();
 
 		fclose(qfile);
+		free(line);
 	} else {
 		print_error_qfile_missing(self);
 	}
@@ -193,8 +198,9 @@ void print_error_qfile_missing(char *self) {
 void print_numbered_file_listing(FILE *qfile) {
 	int n = 0;
 	bool next = false;
-	char *line = malloc(sizeof(*line) * LINESIZE);
-	pain(line, LINESIZE);
+
+	char *line = calloc(LINESIZE, sizeof(*line));
+	check_alloc(line);
 
 	if ((next = get_line(line, qfile))) {
 		while (next) {
@@ -204,6 +210,8 @@ void print_numbered_file_listing(FILE *qfile) {
 	} else {
 		print_error_empty();
 	}
+
+	free(line);
 }
 
 void remove_item_number(char *cmd) {

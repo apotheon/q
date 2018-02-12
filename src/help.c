@@ -38,14 +38,14 @@ char * help_text() {
 }
 
 bool print_help(char *self) {
-	puts(usage_text(self));
+	clearprint(usage_text(self));
 	puts(help_text());
 	return true;
 }
 
 char * usage_text(char *self) {
-	char *text = malloc(sizeof(*text) * LINESIZE);
-	pain(text, LINESIZE);
+	char *text = calloc(LINESIZE, sizeof(*text));
+	check_alloc(text);
 
 	const char *endtext = " <command> [argument]";
 
@@ -57,8 +57,8 @@ char * usage_text(char *self) {
 }
 
 char * try_text(char *self) {
-	char *text = malloc(sizeof(*text) * LINESIZE);
-	pain(text, LINESIZE);
+	char *text = calloc(LINESIZE, sizeof(*text));
+	check_alloc(text);
 
 	const char *endtext = " help\" for more info.";
 
