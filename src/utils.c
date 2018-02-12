@@ -18,6 +18,17 @@ bool cd_qdir() {
 	return success;
 }
 
+/* maybe prevent allocation somehow while executing `q list-all` to test */
+bool check_alloc(char *p) {
+	if (p == NULL) {
+		free(p);
+		perror("Failed to initialize a pointer.\n");
+		exit(EXIT_FAILURE);
+	} else {
+		return true;
+	}
+}
+
 bool exists(char *fname) {
 	struct stat st = {0};
 
@@ -25,7 +36,7 @@ bool exists(char *fname) {
 	else return false;
 }
 
-/* execute `q list-all` to test this */
+/* execute `q list-all` to test */
 bool get_line(char *line, FILE *qfile) {
 	if (fgets(line, LINESIZE - 1, qfile) > 0) return true;
 	else return false;
@@ -36,19 +47,12 @@ bool newdir(char *dir) {
 	else return false;
 }
 
-/* execute `q list-all` to test this */
+/* execute `q list-all` to test */
 bool qexists() {
 	return (cd_qdir() && exists(QNAME));
 }
 
-/* pain is short for "pointer array initializer" */
-bool pain(char *parray, size_t parray_size) {
-	if (parray == NULL) {
-		free(parray);
-		perror("Failed to initialize an array pointer.\n");
-		exit(EXIT_FAILURE);
-	} else {
-		memzero(parray, parray_size);
-		return true;
-	}
+void clearprint(char *text) {
+	puts(text);
+	free(text);
 }
