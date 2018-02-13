@@ -1,6 +1,6 @@
 #include <fcntl.h>
 #include "globals.h"
-#include "help.h"
+#include "cli.h"
 #include "utils.h"
 
 bool match_cmd(char *cmd, char *cmdtarget);
