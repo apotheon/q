@@ -47,6 +47,20 @@ spec("CLI") {
 		}
 	}
 
+	describe("match_rot()") {
+		it("should return false with incorrect rotate command") {
+			check(match_rot("rotates") == false);
+		}
+
+		it("should return false with non-rotate command") {
+			check(match_rot("add") == false);
+		}
+
+		it("should return true with correct rotate commands") {
+			check(match_rot("rot") && match_rot("rotate"));
+		}
+	}
+
 	describe("usage_text()") {
 		it("should return usage text") {
 			char *usage_text_string = "USAGE: q <command> [argument]";

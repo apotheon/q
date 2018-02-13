@@ -6,6 +6,7 @@
 
 bool match_cmd(char *cmd, char *cmdtarget);
 bool match_help(char *cmd);
+bool match_rot(char *cmd);
 bool print_help(char *self);
 
 char * help_text();
