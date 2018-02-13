@@ -1,5 +1,16 @@
 #include "cli.h"
 
+bool match_cmd(char *cmd, char *cmdtarget) {
+	if (strncmp(cmd, cmdtarget, strnlen(cmd, LINESIZE)) == 0) return true;
+	else return false;
+}
+
+bool print_help(char *self) {
+	clearprint(usage_text(self));
+	puts(help_text());
+	return true;
+}
+
 char * help_text() {
 	char *text = (
 		"\n"
@@ -35,12 +46,6 @@ char * help_text() {
 	);
 
 	return text;
-}
-
-bool print_help(char *self) {
-	clearprint(usage_text(self));
-	puts(help_text());
-	return true;
 }
 
 char * usage_text(char *self) {

@@ -3,7 +3,6 @@
 #include "cli.h"
 #include "utils.h"
 
-bool match_cmd(char *cmd, char *cmdtarget);
 bool match_help(char *cmd);
 bool match_rot(char *cmd);
 
@@ -47,11 +46,6 @@ int main(int argc, char **argv) {
   /*******************/
  /* OTHER FUNCTIONS */
 /*******************/
-
-bool match_cmd(char *cmd, char *cmdtarget) {
-	if (strncmp(cmd, cmdtarget, strnlen(cmd, LINESIZE)) == 0) return true;
-	else return false;
-}
 
 bool match_help(char *cmd) {
 	return (
