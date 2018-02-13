@@ -3,8 +3,6 @@
 #include "cli.h"
 #include "utils.h"
 
-bool match_rot(char *cmd);
-
 int del_item(char *self);
 
 void add_item(char *input, char *self);
@@ -45,10 +43,6 @@ int main(int argc, char **argv) {
   /*******************/
  /* OTHER FUNCTIONS */
 /*******************/
-
-bool match_rot(char *cmd) {
-	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
-}
 
 void add_item(char *input, char *self) {
 	if (qexists()) {

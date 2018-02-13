@@ -12,6 +12,10 @@ bool match_help(char *cmd) {
 	);
 }
 
+bool match_rot(char *cmd) {
+	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
+}
+
 bool print_help(char *self) {
 	clearprint(usage_text(self));
 	puts(help_text());
