@@ -52,7 +52,7 @@ spec("Utils") {
 			if (exists(dirname)) rmdir(dirname);
 		}
 
-		it("creates a newdirectory") {
+		it("creates a new directory") {
 			check(! exists(dirname));
 			check(newdir(dirname) && exists(dirname));
 		}
