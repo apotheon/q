@@ -9,6 +9,22 @@ spec("CLI") {
 		}
 	}
 
+	describe("match_cmd()") {
+		char *target_string = "remove-number";
+		int cmdsize = sizeof(*target_string);
+
+		it("should return true with a command match") {
+			char *cmd = calloc(LINESIZE, cmdsize);
+			strlcpy(cmd, target_string, cmdsize);
+			check(match_cmd(cmd, target_string) == true);
+		}
+
+		it("should return false with a command mismatch") {
+			char *cmd = "remove-item";
+			check(match_cmd(cmd, target_string) == false);
+		}
+	}
+
 	describe("usage_text()") {
 		it("should return usage text") {
 			char *usage_text_string = "USAGE: q <command> [argument]";
