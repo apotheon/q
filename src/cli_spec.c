@@ -20,8 +20,30 @@ spec("CLI") {
 		}
 
 		it("should return false with a command mismatch") {
-			char *cmd = "remove-item";
+			char *cmd = "remove-numbers";
 			check(match_cmd(cmd, target_string) == false);
+		}
+	}
+
+	describe("match_help()") {
+		it("should return false with incorrect help command") {
+			check(match_help("help-me") == false);
+		}
+
+		it("should return false with incorrect help option") {
+			check(match_help("-help") == false);
+		}
+
+		it("should return false with non-help command") {
+			check(match_help("add") == false);
+		}
+
+		it("should return true with correct help commands") {
+			check(match_help("h") && match_help("help"));
+		}
+
+		it("should return true with correct help options") {
+			check(match_help("-h") && match_help("--help"));
 		}
 	}
 

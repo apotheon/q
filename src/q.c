@@ -3,7 +3,6 @@
 #include "cli.h"
 #include "utils.h"
 
-bool match_help(char *cmd);
 bool match_rot(char *cmd);
 
 int del_item(char *self);
@@ -46,13 +45,6 @@ int main(int argc, char **argv) {
   /*******************/
  /* OTHER FUNCTIONS */
 /*******************/
-
-bool match_help(char *cmd) {
-	return (
-		match_cmd(cmd, "--help") || match_cmd(cmd, "-h") ||
-		match_cmd(cmd, "help") || match_cmd(cmd, "h")
-	);
-}
 
 bool match_rot(char *cmd) {
 	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
