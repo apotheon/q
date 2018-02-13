@@ -5,6 +5,13 @@ bool match_cmd(char *cmd, char *cmdtarget) {
 	else return false;
 }
 
+bool match_help(char *cmd) {
+	return (
+		match_cmd(cmd, "--help") || match_cmd(cmd, "-h") ||
+		match_cmd(cmd, "help") || match_cmd(cmd, "h")
+	);
+}
+
 bool print_help(char *self) {
 	clearprint(usage_text(self));
 	puts(help_text());
