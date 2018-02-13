@@ -1,4 +1,4 @@
-#include "help.h"
+#include "cli.h"
 
 char * help_text() {
 	char *text = (

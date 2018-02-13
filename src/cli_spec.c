@@ -1,7 +1,7 @@
-#include "help.h"
+#include "cli.h"
 #include "bdd-for-c.h"
 
-spec("Help") {
+spec("CLI") {
 	describe("help_text()") {
 		it("should return help text") {
 			char *help_text_string = "display this help message";
