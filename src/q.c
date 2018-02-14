@@ -169,6 +169,6 @@ void remove_item_number(char *cmd) {
 void start_queuer() {
 	cd_qdir();
 
-	if (exists(QNAME)) print_error_exists(DIRNAME, QNAME);
+	if (qexists()) print_error_exists(DIRNAME, QNAME);
 	else open(QNAME, O_CREAT, 0600);
 }
