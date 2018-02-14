@@ -30,7 +30,7 @@ spec("Utils") {
 		}
 
 		describe("cd()") {
-			it("changes directory") {
+			it("changes directory to specified path") {
 				char *cwd = calloc(PATH_MAX, sizeof(*cwd));
 				check_alloc(cwd);
 
@@ -38,6 +38,20 @@ spec("Utils") {
 
 				getcwd(cwd, PATH_MAX);
 				check(strncmp(basename(cwd), dirname, PATH_MAX) == 0);
+				free(cwd);
+			}
+		}
+
+		describe("cd_qdir()") {
+			it("changes to directory to qdir path") {
+				char *cwd = calloc(PATH_MAX, sizeof(*cwd));
+				check_alloc(cwd);
+
+				check(cd_qdir());
+
+				getcwd(cwd, PATH_MAX);
+				check(strncmp(basename(cwd), DIRNAME, PATH_MAX) == 0);
+				free(cwd);
 			}
 		}
 
