@@ -42,19 +42,6 @@ spec("Utils") {
 			}
 		}
 
-		describe("cd_qdir()") {
-			it("changes to directory to qdir path") {
-				char *cwd = calloc(PATH_MAX, sizeof(*cwd));
-				check_alloc(cwd);
-
-				check(cd_qdir());
-
-				getcwd(cwd, PATH_MAX);
-				check(strncmp(basename(cwd), DIRNAME, PATH_MAX) == 0);
-				free(cwd);
-			}
-		}
-
 		describe("exists()") {
 			it("returns true if a directory exists") {
 				check(exists(dirname));
@@ -67,6 +54,21 @@ spec("Utils") {
 			it("returns false if a directory or file doesn't exist") {
 				check(! exists("nonexistent_file.txt"));
 			}
+		}
+	}
+
+	describe("cd_qdir()") {
+		it("changes to directory to qdir path") {
+			char *cwd = calloc(PATH_MAX, sizeof(*cwd));
+			check_alloc(cwd);
+
+			check(cd_qdir());
+
+			getcwd(cwd, PATH_MAX);
+			check(strncmp(basename(cwd), DIRNAME, PATH_MAX) == 0);
+
+			free(cwd);
+			if (exists(DIRNAME)) rmdir(DIRNAME);
 		}
 	}
 

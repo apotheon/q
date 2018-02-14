@@ -5,7 +5,6 @@ bool cd(char *dir) {
 	else return false;
 }
 
-/* execute `q list-all` to test this */
 bool cd_qdir() {
 	int success = false;
 	char *home = getenv("HOME");
