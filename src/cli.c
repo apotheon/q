@@ -84,3 +84,31 @@ char * try_text(char *self) {
 
 	return text;
 }
+
+void print_invalid_command_line(int count, char **arguments) {
+	char *self = *(arguments);
+
+	printf("Command or argument(s) invalid: %s", self);
+	for (int i = 1; i < count; ++i) printf(" %s", *(arguments + i));
+	puts("");
+
+	clearprint(usage_text(self));
+	clearprint(try_text(self));
+}
+
+void print_error_empty() {
+	perror("Error reading from queuefile (it may be empty)");
+}
+
+void print_error_exists(char *dir, char *q) {
+	char *home = getenv("HOME");
+	printf("The file \"%s/%s/%s\" already exists.\n", home, dir, q);
+}
+
+void print_error_open() {
+	perror("Error opening queuefile.");
+}
+
+void print_error_qfile_missing(char *self) {
+	printf("No queuefile found.  Try `%s create-fresh-queue`.\n", self);
+}
