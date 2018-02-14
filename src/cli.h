@@ -9,9 +9,9 @@ bool match_help(char *cmd);
 bool match_rot(char *cmd);
 bool print_help(char *self);
 
-char * help_text();
-char * usage_text(char *self);
-char * try_text(char *self);
+char *help_text();
+char *usage_text(char *self);
+char *try_text(char *self);
 
 void print_invalid_command_line(int count, char **arguments);
 void print_error_empty();
