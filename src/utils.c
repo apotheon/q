@@ -46,11 +46,11 @@ bool newdir(char *dir) {
 	else return false;
 }
 
-/* execute `q list-all` to test */
 bool qexists() {
 	return (cd_qdir() && exists(QNAME));
 }
 
+/* probably not meaningfully testable */
 void clearprint(char *text) {
 	puts(text);
 	free(text);
