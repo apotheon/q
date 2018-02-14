@@ -58,7 +58,7 @@ spec("Utils") {
 	}
 
 	describe("cd_qdir()") {
-		it("changes to directory to qdir path") {
+		it("changes directory to qdir path") {
 			char *cwd = calloc(PATH_MAX, sizeof(*cwd));
 			check_alloc(cwd);
 
