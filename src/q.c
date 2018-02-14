@@ -87,6 +87,8 @@ int del_item(char *self) {
 			check_alloc(line);
 
 			fgets(line, LINESIZE, qfile);
+			/* DOES NOT WORK */
+			/* allocate and strncpy() or deref instead of assigning pointer */
 			char *deleted = line;
 
 			while (fgets(line, LINESIZE, qfile)) fprintf(tfile, "%s", line);
