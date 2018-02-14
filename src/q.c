@@ -7,13 +7,8 @@ int del_item(char *self);
 
 void add_item(char *input, char *self);
 void cmd_with_arg(int argc, char **argv, char *cmd);
-void invalid_command_line(int count, char **arguments);
 void list_all();
 void not_implemented(char *cmd);
-void print_error_empty();
-void print_error_exists(char *dir, char *q);
-void print_error_open();
-void print_error_qfile_missing(char *self);
 void print_numbered_file_listing(FILE *qfile);
 void remove_item_number(char *cmd);
 void show_head();
@@ -32,7 +27,7 @@ int main(int argc, char **argv) {
 		else if (match_cmd(cmd, "list-all")) list_all();
 		else if (match_cmd(cmd, "show")) show_head();
 		else if (match_rot(cmd)) not_implemented(cmd);
-		else invalid_command_line(argc, argv);
+		else print_invalid_command_line(argc, argv);
 	} else {
 		show_head();
 	}
@@ -63,7 +58,7 @@ void cmd_with_arg(int argc, char **argv, char *cmd) {
 
 	if (match_cmd(cmd, "add")) add_item(input, program);
 	else if (match_cmd(cmd, "remove-number")) remove_item_number(cmd);
-	else invalid_command_line(argc, argv);
+	else print_invalid_command_line(argc, argv);
 }
 
 int del_item(char *self) {
@@ -112,17 +107,6 @@ int del_item(char *self) {
 	return 0;
 }
 
-void invalid_command_line(int count, char **arguments) {
-	char *self = *(arguments);
-
-	printf("Command or argument(s) invalid: %s", self);
-	for (int i = 1; i < count; ++i) printf(" %s", *(arguments + i));
-	puts("");
-
-	clearprint(usage_text(self));
-	clearprint(try_text(self));
-}
-
 void list_all(char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "r");
@@ -156,23 +140,6 @@ void show_head(char *self) {
 
 void not_implemented(char *cmd) {
 	printf("Command \"%s\" was not yet implemented.\n", cmd);
-}
-
-void print_error_empty() {
-	perror("Error reading from queuefile (it may be empty)");
-}
-
-void print_error_exists(char *dir, char *q) {
-	char *home = getenv("HOME");
-	printf("The file \"%s/%s/%s\" already exists.\n", home, dir, q);
-}
-
-void print_error_open() {
-	perror("Error opening queuefile.");
-}
-
-void print_error_qfile_missing(char *self) {
-	printf("No queuefile found.  Try `%s create-fresh-queue`.\n", self);
 }
 
 void print_numbered_file_listing(FILE *qfile) {
