@@ -16,13 +16,14 @@ bool match_rot(char *cmd) {
 	return (match_cmd(cmd, "rot") || match_cmd(cmd, "rotate"));
 }
 
+/* probably not meaningfully testable */
 bool print_help(char *self) {
 	clearprint(usage_text(self));
 	puts(help_text());
 	return true;
 }
 
-char * help_text() {
+char *help_text() {
 	char *text = (
 		"\n"
 		"This queuer is a simple queue manager.  You can add things to the\n"
@@ -59,7 +60,7 @@ char * help_text() {
 	return text;
 }
 
-char * usage_text(char *self) {
+char *usage_text(char *self) {
 	char *text = calloc(LINESIZE, sizeof(*text));
 	check_alloc(text);
 
@@ -72,7 +73,7 @@ char * usage_text(char *self) {
 	return text;
 }
 
-char * try_text(char *self) {
+char *try_text(char *self) {
 	char *text = calloc(LINESIZE, sizeof(*text));
 	check_alloc(text);
 
@@ -85,6 +86,7 @@ char * try_text(char *self) {
 	return text;
 }
 
+/* maybe test by executing "q add" command */
 void print_invalid_command_line(int count, char **arguments) {
 	char *self = *(arguments);
 
@@ -96,19 +98,23 @@ void print_invalid_command_line(int count, char **arguments) {
 	clearprint(try_text(self));
 }
 
+/* probably not meaningfully testable */
 void print_error_empty() {
 	perror("Error reading from queuefile (it may be empty)");
 }
 
+/* maybe test by executing "q create-fresh-queue" with an existing queue */
 void print_error_exists(char *dir, char *q) {
 	char *home = getenv("HOME");
 	printf("The file \"%s/%s/%s\" already exists.\n", home, dir, q);
 }
 
+/* probably not meaningfully testable */
 void print_error_open() {
 	perror("Error opening queuefile.");
 }
 
+/* probably not meaningfully testable */
 void print_error_qfile_missing(char *self) {
 	printf("No queuefile found.  Try `%s create-fresh-queue`.\n", self);
 }

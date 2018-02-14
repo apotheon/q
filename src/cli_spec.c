@@ -15,8 +15,11 @@ spec("CLI") {
 
 		it("should return true with a command match") {
 			char *cmd = calloc(LINESIZE, cmdsize);
+			check_alloc(cmd);
+
 			strlcpy(cmd, target_string, cmdsize);
 			check(match_cmd(cmd, target_string) == true);
+			free(cmd);
 		}
 
 		it("should return false with a command mismatch") {
@@ -64,14 +67,18 @@ spec("CLI") {
 	describe("usage_text()") {
 		it("should return usage text") {
 			char *usage_text_string = "USAGE: q <command> [argument]";
-			check(strncmp(usage_text("q"), usage_text_string, LINESIZE) == 0);
+			char *output = usage_text("q");
+			check(strncmp(output, usage_text_string, LINESIZE) == 0);
+			free(output);
 		}
 	}
 
 	describe("try_text()") {
 		it("should return try text") {
 			char *try_text_string = "Try \"q help\" for more info.";
-			check(strncmp(try_text("q"), try_text_string, LINESIZE) == 0);
+			char *output = try_text("q");
+			check(strncmp(output, try_text_string, LINESIZE) == 0);
+			free(output);
 		}
 	}
 }
