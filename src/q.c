@@ -1,4 +1,5 @@
 #include <fcntl.h>
+#include "config.h"
 #include "globals.h"
 #include "cli.h"
 #include "utils.h"
