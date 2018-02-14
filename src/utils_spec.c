@@ -88,4 +88,44 @@ spec("Utils") {
 			check(newdir(dirname) && exists(dirname));
 		}
 	}
+
+	describe("qexists()") {
+		before_each() {
+			cd(getenv("HOME"));
+			if (! exists(DIRNAME)) newdir(DIRNAME);
+			cd(DIRNAME);
+		}
+
+		after_each() {
+			cd(getenv("HOME"));
+			cd(DIRNAME);
+			if (exists(QNAME)) remove(QNAME);
+			cd(getenv("HOME"));
+			if (exists(DIRNAME)) rmdir(DIRNAME);
+		}
+
+		context("with existing queuefile") {
+			before_each() {
+				if (! exists(QNAME)) open(QNAME, O_CREAT, 0600);
+			}
+
+			after_each() {
+				if (exists(QNAME)) remove(QNAME);
+			}
+
+			it("returns true if queue exists") {
+				check(qexists() == true);
+			}
+		}
+
+		context("without existing queuefile") {
+			before_each() {
+				if (exists(QNAME)) remove(QNAME);
+			}
+
+			it("returns false if queue does not exist") {
+				check(qexists() == false);
+			}
+		}
+	}
 }
