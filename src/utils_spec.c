@@ -1,30 +1,43 @@
+#include <fcntl.h>
+#include <libgen.h>
 #include <limits.h>
 #include "utils.h"
 #include "bdd-for-c.h"
 
 spec("Utils") {
 	static char *dirname = "test_directory_name";
+	static char *filename = "test_file_name";
 
-	context("with an existing directory") {
-		after() {
-			if (exists(dirname)) rmdir(dirname);
+	before() {
+		cd(getenv("HOME"));
+	}
+
+	after() {
+		cd(getenv("HOME"));
+	}
+
+	context("with an existing directory and file") {
+		before_each() {
+			cd(getenv("HOME"));
+			if (! exists(dirname)) newdir(dirname);
+			if (! exists(filename)) open(filename, O_CREAT, 0600);
 		}
 
-		before_each() {
-			if (! exists(dirname)) newdir(dirname);
+		after_each() {
+			cd(getenv("HOME"));
+			if (exists(dirname)) rmdir(dirname);
+			if (exists(filename)) remove(filename);
 		}
 
 		describe("cd()") {
 			it("changes directory") {
-				char *original_dir = calloc(PATH_MAX, sizeof(*original_dir));
-				check_alloc(original_dir);
-
-				getcwd(original_dir, PATH_MAX);
+				char *cwd = calloc(PATH_MAX, sizeof(*cwd));
+				check_alloc(cwd);
 
 				check(cd(dirname));
 
-				cd(original_dir);
-				free(original_dir);
+				getcwd(cwd, PATH_MAX);
+				check(strncmp(basename(cwd), dirname, PATH_MAX) == 0);
 			}
 		}
 
@@ -34,7 +47,7 @@ spec("Utils") {
 			}
 
 			it("returns true if a file exists") {
-				check(exists("a.out"));
+				check(exists(filename));
 			}
 
 			it("returns false if a directory or file doesn't exist") {
@@ -44,11 +57,13 @@ spec("Utils") {
 	}
 
 	describe("newdir()") {
-		after() {
+		before() {
+			cd(getenv("HOME"));
 			if (exists(dirname)) rmdir(dirname);
 		}
 
-		before() {
+		after() {
+			cd(getenv("HOME"));
 			if (exists(dirname)) rmdir(dirname);
 		}
 

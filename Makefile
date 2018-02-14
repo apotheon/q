@@ -12,7 +12,7 @@ clitest:
 
 utilstest:
 	clang src/utils_spec.c src/utils.c
-	a.out
+	HOME="`pwd`/tmp" a.out
 	rm a.out
 
 test: clitest utilstest
