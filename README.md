@@ -10,7 +10,7 @@ The "home" version control repository is [at FossRec][qfr].
 
 I also mirror the repository [on GitHub][qgh].
 
-Now you know everything.
+Now you know everything.  I wrote a tool called FossGit to help with that.
 
 ## Why doesn't it do anything?
 
