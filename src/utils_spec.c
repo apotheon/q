@@ -3,6 +3,7 @@
 #include <limits.h>
 #include "utils.h"
 #include "bdd-for-c.h"
+#include "cli.c"
 
 spec("Utils") {
 	static char *dirname = "test_directory_name";
@@ -125,6 +126,79 @@ spec("Utils") {
 
 			it("returns false if queue does not exist") {
 				check(qexists() == false);
+			}
+		}
+	}
+
+	describe("delete_line()") {
+		context("with queuefile containing todo items") {
+			before_each() {
+				cd(getenv("HOME"));
+				if (! exists(DIRNAME)) newdir(DIRNAME);
+				cd(DIRNAME);
+				if (exists(QNAME)) remove(QNAME);
+				if (! exists(QNAME)) open(QNAME, O_CREAT, 0600);
+				FILE *qfile = fopen(QNAME, "w");
+
+				if (! qfile) {
+					perror("Error opening file.\n");
+					perror("FS may be full or unwritable.\n");
+					exit(EXIT_FAILURE);
+				} else {
+					fprintf(qfile, "%s\n", "FIRST LINE\nSECOND LINE");
+					fclose(qfile);
+				}
+
+				/*
+				char *cat_command = calloc(LINESIZE, 1000);
+				check_alloc(cat_command);
+
+				snprintf(cat_command, 1000, "cat %s", QNAME);
+				system(cat_command);
+				*/
+			}
+
+			after_each() {
+				cd(getenv("HOME"));
+				cd(DIRNAME);
+				if (exists(QNAME)) remove(QNAME);
+				cd(getenv("HOME"));
+				if (exists(DIRNAME)) rmdir(DIRNAME);
+			}
+
+			it("deletes the first line of the queuefile") {
+				FILE *qfile = fopen(QNAME, "r");
+
+				char *line = calloc(LINESIZE, sizeof(*line));
+				check_alloc(line);
+
+				char *cwd = calloc(PATH_MAX, sizeof(*cwd));
+				check_alloc(cwd);
+				getcwd(cwd, PATH_MAX);
+
+				if (! qfile) {
+					print_error_open();
+					exit(EXIT_FAILURE);
+				} else if (! get_line(line, qfile)) {
+					puts(cwd);
+					print_error_empty();
+					exit(EXIT_FAILURE);
+				}
+
+				fclose(qfile);
+				qfile = fopen(QNAME, "r");
+
+				if (! qfile) {
+					print_error_open();
+					exit(EXIT_FAILURE);
+				} else if (get_line(line, qfile)) {
+					/* write what's needed with delete_line() for the test */
+					/* check(strstr("SECOND LINE\n", line) != NULL); */
+				} else {
+					puts(cwd);
+					print_error_empty();
+					exit(EXIT_FAILURE);
+				}
 			}
 		}
 	}
