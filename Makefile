@@ -11,7 +11,7 @@ clitest:
 	rm a.out
 
 utilstest:
-	clang src/utils_spec.c src/utils.c
+	clang src/utils_spec.c src/utils.c src/cli.c
 	HOME="`pwd`/tmp" a.out
 	rm a.out
 
