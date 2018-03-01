@@ -106,7 +106,7 @@ void clearfree(size_t text_size, int argnum, ...) {
 	for (int n = 0; n < argnum; ++n) cfree(va_arg(arglist, char *), text_size);
 }
 
-void clearprint(char *text, size_t text_size) {
+void cfreeprint(char *text, size_t text_size) {
 	puts(text);
 	cfree(text, text_size);
 }
