@@ -5,14 +5,14 @@ sync:
 	fossil sync
 	fossgit $(GITCLONES)/q/
 
-clitest:
+testcli:
 	clang src/cli_spec.c src/cli.c src/utils.c
 	a.out
 	rm a.out
 
-utilstest:
+testutils:
 	clang src/utils_spec.c src/utils.c src/cli.c
 	HOME="`pwd`/tmp" a.out
 	rm a.out
 
-test: clitest utilstest
+test: testcli testutils
