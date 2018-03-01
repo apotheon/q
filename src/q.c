@@ -135,7 +135,7 @@ void show_head(char *self) {
 		else print_error_empty();
 
 		fclose(qfile);
-		clearfree(line, LINESIZE);
+		cfree(line, LINESIZE);
 	} else {
 		print_error_qfile_missing(self);
 	}
@@ -161,7 +161,7 @@ void print_numbered_file_listing(FILE *qfile) {
 		print_error_empty();
 	}
 
-	clearfree(line, LINESIZE);
+	cfree(line, LINESIZE);
 }
 
 void remove_item_number(char *cmd) {
