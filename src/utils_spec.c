@@ -182,8 +182,7 @@ spec("Utils") {
 				if (! qfile) {
 					fclose(qfile);
 					cfree(cwd, PATH_MAX);
-					cfree(deleted, LINESIZE);
-					cfree(line, LINESIZE);
+					clearfree(LINESIZE, 2, deleted, line);
 					exit(EXIT_FAILURE);
 				} else if (get_line(line, qfile)) {
 					check(strncmp(deleted, "FIRST LINE\n", LINESIZE) == 0);
@@ -191,15 +190,13 @@ spec("Utils") {
 				} else {
 					puts(cwd);
 					cfree(cwd, PATH_MAX);
-					cfree(deleted, LINESIZE);
-					cfree(line, LINESIZE);
+					clearfree(LINESIZE, 2, deleted, line);
 					exit(EXIT_FAILURE);
 				}
 
 				fclose(qfile);
 				cfree(cwd, PATH_MAX);
-				cfree(deleted, LINESIZE);
-				cfree(line, LINESIZE);
+				clearfree(LINESIZE, 2, deleted, line);
 			}
 		}
 	}
