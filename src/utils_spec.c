@@ -38,7 +38,7 @@ spec("Utils") {
 
 				getcwd(cwd, PATH_MAX);
 				check(strncmp(basename(cwd), dirname, PATH_MAX) == 0);
-				clearfree(cwd, PATH_MAX);
+				cfree(cwd, PATH_MAX);
 			}
 		}
 
@@ -67,7 +67,7 @@ spec("Utils") {
 			getcwd(cwd, PATH_MAX);
 			check(strncmp(basename(cwd), DIRNAME, PATH_MAX) == 0);
 
-			clearfree(cwd, PATH_MAX);
+			cfree(cwd, PATH_MAX);
 			if (exists(DIRNAME)) rmdir(DIRNAME);
 		}
 	}
@@ -181,25 +181,25 @@ spec("Utils") {
 
 				if (! qfile) {
 					fclose(qfile);
-					clearfree(cwd, PATH_MAX);
-					clearfree(deleted, LINESIZE);
-					clearfree(line, LINESIZE);
+					cfree(cwd, PATH_MAX);
+					cfree(deleted, LINESIZE);
+					cfree(line, LINESIZE);
 					exit(EXIT_FAILURE);
 				} else if (get_line(line, qfile)) {
 					check(strncmp(deleted, "FIRST LINE\n", LINESIZE) == 0);
 					check(strncmp(line, "SECOND LINE\n", LINESIZE) == 0);
 				} else {
 					puts(cwd);
-					clearfree(cwd, PATH_MAX);
-					clearfree(deleted, LINESIZE);
-					clearfree(line, LINESIZE);
+					cfree(cwd, PATH_MAX);
+					cfree(deleted, LINESIZE);
+					cfree(line, LINESIZE);
 					exit(EXIT_FAILURE);
 				}
 
 				fclose(qfile);
-				clearfree(cwd, PATH_MAX);
-				clearfree(deleted, LINESIZE);
-				clearfree(line, LINESIZE);
+				cfree(cwd, PATH_MAX);
+				cfree(deleted, LINESIZE);
+				cfree(line, LINESIZE);
 			}
 		}
 	}
