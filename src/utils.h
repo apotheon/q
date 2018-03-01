@@ -1,6 +1,7 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#include <stdarg.h>
 #include <sys/stat.h>
 #include "globals.h"
 
@@ -14,7 +15,8 @@ bool qexists();
 
 char *del_line(char *fname);
 
-void clearfree(char *text, size_t text_size);
+void cfree(char *text, size_t text_size);
+void clearfree(size_t text_size, int argnum, ...);
 void clearprint(char *text, size_t text_size);
 
 #endif

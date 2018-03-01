@@ -78,15 +78,15 @@ char *del_line(char *fname) {
 
 	while (fgets(line, LINESIZE, ofile)) fprintf(tfile, "%s", line);
 
-	clearfree(line, LINESIZE);
+	cfree(line, LINESIZE);
 	fclose(ofile);
 	fclose(tfile);
 
 	if (rename(tmp_file, fname) == 0) {
-		clearfree(tmp_file, LINESIZE);
+		cfree(tmp_file, LINESIZE);
 		return first_line;
 	} else {
-		clearfree(tmp_file, LINESIZE);
+		cfree(tmp_file, LINESIZE);
 		perror("failed to edit file");
 		puts("Attempted changes may be found in tmpfile.");
 		exit(EXIT_FAILURE);
@@ -95,12 +95,18 @@ char *del_line(char *fname) {
 
 /* probably not meaningfully testable */
 
-void clearfree(char *text, size_t text_size) {
-	for (unsigned long i = 0; i < text_size; ++i) *(text + 1) = '\0';
+void cfree(char *text, size_t text_size) {
+	for (unsigned long i = 0; i < text_size; ++i) *(text + i) = '\0';
 	free(text);
+}
+
+void clearfree(size_t text_size, int argnum, ...) {
+	va_list arglist;
+	va_start(arglist, argnum);
+	for (int n = 0; n < argnum; ++n) cfree(va_arg(arglist, char *), text_size);
 }
 
 void clearprint(char *text, size_t text_size) {
 	puts(text);
-	clearfree(text, text_size);
+	cfree(text, text_size);
 }
