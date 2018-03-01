@@ -18,5 +18,6 @@ char *del_line(char *fname);
 void cfree(char *text, size_t text_size);
 void clearfree(size_t text_size, int argnum, ...);
 void cfreeprint(char *text, size_t text_size);
+void set_tempname(char *tmp_file);
 
 #endif
