@@ -96,6 +96,7 @@ void clearfree(size_t text_size, int argnum, ...) {
 	va_list arglist;
 	va_start(arglist, argnum);
 	for (int n = 0; n < argnum; ++n) cfree(va_arg(arglist, char *), text_size);
+	va_end(arglist);
 }
 
 void cfreeprint(char *text, size_t text_size) {
