@@ -3,7 +3,6 @@
 #include <limits.h>
 #include "utils.h"
 #include "bdd-for-c.h"
-#include "cli.c"
 
 spec("Utils") {
 	static char *dirname = "test_directory_name";
@@ -39,7 +38,7 @@ spec("Utils") {
 
 				getcwd(cwd, PATH_MAX);
 				check(strncmp(basename(cwd), dirname, PATH_MAX) == 0);
-				free(cwd);
+				clearfree(cwd, PATH_MAX);
 			}
 		}
 
@@ -68,7 +67,7 @@ spec("Utils") {
 			getcwd(cwd, PATH_MAX);
 			check(strncmp(basename(cwd), DIRNAME, PATH_MAX) == 0);
 
-			free(cwd);
+			clearfree(cwd, PATH_MAX);
 			if (exists(DIRNAME)) rmdir(DIRNAME);
 		}
 	}
@@ -130,7 +129,7 @@ spec("Utils") {
 		}
 	}
 
-	describe("delete_line()") {
+	describe("del_line()") {
 		context("with queuefile containing todo items") {
 			before_each() {
 				cd(getenv("HOME"));
@@ -148,14 +147,6 @@ spec("Utils") {
 					fprintf(qfile, "%s\n", "FIRST LINE\nSECOND LINE");
 					fclose(qfile);
 				}
-
-				/*
-				char *cat_command = calloc(LINESIZE, 1000);
-				check_alloc(cat_command);
-
-				snprintf(cat_command, 1000, "cat %s", QNAME);
-				system(cat_command);
-				*/
 			}
 
 			after_each() {
@@ -177,28 +168,38 @@ spec("Utils") {
 				getcwd(cwd, PATH_MAX);
 
 				if (! qfile) {
-					print_error_open();
 					exit(EXIT_FAILURE);
 				} else if (! get_line(line, qfile)) {
-					puts(cwd);
-					print_error_empty();
 					exit(EXIT_FAILURE);
 				}
 
 				fclose(qfile);
+
+				char *deleted = del_line(QNAME);
+
 				qfile = fopen(QNAME, "r");
 
 				if (! qfile) {
-					print_error_open();
+					fclose(qfile);
+					clearfree(cwd, PATH_MAX);
+					clearfree(deleted, LINESIZE);
+					clearfree(line, LINESIZE);
 					exit(EXIT_FAILURE);
 				} else if (get_line(line, qfile)) {
-					/* write what's needed with delete_line() for the test */
-					/* check(strstr("SECOND LINE\n", line) != NULL); */
+					check(strncmp(deleted, "FIRST LINE\n", LINESIZE) == 0);
+					check(strncmp(line, "SECOND LINE\n", LINESIZE) == 0);
 				} else {
 					puts(cwd);
-					print_error_empty();
+					clearfree(cwd, PATH_MAX);
+					clearfree(deleted, LINESIZE);
+					clearfree(line, LINESIZE);
 					exit(EXIT_FAILURE);
 				}
+
+				fclose(qfile);
+				clearfree(cwd, PATH_MAX);
+				clearfree(deleted, LINESIZE);
+				clearfree(line, LINESIZE);
 			}
 		}
 	}

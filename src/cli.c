@@ -18,7 +18,7 @@ bool match_rot(char *cmd) {
 
 /* probably not meaningfully testable */
 bool print_help(char *self) {
-	clearprint(usage_text(self));
+	clearprint(usage_text(self), LINESIZE);
 	puts(help_text());
 	return true;
 }
@@ -94,8 +94,8 @@ void print_invalid_command_line(int count, char **arguments) {
 	for (int i = 1; i < count; ++i) printf(" %s", *(arguments + i));
 	puts("");
 
-	clearprint(usage_text(self));
-	clearprint(try_text(self));
+	clearprint(usage_text(self), LINESIZE);
+	clearprint(try_text(self), LINESIZE);
 }
 
 /* probably not meaningfully testable */

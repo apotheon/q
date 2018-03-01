@@ -12,6 +12,9 @@ bool get_line(char *line, FILE *qfile);
 bool newdir(char *dir);
 bool qexists();
 
-void clearprint(char *text);
+char *del_line(char *fname);
+
+void clearfree(char *text, size_t text_size);
+void clearprint(char *text, size_t text_size);
 
 #endif
