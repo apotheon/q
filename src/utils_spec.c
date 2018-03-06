@@ -136,11 +136,7 @@ spec("Utils") {
 			}
 
 			after_each() {
-				cd(getenv("HOME"));
-				cd(DIRNAME);
-				if (exists(QNAME)) remove(QNAME);
-				cd(getenv("HOME"));
-				remove_qdir();
+				cleanup_testq();
 			}
 
 			it("deletes the first line of the queuefile") {
