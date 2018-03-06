@@ -1,4 +1,3 @@
-#include <fcntl.h>
 #include <libgen.h>
 #include <limits.h>
 #include "utils.h"
@@ -133,21 +132,7 @@ spec("Utils") {
 	describe("del_line()") {
 		context("with queuefile containing todo items") {
 			before_each() {
-				cd(getenv("HOME"));
-				create_qdir();
-				cd(DIRNAME);
-				if (exists(QNAME)) remove(QNAME);
-				if (! exists(QNAME)) open(QNAME, O_CREAT, 0600);
-				FILE *qfile = fopen(QNAME, "w");
-
-				if (! qfile) {
-					perror("Error opening file.\n");
-					perror("FS may be full or unwritable.\n");
-					exit(EXIT_FAILURE);
-				} else {
-					fprintf(qfile, "%s\n", "FIRST LINE\nSECOND LINE");
-					fclose(qfile);
-				}
+				prep_testq();
 			}
 
 			after_each() {

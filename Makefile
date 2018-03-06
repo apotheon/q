@@ -20,4 +20,4 @@ testutils:
 	HOME="`pwd`/tmp" a.out
 	rm a.out
 
-test: testcli testutils
+test: testcli testfeatures testutils

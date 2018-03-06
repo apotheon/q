@@ -1,5 +1,3 @@
-#include "errno.h"
-#include "string.h"
 #include "utils.h"
 
 bool cd(char *dir) {

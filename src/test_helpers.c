@@ -15,3 +15,21 @@ void remove_dir(char *dirname) {
 void remove_qdir() {
 	remove_dir(DIRNAME);
 }
+
+void prep_testq() {
+	cd(getenv("HOME"));
+	create_qdir();
+	cd(DIRNAME);
+	if (exists(QNAME)) remove(QNAME);
+	if (! exists(QNAME)) open(QNAME, O_CREAT, 0600);
+	FILE *qfile = fopen(QNAME, "w");
+
+	if (! qfile) {
+		perror("Error opening file.\n");
+		perror("FS may be full or unwritable.\n");
+		exit(EXIT_FAILURE);
+	} else {
+		fprintf(qfile, "%s\n", "FIRST LINE\nSECOND LINE");
+		fclose(qfile);
+	}
+}
