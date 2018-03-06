@@ -11,7 +11,7 @@ testcli:
 	rm a.out
 
 testfeatures:
-	clang src/features_spec.c src/features.c
+	clang src/features_spec.c src/features.c src/utils.c src/test_helpers.c
 	a.out
 	rm a.out
 
