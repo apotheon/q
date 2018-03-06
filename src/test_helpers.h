@@ -9,6 +9,8 @@ void create_dir(char *dirname);
 void create_qdir();
 void remove_dir(char *dirname);
 void remove_qdir();
+
+void cleanup_testq();
 void prep_testq();
 
 #endif
