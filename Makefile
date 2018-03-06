@@ -11,7 +11,7 @@ testcli:
 	rm a.out
 
 testutils:
-	clang src/utils_spec.c src/utils.c src/cli.c
+	clang src/utils_spec.c src/utils.c src/cli.c src/test_helpers.c
 	HOME="`pwd`/tmp" a.out
 	rm a.out
 

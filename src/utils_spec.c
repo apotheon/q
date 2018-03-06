@@ -2,6 +2,7 @@
 #include <libgen.h>
 #include <limits.h>
 #include "utils.h"
+#include "test_helpers.h"
 #include "bdd-for-c.h"
 
 spec("Utils") {
@@ -133,7 +134,7 @@ spec("Utils") {
 		context("with queuefile containing todo items") {
 			before_each() {
 				cd(getenv("HOME"));
-				if (! exists(DIRNAME)) newdir(DIRNAME);
+				create_qdir();
 				cd(DIRNAME);
 				if (exists(QNAME)) remove(QNAME);
 				if (! exists(QNAME)) open(QNAME, O_CREAT, 0600);
@@ -154,7 +155,7 @@ spec("Utils") {
 				cd(DIRNAME);
 				if (exists(QNAME)) remove(QNAME);
 				cd(getenv("HOME"));
-				if (exists(DIRNAME)) rmdir(DIRNAME);
+				remove_qdir();
 			}
 
 			it("deletes the first line of the queuefile") {
