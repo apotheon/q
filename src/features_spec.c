@@ -32,6 +32,29 @@ spec("Features") {
 				}
 
 				fclose(qfile);
+
+				char *deleted = del_item();
+
+				qfile = fopen(QNAME, "r");
+
+				if (! qfile) {
+					fclose(qfile);
+					cfree(cwd, PATH_MAX);
+					clearfree(LINESIZE, 2, deleted, line);
+					exit(EXIT_FAILURE);
+				} else if (get_line(line, qfile)) {
+					check(strncmp(deleted, "FIRST LINE\n", LINESIZE) == 0);
+					check(strncmp(line, "SECOND LINE\n", LINESIZE) == 0);
+				} else {
+					puts(cwd);
+					cfree(cwd, PATH_MAX);
+					clearfree(LINESIZE, 2, deleted, line);
+					exit(EXIT_FAILURE);
+				}
+
+				fclose(qfile);
+				cfree(cwd, PATH_MAX);
+				clearfree(LINESIZE, 2, deleted, line);
 			}
 		}
 	}

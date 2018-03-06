@@ -4,6 +4,6 @@
 #include "globals.h"
 #include "utils.h"
 
-void del_item();
+char *del_item();
 
 #endif

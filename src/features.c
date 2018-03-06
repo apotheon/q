@@ -1,4 +1,5 @@
 #include "features.h"
 
-void del_item() {
+char *del_item() {
+	return del_line(QNAME);
 }
