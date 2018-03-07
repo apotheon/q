@@ -54,7 +54,6 @@ char *help_text() {
 		"    rot[ate]                move first item to last position\n"
 		"    [show]                  show top item in queue\n"
 		"    create-fresh-queue      set up queuer for use\n"
-		"\n"
 	);
 
 	return text;
