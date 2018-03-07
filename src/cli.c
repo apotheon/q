@@ -76,11 +76,9 @@ char *try_text(char *self) {
 	char *text = calloc(LINESIZE, sizeof(*text));
 	check_alloc(text);
 
-	const char *endtext = " help\" for more info.";
-
 	strlcpy(text, "Try \"", LINESIZE);
 	strlcat(text, self, LINESIZE);
-	strlcat(text, endtext, LINESIZE);
+	strlcat(text, " help\" for more info.", LINESIZE);
 
 	return text;
 }
