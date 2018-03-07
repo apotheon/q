@@ -1,5 +1,5 @@
 default:
-	clang -o q src/q.c src/cli.c src/utils.c
+	clang -o q src/q.c src/cli.c src/features.c src/utils.c
 
 sync:
 	fossil sync
@@ -11,7 +11,7 @@ testcli:
 	rm a.out
 
 testfeatures:
-	clang src/features_spec.c src/features.c src/utils.c src/test_helpers.c
+	clang src/features_spec.c src/features.c src/cli.c src/utils.c src/test_helpers.c
 	HOME="`pwd`/tmp" a.out
 	rm a.out
 
