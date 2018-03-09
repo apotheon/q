@@ -23,6 +23,17 @@ spec("Features") {
 
 		describe("add_item()") {
 			it("adds a line at the end of the queuefile") {
+				qfile = fopen(QNAME, "r");
+
+				if (! qfile) {
+					fclose(qfile);
+					cfree(line, LINESIZE);
+					exit(EXIT_FAILURE);
+				} else if (get_line(line, qfile)) {
+				} else {
+					cfree(line, LINESIZE);
+					exit(EXIT_FAILURE);
+				}
 			}
 		}
 
