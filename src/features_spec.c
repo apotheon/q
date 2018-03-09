@@ -39,22 +39,20 @@ spec("Features") {
 
 		describe("del_item()") {
 			it("deletes the first line in the queuefile") {
-				char *deleted = del_item();
+				check(strncmp(del_item(), "FIRST LINE\n", LINESIZE) == 0);
+
 				qfile = fopen(QNAME, "r");
 
 				if (! qfile) {
 					fclose(qfile);
-					clearfree(LINESIZE, 2, deleted, line);
+					cfree(line, LINESIZE);
 					exit(EXIT_FAILURE);
-				} else if (get_line(line, qfile)) {
-					check(strncmp(deleted, "FIRST LINE\n", LINESIZE) == 0);
-					check(strncmp(line, "SECOND LINE\n", LINESIZE) == 0);
+				} else if (! get_line(line, qfile)) {
+					cfree(line, LINESIZE);
+					exit(EXIT_FAILURE);
 				} else {
-					clearfree(LINESIZE, 2, deleted, line);
-					exit(EXIT_FAILURE);
+					check(strncmp(line, "SECOND LINE\n", LINESIZE) == 0);
 				}
-
-				cfree(deleted, LINESIZE);
 			}
 		}
 	}
