@@ -6,7 +6,6 @@
 #include "utils.h"
 
 void cmd_with_arg(int argc, char **argv, char *cmd);
-void list_all();
 void not_implemented(char *cmd);
 void remove_item_number(char *cmd);
 void start_queuer();
@@ -21,7 +20,7 @@ int main(int argc, char **argv) {
 		else if (argc > 2) cmd_with_arg(argc, argv, cmd);
 		else if (match_cmd(cmd, "create-fresh-queue")) start_queuer();
 		else if (match_cmd(cmd, "del")) del(program);
-		else if (match_cmd(cmd, "list-all")) list_all();
+		else if (match_cmd(cmd, "list-all")) list_all(program);
 		else if (match_cmd(cmd, "show")) show_head(program);
 		else if (match_rot(cmd)) not_implemented(cmd);
 		else print_invalid_command_line(argc, argv);
@@ -43,19 +42,6 @@ void cmd_with_arg(int argc, char **argv, char *cmd) {
 	if (match_cmd(cmd, "add")) add_item(input, program);
 	else if (match_cmd(cmd, "remove-number")) remove_item_number(cmd);
 	else print_invalid_command_line(argc, argv);
-}
-
-void list_all(char *self) {
-	if (qexists()) {
-		FILE *qfile = fopen(QNAME, "r");
-
-		if (! qfile) print_error_open();
-		else print_numbered_file_listing(qfile);
-
-		fclose(qfile);
-	} else {
-		print_error_qfile_missing(self);
-	}
 }
 
 void not_implemented(char *cmd) {

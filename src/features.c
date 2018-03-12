@@ -25,6 +25,19 @@ void del(char *self) {
 	}
 }
 
+void list_all(char *self) {
+	if (qexists()) {
+		FILE *qfile = fopen(QNAME, "r");
+
+		if (! qfile) print_error_open();
+		else print_numbered_file_listing(qfile);
+
+		fclose(qfile);
+	} else {
+		print_error_qfile_missing(self);
+	}
+}
+
 void print_numbered_file_listing(FILE *qfile) {
 	int n = 0;
 	bool next = false;
