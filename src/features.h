@@ -9,5 +9,6 @@ char *del_item();
 
 void add_item(char *input, char *self);
 void del(char *self);
+void show_head(char *self);
 
 #endif

@@ -24,3 +24,21 @@ void del(char *self) {
 		print_error_qfile_missing(self);
 	}
 }
+
+void show_head(char *self) {
+	if (qexists()) {
+		FILE *qfile = fopen(QNAME, "r");
+
+		char *line = calloc(LINESIZE, sizeof(*line));
+		check_alloc(line);
+
+		if (! qfile) print_error_open();
+		else if (get_line(line, qfile)) printf("%s", line);
+		else print_error_empty();
+
+		fclose(qfile);
+		cfree(line, LINESIZE);
+	} else {
+		print_error_qfile_missing(self);
+	}
+}
