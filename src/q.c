@@ -8,7 +8,6 @@
 void cmd_with_arg(int argc, char **argv, char *cmd);
 void list_all();
 void not_implemented(char *cmd);
-void print_numbered_file_listing(FILE *qfile);
 void remove_item_number(char *cmd);
 void start_queuer();
 
@@ -61,25 +60,6 @@ void list_all(char *self) {
 
 void not_implemented(char *cmd) {
 	printf("Command \"%s\" was not yet implemented.\n", cmd);
-}
-
-void print_numbered_file_listing(FILE *qfile) {
-	int n = 0;
-	bool next = false;
-
-	char *line = calloc(LINESIZE, sizeof(*line));
-	check_alloc(line);
-
-	if ((next = get_line(line, qfile))) {
-		while (next) {
-			printf("%4d %s", ++n, line);
-			next = get_line(line, qfile);
-		}
-	} else {
-		print_error_empty();
-	}
-
-	cfree(line, LINESIZE);
 }
 
 void remove_item_number(char *cmd) {

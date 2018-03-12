@@ -25,6 +25,25 @@ void del(char *self) {
 	}
 }
 
+void print_numbered_file_listing(FILE *qfile) {
+	int n = 0;
+	bool next = false;
+
+	char *line = calloc(LINESIZE, sizeof(*line));
+	check_alloc(line);
+
+	if ((next = get_line(line, qfile))) {
+		while (next) {
+			printf("%4d %s", ++n, line);
+			next = get_line(line, qfile);
+		}
+	} else {
+		print_error_empty();
+	}
+
+	cfree(line, LINESIZE);
+}
+
 void show_head(char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "r");
