@@ -72,4 +72,31 @@ spec("Features") {
 			}
 		}
 	}
+
+	context("with no queuefile") {
+		before_each() {
+			cleanup_testq();
+		}
+
+		after_each() {
+			cleanup_testq();
+		}
+
+		describe("start_queuer()") {
+			it("creates an empty queuefile") {
+				char *line = calloc(LINESIZE, sizeof(*line));
+				check_alloc(line);
+
+				start_queuer();
+
+				FILE *qfile = fopen(QNAME, "r");
+
+				check(qfile);
+				check(! get_line(line, qfile));
+
+				fclose(qfile);
+				cfree(line, LINESIZE);
+			}
+		}
+	}
 }
