@@ -74,3 +74,10 @@ void show_head(char *self) {
 		print_error_qfile_missing(self);
 	}
 }
+
+void start_queuer() {
+	cd_qdir();
+
+	if (qexists()) print_error_exists(DIRNAME, QNAME);
+	else open(QNAME, O_CREAT, 0600);
+}
