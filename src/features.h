@@ -9,6 +9,7 @@ char *del_item();
 
 void add_item(char *input, char *self);
 void del(char *self);
+void list_all(char *self);
 void print_numbered_file_listing(FILE *qfile);
 void show_head(char *self);
 
