@@ -36,8 +36,10 @@ void prep_testq() {
 
 void cleanup_testq() {
 	cd(getenv("HOME"));
-	cd(DIRNAME);
-	if (exists(QNAME)) remove(QNAME);
-	cd(getenv("HOME"));
-	remove_qdir();
+	if (exists(DIRNAME)) {
+		cd(DIRNAME);
+		if (exists(QNAME)) remove(QNAME);
+		cd(getenv("HOME"));
+		remove_qdir();
+	}
 }
