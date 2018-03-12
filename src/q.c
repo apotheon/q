@@ -39,19 +39,6 @@ int main(int argc, char **argv) {
  /* OTHER FUNCTIONS */
 /*******************/
 
-void add_item(char *input, char *self) {
-	if (qexists()) {
-		FILE *qfile = fopen(QNAME, "a");
-
-		if (! qfile) print_error_open();
-		else fprintf(qfile, "%s\n", input);
-
-		fclose(qfile);
-	} else {
-		print_error_qfile_missing(self);
-	}
-}
-
 void cmd_with_arg(int argc, char **argv, char *cmd) {
 	char *program = *(argv);
 	char *input = *(argv + 2);

@@ -7,6 +7,7 @@
 
 char *del_item();
 
+void add_item(char *input, char *self);
 void del(char *self);
 
 #endif
