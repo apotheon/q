@@ -5,13 +5,11 @@
 #include "features.h"
 #include "utils.h"
 
-void add_item(char *input, char *self);
 void cmd_with_arg(int argc, char **argv, char *cmd);
 void list_all();
 void not_implemented(char *cmd);
 void print_numbered_file_listing(FILE *qfile);
 void remove_item_number(char *cmd);
-void show_head();
 void start_queuer();
 
 int main(int argc, char **argv) {
@@ -25,11 +23,11 @@ int main(int argc, char **argv) {
 		else if (match_cmd(cmd, "create-fresh-queue")) start_queuer();
 		else if (match_cmd(cmd, "del")) del(program);
 		else if (match_cmd(cmd, "list-all")) list_all();
-		else if (match_cmd(cmd, "show")) show_head();
+		else if (match_cmd(cmd, "show")) show_head(program);
 		else if (match_rot(cmd)) not_implemented(cmd);
 		else print_invalid_command_line(argc, argv);
 	} else {
-		show_head();
+		show_head(program);
 	}
 
 	return 0;
@@ -56,24 +54,6 @@ void list_all(char *self) {
 		else print_numbered_file_listing(qfile);
 
 		fclose(qfile);
-	} else {
-		print_error_qfile_missing(self);
-	}
-}
-
-void show_head(char *self) {
-	if (qexists()) {
-		FILE *qfile = fopen(QNAME, "r");
-
-		char *line = calloc(LINESIZE, sizeof(*line));
-		check_alloc(line);
-
-		if (! qfile) print_error_open();
-		else if (get_line(line, qfile)) printf("%s", line);
-		else print_error_empty();
-
-		fclose(qfile);
-		cfree(line, LINESIZE);
 	} else {
 		print_error_qfile_missing(self);
 	}
