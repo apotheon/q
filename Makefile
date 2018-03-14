@@ -1,6 +1,9 @@
 default:
 	clang -o q src/q.c src/cli.c src/features.c src/utils.c
 
+qtest:
+	clang -o q src/q.c src/cli.c src/features.c src/utils.c
+
 sync:
 	fossil sync
 	fossgit $(GITCLONES)/q/
@@ -20,5 +23,4 @@ testutils:
 	HOME="`pwd`/tmp" a.out
 	rm a.out
 
-test: testcli testfeatures testutils
-	default
+test: testcli testfeatures testutils qtest
