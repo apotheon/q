@@ -1,6 +1,6 @@
 # About Q
 
-a simple todo queue tool
+a simple todo-queue management tool
 
 ## Why isn't this repository real?
 
@@ -10,15 +10,30 @@ The "home" version control repository is [at FossRec][qfr].
 
 I also mirror the repository [on GitHub][qgh].
 
-Now you know everything.  I wrote a tool called FossGit to help with that.
+I wrote a tool called [FossGit][fg] to help with this mirroring process.
 
-## Why doesn't it do anything?
+Now you know everything.
+
+## Why doesn't it do everything?
 
 This is a C rewrite of the original shell script implementation.  The C version
-is far from complete, because I have been unmotivated and very busy and deeply
-tired.  Every few days or weeks, I get the urge to write a dozen lines of code
-(give or take), and it progresses slightly because of that.  For now, the C
-version is vaporware, but you can get [the source of the shell version][sh].
+is nearly feature-complete, but it still lacks the ability to remove arbitrary
+queue entries by number, which is not strictly necessary and should not be part
+of standard q workflow anyway.  I should probably call this a complete version
+1.0 release, but so far I'm too indecisive to call it anything in particular.
+
+It is also intended to get somewhat close to adhering to the Unix philosophy of
+software design: Do One Thing Well.  As such, it should not do things that are
+not part of the core purpose of the tool.  If you think it needs a feature it
+lacks, feel free to let me know, but I do not anticipate getting many "good
+idea" feature requests for this project.  See more about this in the "Why is q
+awesome?" section below.
+
+If you're interested, you can still get [the source of the shell version][sh],
+which has a working implementation of the `remove-number` command.  It is also
+probably a less-safe program, because I'm too lazy to do much in the way of
+error-checking with shell script code, which I find excruciating.  Writing C is
+fun, though.
 
 ## Why is q awesome?
 
@@ -130,6 +145,7 @@ it refuses to be anything but a task queue management tool, because trying to
 be everything to everyone is a great way to fail to be the best at anything to
 anyone at all.
 
+[fg]: https://fossrec.com/u/apotheon/fossgit
 [qfr]: https://fossrec.com/u/apotheon/q
 [qgh]: https://github.com/apotheon/q
 [sh]: http://sprunge.us/ZJRZ
