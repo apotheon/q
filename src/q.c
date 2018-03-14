@@ -1,4 +1,3 @@
-#include <fcntl.h>
 #include "config.h"
 #include "globals.h"
 #include "cli.h"
@@ -21,7 +20,7 @@ int main(int argc, char **argv) {
 		else if (match_cmd(cmd, "del")) del(program);
 		else if (match_cmd(cmd, "list-all")) list_all(program);
 		else if (match_cmd(cmd, "show")) show_head(program);
-		else if (match_rot(cmd)) not_implemented(cmd);
+		else if (match_rot(cmd)) rot(program);
 		else print_invalid_command_line(argc, argv);
 	} else {
 		show_head(program);
