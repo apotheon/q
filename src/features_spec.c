@@ -71,6 +71,35 @@ spec("Features") {
 				}
 			}
 		}
+
+		describe("rot_item()") {
+			it("moves the first item in queue to end of the queue") {
+				rot_item("q");
+
+				qfile = fopen(QNAME, "r");
+
+				if (! qfile) {
+					fclose(qfile);
+					cfree(line, LINESIZE);
+					exit(EXIT_FAILURE);
+				} else if (! get_line(line, qfile)) {
+					fclose(qfile);
+					cfree(line, LINESIZE);
+					exit(EXIT_FAILURE);
+				} else {
+					char *fmtstr = "string \"%s\" doesn't match \"%s\"";
+					int comparison = strncmp(line, line2, LINESIZE);
+
+					check(comparison == 0, fmtstr, line, line2);
+
+					fseek(qfile, strnlen(line2, LINESIZE), SEEK_SET);
+					get_line(line, qfile);
+					comparison = strncmp(line, line1, LINESIZE);
+
+					check(comparison == 0, fmtstr, line, line1);
+				}
+			}
+		}
 	}
 
 	context("with no queuefile") {

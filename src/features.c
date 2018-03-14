@@ -1,5 +1,9 @@
 #include "features.h"
 
+char *del_item() {
+	return del_line(QNAME);
+}
+
 void add_item(char *input, char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "a");
@@ -13,16 +17,9 @@ void add_item(char *input, char *self) {
 	}
 }
 
-char *del_item() {
-	return del_line(QNAME);
-}
-
 void del(char *self) {
-	if (qexists()) {
-		printf("%s", del_item());
-	} else {
-		print_error_qfile_missing(self);
-	}
+	if (qexists()) printf("%s", del_item());
+	else print_error_qfile_missing(self);
 }
 
 void list_all(char *self) {
@@ -55,6 +52,23 @@ void print_numbered_file_listing(FILE *qfile) {
 	}
 
 	cfree(line, LINESIZE);
+}
+
+void rot(char *self) {
+	if (qexists()) {
+		rot_item(self);
+		show_head(self);
+	} else {
+		print_error_qfile_missing(self);
+	}
+}
+
+void rot_item(char *self) {
+	char *rot_string = del_item();
+	size_t rot_size = strnlen(rot_string, LINESIZE) - 1;
+
+	*(rot_string + rot_size) = '\0';
+	add_item(rot_string, self);
 }
 
 void show_head(char *self) {
