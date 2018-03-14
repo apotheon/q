@@ -21,3 +21,4 @@ testutils:
 	rm a.out
 
 test: testcli testfeatures testutils
+	default
