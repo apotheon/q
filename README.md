@@ -145,6 +145,28 @@ it refuses to be anything but a task queue management tool, because trying to
 be everything to everyone is a great way to fail to be the best at anything to
 anyone at all.
 
+## How can I contribute?
+
+That's complicated, if you want to contribute changes to the project itself.
+If you want to send me money, that may or may not also be complicated, but I'd
+prefer things I would otherwise buy with my money.  For some other form of
+contribution, I guess it depends, but I don't accept kittens any longer; that
+was just a bad idea.
+
+Start by getting in touch with me.  I can probably help with some of the other
+steps toward helping contribute:
+
+1. Figure out how to use Fossil.
+2. Figure out how to write specs using [bdd-for-c][bddc].
+3. Cut a new branch for your changes.
+4. Write tests first, then satisfy the specs with code.
+5. Make arrangements for me to evaluate your code.
+6. Answer my questions and make changes I request to your submitted code.
+7. Ensure I can pull your code into my repository.
+
+I may update these instructions later if they turn out to be insufficient.
+
+[bddc]: https://github.com/grassator/bdd-for-c
 [fg]: https://fossrec.com/u/apotheon/fossgit
 [qfr]: https://fossrec.com/u/apotheon/q
 [qgh]: https://github.com/apotheon/q
