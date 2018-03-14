@@ -2,7 +2,7 @@ default:
 	clang -o q src/q.c src/cli.c src/features.c src/utils.c
 
 qtest:
-	clang -o q src/q.c src/cli.c src/features.c src/utils.c
+	clang -o q src/q.c src/cli.c src/features.c src/utils.c -DDIRNAME='".quebert"'
 
 sync:
 	fossil sync
