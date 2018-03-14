@@ -153,8 +153,10 @@ prefer things I would otherwise buy with my money.  For some other form of
 contribution, I guess it depends, but I don't accept kittens any longer; that
 was just a bad idea.
 
-Start by getting in touch with me.  I can probably help with some of the other
-steps toward helping contribute:
+For any contributions, start by getting in touch with me.  I can probably help
+with some of the other steps toward helping contribute.  The following is a
+rough description of how contributing code might work, and by getting in touch
+with me you can help me can work out how you can make the following happen:
 
 1. Figure out how to use Fossil.
 2. Figure out how to write specs using [bdd-for-c][bddc].
@@ -164,7 +166,8 @@ steps toward helping contribute:
 6. Answer my questions and make changes I request to your submitted code.
 7. Ensure I can pull your code into my repository.
 
-I may update these instructions later if they turn out to be insufficient.
+I may update these instructions later if they turn out to be insufficient, but
+I do not anticipate getting many requests to contribute code to this project.
 
 [bddc]: https://github.com/grassator/bdd-for-c
 [fg]: https://fossrec.com/u/apotheon/fossgit
