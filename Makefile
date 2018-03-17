@@ -1,6 +1,9 @@
 default:
 	clang -o q src/q.c src/cli.c src/features.c src/utils.c
 
+local: default
+	mv q ~/bin/
+
 qtest:
 	clang -o q src/q.c src/cli.c src/features.c src/utils.c -DDIRNAME='".quebert"'
 
