@@ -149,14 +149,22 @@ anyone at all.
 
 That's complicated, if you want to contribute changes to the project itself.
 If you want to send me money, that may or may not also be complicated, but I'd
-prefer things I would otherwise buy with my money.  For some other form of
-contribution, I guess it depends, but I don't accept kittens any longer; that
-was just a bad idea.
+prefer gifts, things I would otherwise buy with the money you might have given
+me.  For some other form of contribution, I guess it depends, but I don't
+accept kittens any longer; that was just a bad idea.
 
-For any contributions, start by getting in touch with me.  I can probably help
-with some of the other steps toward helping contribute.  The following is a
-rough description of how contributing code might work, and by getting in touch
-with me you can help me can work out how you can make the following happen:
+Realistically, for a command line tool project this size whose value probably
+escapes the imagination of most people who see it, I don't expect *any*
+contributions, ever.  Just in case, though:
+
+For any contributions, start by getting in touch with me.  You should be able
+to contact me directly through GitHub, or by submitting an issue for this
+project with your comments and/or questions (either at the FossRec repository
+for this project or the GitHub mirror).  Once you contact me, I can probably
+help with some of the other steps toward helping contribute.  The following is
+a rough description of how contributing code might work, and by getting in
+touch with me you can help me can work out how you can make the following
+happen:
 
 1. Figure out how to use Fossil.
 2. Figure out how to write specs using [bdd-for-c][bddc].
