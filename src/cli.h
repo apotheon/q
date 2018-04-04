@@ -2,6 +2,7 @@
 #define HELP_H_
 
 #include "globals.h"
+#include "features.h"
 #include "utils.h"
 
 bool match_cmd(char *cmd, char *cmdtarget);
@@ -13,10 +14,13 @@ char *help_text();
 char *usage_text(char *self);
 char *try_text(char *self);
 
+void cmd_with_arg(int count, char **arguments, char *cmd);
 void print_invalid_command_line(int count, char **arguments);
 void print_error_empty();
 void print_error_exists(char *dir, char *q);
 void print_error_open();
 void print_error_qfile_missing(char *self);
+void not_implemented(char *cmd);
+void remove_item_number(char *cmd);
 
 #endif

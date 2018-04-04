@@ -28,24 +28,3 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
-
-  /*******************/
- /* OTHER FUNCTIONS */
-/*******************/
-
-void cmd_with_arg(int argc, char **argv, char *cmd) {
-	char *program = *(argv);
-	char *input = *(argv + 2);
-
-	if (match_cmd(cmd, "add")) add_item(input, program);
-	else if (match_cmd(cmd, "remove-number")) remove_item_number(cmd);
-	else print_invalid_command_line(argc, argv);
-}
-
-void not_implemented(char *cmd) {
-	printf("Command \"%s\" was not yet implemented.\n", cmd);
-}
-
-void remove_item_number(char *cmd) {
-	not_implemented(cmd);
-}

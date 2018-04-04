@@ -94,6 +94,15 @@ char *try_text(char *self) {
 	return text;
 }
 
+void cmd_with_arg(int count, char **arguments, char *cmd) {
+	char *program = *(arguments);
+	char *input = *(arguments + 2);
+
+	if (match_cmd(cmd, "add")) add_item(input, program);
+	else if (match_cmd(cmd, "remove-number")) remove_item_number(cmd);
+	else print_invalid_command_line(count, arguments);
+}
+
 /* maybe test by executing "q add" command */
 void print_invalid_command_line(int count, char **arguments) {
 	char *self = *(arguments);
@@ -125,4 +134,12 @@ void print_error_open() {
 /* probably not meaningfully testable */
 void print_error_qfile_missing(char *self) {
 	printf("No queuefile found.  Try `%s create-fresh-queue`.\n", self);
+}
+
+void not_implemented(char *cmd) {
+	printf("Command \"%s\" was not yet implemented.\n", cmd);
+}
+
+void remove_item_number(char *cmd) {
+	not_implemented(cmd);
 }
