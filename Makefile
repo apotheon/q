@@ -12,8 +12,8 @@ sync:
 	fossgit $(GITCLONES)/q/
 
 testcli:
-	clang src/cli_spec.c src/cli.c src/utils.c
-	a.out
+	clang src/cli_spec.c src/cli.c src/features.c src/utils.c
+	HOME="`pwd`/tmp" a.out
 	rm a.out
 
 testfeatures:
