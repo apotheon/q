@@ -1,6 +1,16 @@
 default:
 	clang -o q src/q.c src/cli.c src/features.c src/utils.c
 
+help:
+	# default
+	# local
+	# qtest
+	# sync
+	# testcli
+	# testfeatures
+	# testutils
+	# test
+
 local: default
 	mv q ~/bin/
 
