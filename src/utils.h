@@ -1,11 +1,10 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#include <errno.h>
 #include <stdarg.h>
 #include <sys/stat.h>
 #include "globals.h"
-#include "string.h"
-#include "errno.h"
 
 bool cd(char *dir);
 bool cd_qdir();
