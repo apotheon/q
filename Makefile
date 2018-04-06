@@ -2,14 +2,14 @@ default:
 	clang -o q src/q.c src/cli.c src/features.c src/utils.c
 
 help:
-	# default       build q binary
-	# local         build q binary and move to ~/bin/q
-	# qtest         build q with .queuebert default dirname
-	# sync          sync Fossil repo and update Git mirror
-	# testcli       run CLI library tests
-	# testfeatures  run Features library tests
-	# testutils     run Utils library tests
-	# test          run CLI, Features, Utils and q build tests
+	@echo '	default       build q binary'
+	@echo '	local         build q binary and move to ~/bin/q'
+	@echo '	qtest         build q with .queuebert default dirname'
+	@echo '	sync          sync Fossil repo and update Git mirror'
+	@echo '	testcli       run CLI library tests'
+	@echo '	testfeatures  run Features library tests'
+	@echo '	testutils     run Utils library tests'
+	@echo '	test          run CLI, Features, Utils and q build tests'
 
 local: default
 	mv q ~/bin/
