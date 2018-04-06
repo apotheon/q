@@ -20,7 +20,6 @@ spec("Features") {
 
 		after_each() {
 			cleanup_testq();
-			fclose(qfile);
 			cfree(line, LINESIZE);
 		}
 
@@ -68,6 +67,7 @@ spec("Features") {
 					exit(EXIT_FAILURE);
 				} else {
 					check(strncmp(line, line2, LINESIZE) == 0);
+					fclose(qfile);
 				}
 			}
 		}
@@ -97,6 +97,7 @@ spec("Features") {
 					comparison = strncmp(line, line1, LINESIZE);
 
 					check(comparison == 0, fmtstr, line, line1);
+					fclose(qfile);
 				}
 			}
 		}

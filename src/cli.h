@@ -1,5 +1,5 @@
-#ifndef HELP_H_
-#define HELP_H_
+#ifndef CLI_H_
+#define CLI_H_
 
 #include "globals.h"
 #include "features.h"
