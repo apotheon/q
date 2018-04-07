@@ -9,27 +9,6 @@ spec("CLI") {
 		}
 	}
 
-	/*
-	describe("cmd_with_arg()") {
-		context("with add command") {
-			char **arguments = calloc(3, sizeof(**arguments));
-
-			*arguments = calloc(2, sizeof(char));
-			*arguments = "q";
-
-			*arguments = calloc(4, sizeof(char));
-			*(arguments + 1) = "add";
-
-			*arguments = calloc(10, sizeof(char));
-			*(arguments + 2) = "some text";
-
-			it("should do something") {
-				cmd_with_arg(3, arguments, *(arguments + 1));
-			}
-		}
-	}
-	*/
-
 	describe("match_cmd()") {
 		char *target_string = "remove-number";
 		int cmdsize = sizeof(*target_string);
