@@ -99,7 +99,7 @@ void cmd_with_arg(int count, char **arguments, char *cmd) {
 	char *input = *(arguments + 2);
 
 	if (match_cmd(cmd, "add")) add_item(input, program);
-	else if (match_cmd(cmd, "remove-number")) remove_item_number(cmd);
+	else if (match_cmd(cmd, "remove-number")) remove_item_number(0);
 	else print_invalid_command_line(count, arguments);
 }
 
@@ -138,8 +138,4 @@ void print_error_qfile_missing(char *self) {
 
 void not_implemented(char *cmd) {
 	printf("Command \"%s\" was not yet implemented.\n", cmd);
-}
-
-void remove_item_number(char *cmd) {
-	not_implemented(cmd);
 }

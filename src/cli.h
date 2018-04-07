@@ -21,6 +21,5 @@ void print_error_exists(char *dir, char *q);
 void print_error_open();
 void print_error_qfile_missing(char *self);
 void not_implemented(char *cmd);
-void remove_item_number(char *cmd);
 
 #endif
