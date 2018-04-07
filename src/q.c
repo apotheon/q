@@ -4,10 +4,6 @@
 #include "features.h"
 #include "utils.h"
 
-void cmd_with_arg(int argc, char **argv, char *cmd);
-void not_implemented(char *cmd);
-void remove_item_number(char *cmd);
-
 int main(int argc, char **argv) {
 	char *program = *(argv);
 

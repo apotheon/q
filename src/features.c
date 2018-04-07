@@ -54,6 +54,10 @@ void print_numbered_file_listing(FILE *qfile) {
 	cfree(line, LINESIZE);
 }
 
+void remove_item_number(unsigned int itemno) {
+	not_implemented("remove-item");
+}
+
 void rot(char *self) {
 	if (qexists()) {
 		rot_item(self);
