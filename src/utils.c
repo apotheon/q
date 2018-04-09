@@ -50,37 +50,42 @@ bool qexists() {
 	return (cd_qdir() && exists(QNAME));
 }
 
-char *del_line(int line_num, char *fname) {
-	char *tmp_file = calloc(LINESIZE, sizeof(*tmp_file));
-	check_alloc(tmp_file);
+char *del_line(unsigned int itemno, char *fname) {
+	if (itemno == 1) {
+		char *tmp_file = calloc(LINESIZE, sizeof(*tmp_file));
+		check_alloc(tmp_file);
 
-	char *first_line = calloc(LINESIZE, sizeof(*first_line));
-	check_alloc(first_line);
+		char *first_line = calloc(LINESIZE, sizeof(*first_line));
+		check_alloc(first_line);
 
-	set_tempname(tmp_file);
+		set_tempname(tmp_file);
 
-	FILE *ofile = fopen(fname, "r");
-	FILE *tfile = fopen(tmp_file, "a");
+		FILE *ofile = fopen(fname, "r");
+		FILE *tfile = fopen(tmp_file, "a");
 
-	char *line = calloc(LINESIZE, sizeof(*line));
-	check_alloc(line);
+		char *line = calloc(LINESIZE, sizeof(*line));
+		check_alloc(line);
 
-	fgets(first_line, LINESIZE, ofile);
-	while (fgets(line, LINESIZE, ofile)) fprintf(tfile, "%s", line);
+		fgets(first_line, LINESIZE, ofile);
+		while (fgets(line, LINESIZE, ofile)) fprintf(tfile, "%s", line);
 
-	cfree(line, LINESIZE);
-	fclose(ofile);
-	fclose(tfile);
+		cfree(line, LINESIZE);
+		fclose(ofile);
+		fclose(tfile);
 
-	if (rename(tmp_file, fname) != 0) {
+		if (rename(tmp_file, fname) != 0) {
+			cfree(tmp_file, LINESIZE);
+			perror("failed to edit file");
+			puts("Attempted changes may be found in tmpfile.");
+			exit(EXIT_FAILURE);
+		}
+
 		cfree(tmp_file, LINESIZE);
-		perror("failed to edit file");
-		puts("Attempted changes may be found in tmpfile.");
-		exit(EXIT_FAILURE);
+		return first_line;
+	} else {
+		puts("Command \"remove-item\" was not yet implemented.");
+		exit(EXIT_SUCCESS);
 	}
-
-	cfree(tmp_file, LINESIZE);
-	return first_line;
 }
 
 /* probably not meaningfully testable */

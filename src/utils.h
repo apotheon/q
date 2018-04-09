@@ -14,7 +14,7 @@ bool get_line(char *line, FILE *qfile);
 bool newdir(char *dir);
 bool qexists();
 
-char *del_line(int line_num, char *fname);
+char *del_line(unsigned int itemno, char *fname);
 
 void cfree(char *text, size_t text_size);
 void clearfree(size_t text_size, int argnum, ...);
