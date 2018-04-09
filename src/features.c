@@ -1,7 +1,7 @@
 #include "features.h"
 
-char *del_item(int line_num) {
-	return del_line(line_num, QNAME);
+char *del_item(unsigned int itemno) {
+	return del_line(itemno, QNAME);
 }
 
 void add_item(char *input, char *self) {
@@ -56,10 +56,6 @@ void print_numbered_file_listing(FILE *qfile) {
 	}
 
 	cfree(line, LINESIZE);
-}
-
-void remove_item_number(unsigned int itemno) {
-	not_implemented("remove-item");
 }
 
 void rot(char *self) {
