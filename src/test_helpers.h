@@ -2,8 +2,11 @@
 #define TEST_HELPERS_H_
 
 #include <fcntl.h>
+#include <limits.h>
 #include "globals.h"
 #include "utils.h"
+
+bool linecmp(char *firstline, char *secondline);
 
 void create_dir(char *dirname);
 void create_qdir();
