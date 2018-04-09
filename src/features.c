@@ -18,8 +18,12 @@ void add_item(char *input, char *self) {
 }
 
 void del(char *self) {
-	if (qexists()) printf("%s", del_item());
-	else print_error_qfile_missing(self);
+	if (qexists()) {
+		printf("deleted: %s", del_item());
+		show_head(self);
+	} else {
+		print_error_qfile_missing(self);
+	}
 }
 
 void list_all(char *self) {
