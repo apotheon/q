@@ -1,7 +1,7 @@
 #include "features.h"
 
-char *del_item() {
-	return del_line(QNAME);
+char *del_item(int line_num) {
+	return del_line(line_num, QNAME);
 }
 
 void add_item(char *input, char *self) {
@@ -19,7 +19,7 @@ void add_item(char *input, char *self) {
 
 void del(char *self) {
 	if (qexists()) {
-		printf("deleted: %s", del_item());
+		printf("deleted: %s", del_item(1));
 		show_head(self);
 	} else {
 		print_error_qfile_missing(self);
@@ -72,7 +72,7 @@ void rot(char *self) {
 }
 
 void rot_item(char *self) {
-	char *rot_string = del_item();
+	char *rot_string = del_item(1);
 	size_t rot_size = strnlen(rot_string, LINESIZE) - 1;
 
 	*(rot_string + rot_size) = '\0';
