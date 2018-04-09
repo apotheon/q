@@ -1,5 +1,15 @@
 #include "test_helpers.h"
 
+bool linecmp(char *firstline, char *secondline) {
+	if (strncmp(firstline, secondline, LINESIZE) == 0) return true;
+	else return false;
+}
+
+bool pathcmp(char *firstpath, char *secondpath) {
+	if (strncmp(firstpath, secondpath, PATH_MAX) == 0) return true;
+	else return false;
+}
+
 void create_dir(char *dirname) {
 	if (! exists(dirname)) newdir(dirname);
 }

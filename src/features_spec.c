@@ -1,4 +1,3 @@
-#include <limits.h>
 #include "utils.h"
 #include "test_helpers.h"
 #include "features.h"
@@ -43,7 +42,7 @@ spec("Features") {
 					fseek(qfile, s_len, SEEK_SET);
 					get_line(line, qfile);
 
-					check(strncmp(line, line3, LINESIZE) == 0);
+					check(linecmp(line, line3));
 
 					fclose(qfile);
 					cfree(line, LINESIZE);
@@ -53,8 +52,7 @@ spec("Features") {
 
 		describe("del_item()") {
 			it("deletes the first line in the queuefile") {
-				check(strncmp(del_item(1), line1, LINESIZE) == 0);
-
+				check(linecmp(del_item(1), line1));
 				qfile = fopen(QNAME, "r");
 
 				if (! qfile) {
@@ -66,9 +64,29 @@ spec("Features") {
 					cfree(line, LINESIZE);
 					exit(EXIT_FAILURE);
 				} else {
-					check(strncmp(line, line2, LINESIZE) == 0);
+					check(linecmp(line, line2));
 					fclose(qfile);
 				}
+			}
+
+			it("deletes the second line in the queuefile") {
+				/*
+				check(linecmp(del_item(2), line2));
+				qfile = fopen(QNAME, "r");
+
+				if (! qfile) {
+					fclose(qfile);
+					cfree(line, LINESIZE);
+					exit(EXIT_FAILURE);
+				} else if (! get_line(line, qfile)) {
+					fclose(qfile);
+					cfree(line, LINESIZE);
+					exit(EXIT_FAILURE);
+				} else {
+					check(linecmp(line, line1));
+					fclose(qfile);
+				}
+				*/
 			}
 		}
 
@@ -88,15 +106,15 @@ spec("Features") {
 					exit(EXIT_FAILURE);
 				} else {
 					char *fmtstr = "string \"%s\" doesn't match \"%s\"";
-					int comparison = strncmp(line, line2, LINESIZE);
+					int comparison = linecmp(line, line2);
 
-					check(comparison == 0, fmtstr, line, line2);
+					check(comparison, fmtstr, line, line2);
 
 					fseek(qfile, strnlen(line2, LINESIZE), SEEK_SET);
 					get_line(line, qfile);
-					comparison = strncmp(line, line1, LINESIZE);
+					comparison = linecmp(line, line1);
 
-					check(comparison == 0, fmtstr, line, line1);
+					check(comparison, fmtstr, line, line1);
 					fclose(qfile);
 				}
 			}
