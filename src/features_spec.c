@@ -53,7 +53,7 @@ spec("Features") {
 
 		describe("del_item()") {
 			it("deletes the first line in the queuefile") {
-				check(strncmp(del_item(), line1, LINESIZE) == 0);
+				check(strncmp(del_item(1), line1, LINESIZE) == 0);
 
 				qfile = fopen(QNAME, "r");
 

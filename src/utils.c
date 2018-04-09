@@ -50,7 +50,7 @@ bool qexists() {
 	return (cd_qdir() && exists(QNAME));
 }
 
-char *del_line(char *fname) {
+char *del_line(int line_num, char *fname) {
 	char *tmp_file = calloc(LINESIZE, sizeof(*tmp_file));
 	check_alloc(tmp_file);
 

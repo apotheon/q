@@ -157,7 +157,7 @@ spec("Utils") {
 
 				fclose(qfile);
 
-				char *deleted = del_line(QNAME);
+				char *deleted = del_line(1, QNAME);
 
 				qfile = fopen(QNAME, "r");
 

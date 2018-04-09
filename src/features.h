@@ -6,7 +6,7 @@
 #include "cli.h"
 #include "utils.h"
 
-char *del_item();
+char *del_item(int line_num);
 
 void add_item(char *input, char *self);
 void del(char *self);
