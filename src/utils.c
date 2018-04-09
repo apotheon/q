@@ -50,22 +50,22 @@ bool qexists() {
 	return (cd_qdir() && exists(QNAME));
 }
 
-char *del_line(unsigned int itemno, char *fname) {
+char *del_line(uint16_t itemno, char *fname) {
+	char *tmp_file = calloc(LINESIZE, sizeof(*tmp_file));
+	check_alloc(tmp_file);
+
+	char *first_line = calloc(LINESIZE, sizeof(*first_line));
+	check_alloc(first_line);
+
+	set_tempname(tmp_file);
+
+	FILE *ofile = fopen(fname, "r");
+	FILE *tfile = fopen(tmp_file, "a");
+
+	char *line = calloc(LINESIZE, sizeof(*line));
+	check_alloc(line);
+
 	if (itemno == 1) {
-		char *tmp_file = calloc(LINESIZE, sizeof(*tmp_file));
-		check_alloc(tmp_file);
-
-		char *first_line = calloc(LINESIZE, sizeof(*first_line));
-		check_alloc(first_line);
-
-		set_tempname(tmp_file);
-
-		FILE *ofile = fopen(fname, "r");
-		FILE *tfile = fopen(tmp_file, "a");
-
-		char *line = calloc(LINESIZE, sizeof(*line));
-		check_alloc(line);
-
 		fgets(first_line, LINESIZE, ofile);
 		while (fgets(line, LINESIZE, ofile)) fprintf(tfile, "%s", line);
 
@@ -83,6 +83,12 @@ char *del_line(unsigned int itemno, char *fname) {
 		cfree(tmp_file, LINESIZE);
 		return first_line;
 	} else {
+		cfree(line, LINESIZE);
+		cfree(tmp_file, LINESIZE);
+
+		fclose(ofile);
+		fclose(tfile);
+
 		puts("Command \"remove-item\" was not yet implemented.");
 		exit(EXIT_SUCCESS);
 	}

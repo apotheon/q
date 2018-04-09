@@ -1,6 +1,6 @@
 #include "features.h"
 
-char *del_item(unsigned int itemno) {
+char *del_item(uint16_t itemno) {
 	return del_line(itemno, QNAME);
 }
 

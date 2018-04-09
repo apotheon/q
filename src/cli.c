@@ -97,10 +97,19 @@ char *try_text(char *self) {
 void cmd_with_arg(int count, char **arguments, char *cmd) {
 	char *program = *(arguments);
 	char *input = *(arguments + 2);
+	const char *errstr;
 
-	if (match_cmd(cmd, "add")) add_item(input, program);
-	else if (match_cmd(cmd, "remove-number")) del_item(0);
-	else print_invalid_command_line(count, arguments);
+	if (match_cmd(cmd, "add")) {
+		add_item(input, program);
+	} else if (match_cmd(cmd, "remove-number")) {
+		uint16_t itemno = (uint16_t) strtonum(input, 1, 65535, &errstr);
+
+		if (errstr != NULL) err(1, NULL);
+		else if (qexists()) del_item(itemno);
+		else print_error_qfile_missing(program);
+	} else {
+		print_invalid_command_line(count, arguments);
+	}
 }
 
 /* maybe test by executing "q add" command */

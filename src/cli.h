@@ -1,6 +1,7 @@
 #ifndef CLI_H_
 #define CLI_H_
 
+#include <err.h>
 #include "globals.h"
 #include "features.h"
 #include "utils.h"
