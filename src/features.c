@@ -69,9 +69,7 @@ void rot(char *self) {
 
 void rot_item(char *self) {
 	char *rot_string = del_item(1);
-	size_t rot_size = strnlen(rot_string, LINESIZE) - 1;
-
-	*(rot_string + rot_size) = '\0';
+	chomp(rot_string);
 	add_item(rot_string, self);
 }
 
