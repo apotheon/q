@@ -35,6 +35,7 @@ testq:
 	@$(CC) src/q_spec.c src/test_helpers.c src/utils.c -DDIRNAME='".quebert"'
 	@HOME="`pwd`/tmp" a.out
 	@rm a.out
+	@rm q
 
 testutils:
 	@$(CC) src/utils_spec.c src/utils.c src/test_helpers.c
