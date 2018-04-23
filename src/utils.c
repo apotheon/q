@@ -113,6 +113,12 @@ void cfreeprint(char *text, size_t text_size) {
 	cfree(text, text_size);
 }
 
+void chomp(char *text) {
+	unsigned long count = 0;
+	for (; *(text + count); ++count);
+	*(text + count - 1) = '\0';
+}
+
 void set_tempname(char *tmp_file) {
 	strlcpy(tmp_file, "tempq.XXXXXXXXXXXXX", LINESIZE);
 
