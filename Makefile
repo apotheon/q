@@ -16,12 +16,6 @@ help:
 local: default
 	mv q ~/bin/
 
-qtest:
-	@$(CC) -o q src/q.c src/cli.c src/features.c src/utils.c -DDIRNAME='".quebert"'
-	@$(CC) src/q_spec.c src/test_helpers.c src/utils.c -DDIRNAME='".quebert"'
-	@HOME="`pwd`/tmp" a.out
-	@rm a.out
-
 sync:
 	fossil sync
 	fossgit $(GITCLONES)/q/
@@ -36,9 +30,15 @@ testfeatures:
 	@HOME="`pwd`/tmp" a.out
 	@rm a.out
 
+testq:
+	@$(CC) -o q src/q.c src/cli.c src/features.c src/utils.c -DDIRNAME='".quebert"'
+	@$(CC) src/q_spec.c src/test_helpers.c src/utils.c -DDIRNAME='".quebert"'
+	@HOME="`pwd`/tmp" a.out
+	@rm a.out
+
 testutils:
 	@$(CC) src/utils_spec.c src/utils.c src/test_helpers.c
 	@HOME="`pwd`/tmp" a.out
 	@rm a.out
 
-test: testcli testfeatures testutils qtest
+test: testcli testfeatures testq testutils
