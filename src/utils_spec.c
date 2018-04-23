@@ -217,6 +217,9 @@ spec("Utils") {
 			chomp(test_text);
 
 			check(strncmp(test_text, "foo", 5) == 0);
+
+			strlcpy(test_text, "\0", 5);
+			chomp(test_text);
 		}
 	}
 }
