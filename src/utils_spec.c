@@ -1,4 +1,5 @@
 #include <libgen.h>
+#include <string.h>
 #include "utils.h"
 #include "test_helpers.h"
 #include "bdd-for-c.h"
@@ -204,6 +205,18 @@ spec("Utils") {
 				cfree(cwd, PATH_MAX);
 				cfree(line, LINESIZE);
 			}
+		}
+	}
+
+	describe("chomp()") {
+		it("deletes the final newline from a string") {
+			char *test_text = calloc(5, sizeof(*test_text));
+			check_alloc(test_text);
+
+			strlcpy(test_text, "foo\n", 5);
+			chomp(test_text);
+
+			check(strncmp(test_text, "foo", 5) == 0);
 		}
 	}
 }

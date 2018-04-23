@@ -17,8 +17,9 @@ bool qexists();
 char *del_line(uint16_t itemno, char *fname);
 
 void cfree(char *text, size_t text_size);
-void clearfree(size_t text_size, int argnum, ...);
 void cfreeprint(char *text, size_t text_size);
+void chomp(char *text);
+void clearfree(size_t text_size, int argnum, ...);
 void set_tempname(char *tmp_file);
 
 #endif
