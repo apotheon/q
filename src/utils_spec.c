@@ -209,17 +209,25 @@ spec("Utils") {
 	}
 
 	describe("chomp()") {
+		uint8_t textsize = 5;
+
+		char *test_text = calloc(textsize, sizeof(*test_text));
+		check_alloc(test_text);
+
+		after() {
+			cfree(test_text, textsize);
+		}
+
 		it("deletes the final newline from a string") {
-			char *test_text = calloc(5, sizeof(*test_text));
-			check_alloc(test_text);
-
-			strlcpy(test_text, "foo\n", 5);
+			strlcpy(test_text, "foo\n", textsize);
 			chomp(test_text);
+			check(strncmp(test_text, "foo", textsize) == 0);
+		}
 
-			check(strncmp(test_text, "foo", 5) == 0);
-
-			strlcpy(test_text, "\0", 5);
+		it("deletes nothing in a string without a final newline") {
+			strlcpy(test_text, "foo", textsize);
 			chomp(test_text);
+			check(strncmp(test_text, "foo", textsize) == 0);
 		}
 	}
 }
