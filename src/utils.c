@@ -101,13 +101,6 @@ void cfree(char *text, size_t text_size) {
 	free(text);
 }
 
-void clearfree(size_t text_size, int argnum, ...) {
-	va_list arglist;
-	va_start(arglist, argnum);
-	for (int n = 0; n < argnum; ++n) cfree(va_arg(arglist, char *), text_size);
-	va_end(arglist);
-}
-
 void cfreeprint(char *text, size_t text_size) {
 	puts(text);
 	cfree(text, text_size);
@@ -116,7 +109,15 @@ void cfreeprint(char *text, size_t text_size) {
 void chomp(char *text) {
 	unsigned long count = 0;
 	for (; *(text + count); ++count);
-	*(text + count - 1) = '\0';
+	char *lastchar = (text + count - 1);
+	if (*lastchar == '\n') *lastchar = '\0';
+}
+
+void clearfree(size_t text_size, int argnum, ...) {
+	va_list arglist;
+	va_start(arglist, argnum);
+	for (int n = 0; n < argnum; ++n) cfree(va_arg(arglist, char *), text_size);
+	va_end(arglist);
 }
 
 void set_tempname(char *tmp_file) {
