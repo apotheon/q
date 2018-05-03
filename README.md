@@ -145,6 +145,37 @@ it refuses to be anything but a task queue management tool, because trying to
 be everything to everyone is a great way to fail to be the best at anything to
 anyone at all.
 
+## How do I install it?
+
+First, get the repository.  In both Fossil and Git examples, modify the paths
+as necessary for your local system.
+
+With Fossil, try this:
+
+    mkdir ~/fossrec
+    fossil clone https://fossrec.com/u/apotheon/q/index.cgi ~/fossrec/q.fossil
+    mkdir ~/src
+    mkdir ~/src/q
+    cd src/q
+    fossil open ~/fossrec/q.fossil
+
+With Git, try this:
+
+    mkdir ~/src
+    cd ~/src
+    git clone https://github.com/apotheon/q.git
+    cd q
+
+After either of the above, use this to see how you can use make to build and
+install the q binary:
+
+    make help
+
+Changing the name of the binary from `q` to whatever you like shouldn't break
+anything, though output will still refer to the program as `q`.  The name `q`
+is nice and short, so I like it, but I'll probably make it possible to use
+whatever name you want to give the binary in help output and so on later.
+
 ## How can I contribute?
 
 That's complicated, if you want to contribute changes to the project itself.
