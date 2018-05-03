@@ -167,7 +167,7 @@ With Git, try this:
     cd q
 
 After either of the above, use this to see how you can use make to build and
-install the q binary:
+install the `q` binary:
 
     make help
 
