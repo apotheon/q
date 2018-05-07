@@ -44,11 +44,6 @@ spec("queuer") {
 		it("should error out if queue already exists") {
 			FILE *redundancy;
 
-			char *qcreate = calloc(LINESIZE, sizeof(*qcreate));
-			check_alloc(qcreate);
-
-			snprintf(qcreate, LINESIZE, "./q create-fresh-queue 2>/dev/null");
-
 			char *err = calloc(LINESIZE, sizeof(*err));
 			check_alloc(err);
 
