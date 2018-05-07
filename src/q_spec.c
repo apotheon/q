@@ -8,13 +8,17 @@ spec("queuer") {
 	check_alloc(qpath);
 	snprintf(qpath, LINESIZE, "tmp/%s/%s", DIRNAME, QNAME);
 
-	char *ls = calloc(LINESIZE, sizeof(*ls));
-	check_alloc(ls);
+	after_each() {
+		cleanup_testq();
+	}
 
 	describe("create-fresh-queue") {
 		it("should create a fresh queue file") {
 			uint32_t count;
 			FILE *listing;
+
+			char *ls = calloc(LINESIZE, sizeof(*ls));
+			check_alloc(ls);
 
 			char *output = calloc(LINESIZE, sizeof(*output));
 			check_alloc(output);
@@ -29,14 +33,9 @@ spec("queuer") {
 			system("./q create-fresh-queue");
 
 			listing = popen(ls, "r");
-			if (fgets(output, LINESIZE, listing)) {
-				for (count = 0; *(output + count); ++count);
-				*(output + count - 1) = '\0';
-			}
+			if (fgets(output, LINESIZE, listing)) chomp(output);
 			check(linecmp(output, qpath));
 			pclose(listing);
-
-			cleanup_testq();
 		}
 	}
 }
