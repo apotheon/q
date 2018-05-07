@@ -10,7 +10,6 @@ spec("queuer") {
 
 	char *ls = calloc(LINESIZE, sizeof(*ls));
 	check_alloc(ls);
-	snprintf(ls, LINESIZE, "ls %s 2>/dev/null", qpath);
 
 	describe("create-fresh-queue") {
 		it("should create a fresh queue file") {
@@ -19,6 +18,8 @@ spec("queuer") {
 
 			char *output = calloc(LINESIZE, sizeof(*output));
 			check_alloc(output);
+
+			snprintf(ls, LINESIZE, "ls %s 2>/dev/null", qpath);
 
 			listing = popen(ls, "r");
 			if (fgets(output, LINESIZE, listing)) chomp(output);
