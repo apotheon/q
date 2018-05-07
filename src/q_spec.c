@@ -13,12 +13,11 @@ spec("queuer") {
 	char *output = calloc(LINESIZE, sizeof(*output));
 	check_alloc(output);
 
-	after_each() {
-		cleanup_testq();
-		cd("..");
-	}
-
 	describe("create-fresh-queue") {
+		after_each() {
+			cd("..");
+		}
+
 		it("should create a fresh queue file") {
 			FILE *listing;
 
@@ -38,6 +37,8 @@ spec("queuer") {
 			if (fgets(output, LINESIZE, listing)) chomp(output);
 			check(linecmp(output, qpath));
 			pclose(listing);
+
+			cleanup_testq();
 		}
 
 		it("should error out if queue already exists") {
@@ -59,6 +60,8 @@ spec("queuer") {
 			if (fgets(output, LINESIZE, redundancy)) chomp(output);
 			check(linecmp(output, err));
 			pclose(redundancy);
+
+			cleanup_testq();
 		}
 	}
 }
