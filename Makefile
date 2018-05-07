@@ -6,10 +6,10 @@ default:
 help:
 	@echo '	default       build q binary'
 	@echo '	local         build q binary and move to ~/bin/q'
-	@echo '	qtest         build q with .queuebert default dirname'
 	@echo '	sync          sync Fossil repo and update Git mirror'
 	@echo '	testcli       run CLI library tests'
 	@echo '	testfeatures  run Features library tests'
+	@echo '	testq         build q with .queuebert default dirname'
 	@echo '	testutils     run Utils library tests'
 	@echo '	test          run CLI, Features, Utils and q build tests'
 
