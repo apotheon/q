@@ -9,7 +9,7 @@ help:
 	@echo '	sync          sync Fossil repo and update Git mirror'
 	@echo '	testcli       run CLI library tests'
 	@echo '	testfeatures  run Features library tests'
-	@echo '	testq         build q with .queuebert default dirname'
+	@echo '	testq         build and test a q binary'
 	@echo '	testutils     run Utils library tests'
 	@echo '	test          run CLI, Features, Utils and q build tests'
 
