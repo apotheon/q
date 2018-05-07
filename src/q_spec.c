@@ -59,4 +59,25 @@ spec("queuer") {
 			cleanup_testq();
 		}
 	}
+
+	describe("list-all") {
+		it("should error out with no existing queue") {
+			FILE *qlist;
+
+			char *err = calloc(LINESIZE, sizeof(*err));
+			check_alloc(err);
+
+			snprintf(
+				err, LINESIZE,
+				"No queuefile found.  Try `./q create-fresh-queue`."
+			);
+
+			qlist = popen("./q list-all", "r");
+			if (fgets(output, LINESIZE, qlist)) chomp(output);
+			check(linecmp(output, err));
+			pclose(qlist);
+
+			cleanup_testq();
+		}
+	}
 }
