@@ -130,3 +130,7 @@ void set_tempname(char *tmp_file) {
 		exit(EXIT_FAILURE);
 	}
 }
+
+void slinef(char *output_str, char *fmt_str, char *insert_str) {
+	snprintf(output_str, LINESIZE, fmt_str, insert_str);
+}

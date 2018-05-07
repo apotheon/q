@@ -230,4 +230,17 @@ spec("Utils") {
 			check(strncmp(test_text, "foo", textsize) == 0);
 		}
 	}
+
+	describe("slinef()") {
+		it("performs simple string combination and stores it") {
+			char *result = "one two three";
+			char *datum = "three";
+
+			char *output_string = calloc(LINESIZE, sizeof(*output_string));
+			check_alloc(output_string);
+
+			slinef(output_string, "one two %s", datum);
+			check(linecmp(output_string, result));
+		}
+	}
 }

@@ -21,5 +21,6 @@ void cfreeprint(char *text, size_t text_size);
 void chomp(char *text);
 void clearfree(size_t text_size, int argnum, ...);
 void set_tempname(char *tmp_file);
+void slinef(char *output_str, char *fmt_str, char *insert_str);
 
 #endif
