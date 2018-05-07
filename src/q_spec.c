@@ -39,5 +39,26 @@ spec("queuer") {
 			check(linecmp(output, qpath));
 			pclose(listing);
 		}
+
+		it("should error out if queue already exists") {
+			FILE *redundancy;
+
+			char *qcreate = calloc(LINESIZE, sizeof(*qcreate));
+			check_alloc(qcreate);
+
+			snprintf(qcreate, LINESIZE, "./q create-fresh-queue 2>/dev/null");
+
+			char *err = calloc(LINESIZE, sizeof(*err));
+			check_alloc(err);
+
+			snprintf(err, LINESIZE, "The file \"%s\" already exists.", qpath);
+
+			system("./q create-fresh-queue 2>/dev/null");
+
+			redundancy = popen("./q create-fresh-queue", "r");
+			if (fgets(output, LINESIZE, redundancy)) chomp(output);
+			check(linecmp(output, err));
+			pclose(redundancy);
+		}
 	}
 }
