@@ -24,7 +24,7 @@ spec("queuer") {
 			char *ls = calloc(LINESIZE, sizeof(*ls));
 			check_alloc(ls);
 
-			snprintf(ls, LINESIZE, "ls %s 2>/dev/null", qpath);
+			slinef(ls, "ls %s 2>/dev/null", qpath);
 
 			listing = popen(ls, "r");
 			if (fgets(output, LINESIZE, listing)) chomp(output);
@@ -47,7 +47,7 @@ spec("queuer") {
 			char *err = calloc(LINESIZE, sizeof(*err));
 			check_alloc(err);
 
-			snprintf(err, LINESIZE, "The file \"%s\" already exists.", qpath);
+			slinef(err, "The file \"%s\" already exists.", qpath);
 
 			system("./q create-fresh-queue 2>/dev/null");
 
@@ -64,13 +64,7 @@ spec("queuer") {
 		it("should error out with no existing queue") {
 			FILE *qlist;
 
-			char *err = calloc(LINESIZE, sizeof(*err));
-			check_alloc(err);
-
-			snprintf(
-				err, LINESIZE,
-				"No queuefile found.  Try `./q create-fresh-queue`."
-			);
+			char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
 
 			qlist = popen("./q list-all", "r");
 			if (fgets(output, LINESIZE, qlist)) chomp(output);
