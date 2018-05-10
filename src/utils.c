@@ -89,7 +89,7 @@ char *del_line(uint16_t itemno, char *fname) {
 		fclose(ofile);
 		fclose(tfile);
 
-		puts("Command \"remove-item\" was not yet implemented.");
+		puts("Command \"remove-number\" was not yet implemented.");
 		exit(EXIT_SUCCESS);
 	}
 }
