@@ -21,7 +21,7 @@ bool cd_qdir() {
 bool check_alloc(char *p) {
 	if (p == NULL) {
 		free(p);
-		perror("Failed to initialize a pointer.\n");
+		errputs("Failed to initialize pointer.");
 		exit(EXIT_FAILURE);
 	} else {
 		return true;
@@ -75,7 +75,7 @@ char *del_line(uint16_t itemno, char *fname) {
 
 		if (rename(tmp_file, fname) != 0) {
 			cfree(tmp_file, LINESIZE);
-			perror("failed to edit file");
+			errputs("Failed to edit file.");
 			puts("Attempted changes may be found in tmpfile.");
 			exit(EXIT_FAILURE);
 		}
@@ -120,13 +120,17 @@ void clearfree(size_t text_size, int argnum, ...) {
 	va_end(arglist);
 }
 
+void errputs(char *text) {
+	fprintf(stderr, "%s: %s\n", strerror(errno), text);
+}
+
 void set_tempname(char *tmp_file) {
 	strlcpy(tmp_file, "tempq.XXXXXXXXXXXXX", LINESIZE);
 
 	if (mkstemp(tmp_file) > 0) {
 		unlink(tmp_file);
 	} else {
-		perror("no tempfile");
+		errputs("No tempfile.");
 		exit(EXIT_FAILURE);
 	}
 }
