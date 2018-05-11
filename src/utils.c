@@ -45,13 +45,15 @@ bool qexists() {
 }
 
 char *del_line(uint16_t itemno, char *fname) {
-	char *tmp_file = calloc(LINESIZE, sizeof(*tmp_file));
+	size_t tmp_size = 42;
+
+	char *tmp_file = calloc(tmp_size, sizeof(*tmp_file));
 	check_alloc(tmp_file);
 
 	char *first_line = calloc(LINESIZE, sizeof(*first_line));
 	check_alloc(first_line);
 
-	set_tempname(tmp_file);
+	set_tempname(tmp_file, tmp_size);
 
 	FILE *ofile = fopen(fname, "r");
 	FILE *tfile = fopen(tmp_file, "a");
@@ -68,17 +70,17 @@ char *del_line(uint16_t itemno, char *fname) {
 		fclose(tfile);
 
 		if (rename(tmp_file, fname) != 0) {
-			cfree(tmp_file, LINESIZE);
+			cfree(tmp_file, tmp_size);
 			errputs("Failed to edit file.");
 			puts("Attempted changes may be found in tmpfile.");
 			exit(EXIT_FAILURE);
 		}
 
-		cfree(tmp_file, LINESIZE);
+		cfree(tmp_file, tmp_size);
 		return first_line;
 	} else {
 		cfree(line, LINESIZE);
-		cfree(tmp_file, LINESIZE);
+		cfree(tmp_file, tmp_size);
 
 		fclose(ofile);
 		fclose(tfile);
@@ -118,8 +120,9 @@ void errputs(char *text) {
 	fprintf(stderr, "%s: %s\n", strerror(errno), text);
 }
 
-void set_tempname(char *tmp_file) {
-	strlcpy(tmp_file, "tempq.XXXXXXXXXXXXX", LINESIZE);
+void set_tempname(char *tmp_file, size_t tmp_size) {
+	char *fname_mask = "tempq.XXXXXXXXXXXXX";
+	strlcpy(tmp_file, fname_mask, strnlen(fname_mask, tmp_size));
 
 	if (mkstemp(tmp_file) > 0) {
 		unlink(tmp_file);
