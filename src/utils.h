@@ -20,7 +20,7 @@ void cfreeprint(char *text, size_t text_size);
 void chomp(char *text);
 void clearfree(size_t text_size, int argnum, ...);
 void errputs(char *text);
-void set_tempname(char *tmp_file);
+void set_tempname(char *tmp_file, size_t tmp_size);
 void slinef(char *output_str, char *fmt_str, char *insert_str);
 
 #endif
