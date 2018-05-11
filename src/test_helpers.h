@@ -6,6 +6,7 @@
 #include "globals.h"
 #include "utils.h"
 
+bool get_line(char *line, FILE *qfile);
 bool linecmp(char *firstline, char *secondline);
 
 void create_dir(char *dirname);

@@ -41,21 +41,20 @@ void list_all(char *self) {
 
 void print_numbered_file_listing(FILE *qfile) {
 	int n = 0;
-	bool next = false;
+	int next = 0;
 
-	char *line = calloc(LINESIZE, sizeof(*line));
-	check_alloc(line);
-
-	if ((next = get_line(line, qfile))) {
-		while (next) {
-			printf("%4d %s", ++n, line);
-			next = get_line(line, qfile);
-		}
-	} else {
+	if ((next = fgetc(qfile)) == EOF) {
 		print_error_empty();
-	}
+	} else {
+		while (next != EOF) {
+			printf("%4d ", ++n);
 
-	cfree(line, LINESIZE);
+			while ((next != '\n') && (next != EOF)) {
+				putchar(next);
+				next = fgetc(qfile);
+			}
+		}
+	}
 }
 
 void rot(char *self) {
@@ -77,15 +76,20 @@ void show_head(char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "r");
 
-		char *line = calloc(LINESIZE, sizeof(*line));
-		check_alloc(line);
+		int next = 0;
 
-		if (! qfile) print_error_open();
-		else if (get_line(line, qfile)) printf("%s", line);
-		else print_error_empty();
+		if (! qfile) {
+			print_error_open();
+		} else if ((next = fgetc(qfile)) == EOF) {
+			print_error_empty();
+		} else {
+			while ((next != EOF) && (next != '\n')) {
+				putchar(next);
+				next = fgetc(qfile);
+			}
+		}
 
 		fclose(qfile);
-		cfree(line, LINESIZE);
 	} else {
 		print_error_qfile_missing(self);
 	}

@@ -35,12 +35,6 @@ bool exists(char *fname) {
 	else return false;
 }
 
-/* execute `q list-all` to test */
-bool get_line(char *line, FILE *qfile) {
-	if (fgets(line, LINESIZE - 1, qfile) > 0) return true;
-	else return false;
-}
-
 bool newdir(char *dir) {
 	if (mkdir(dir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) return true;
 	else return false;

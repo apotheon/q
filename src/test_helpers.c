@@ -1,5 +1,11 @@
 #include "test_helpers.h"
 
+/* execute `q list-all` to test */
+bool get_line(char *line, FILE *qfile) {
+	if (fgets(line, LINESIZE - 1, qfile) > 0) return true;
+	else return false;
+}
+
 bool linecmp(char *firstline, char *secondline) {
 	if (strncmp(firstline, secondline, LINESIZE) == 0) return true;
 	else return false;

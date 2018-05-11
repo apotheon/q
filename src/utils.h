@@ -10,7 +10,6 @@ bool cd(char *dir);
 bool cd_qdir();
 bool check_alloc(char *p);
 bool exists(char *fname);
-bool get_line(char *line, FILE *qfile);
 bool newdir(char *dir);
 bool qexists();
 
