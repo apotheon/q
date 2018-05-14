@@ -50,8 +50,8 @@ char *del_line(uint16_t itemno, char *fname) {
 	char *tmp_file = calloc(tmp_size, sizeof(*tmp_file));
 	check_alloc(tmp_file);
 
-	char *first_line = calloc(LINESIZE, sizeof(*first_line));
-	check_alloc(first_line);
+	char *deleted = calloc(LINESIZE, sizeof(*deleted));
+	check_alloc(deleted);
 
 	set_tempname(tmp_file, tmp_size);
 
@@ -62,8 +62,12 @@ char *del_line(uint16_t itemno, char *fname) {
 	check_alloc(line);
 
 	if (itemno == 1) {
-		fgets(first_line, LINESIZE, ofile);
-		while (fgets(line, LINESIZE, ofile)) fprintf(tfile, "%s", line);
+		int next = 0;
+
+		fgets(deleted, LINESIZE, ofile);
+		while ((next = fgetc(ofile)) != EOF) {
+			fputc(next, tfile);
+		}
 
 		cfree(line, LINESIZE);
 		fclose(ofile);
@@ -77,7 +81,7 @@ char *del_line(uint16_t itemno, char *fname) {
 		}
 
 		cfree(tmp_file, tmp_size);
-		return first_line;
+		return deleted;
 	} else {
 		cfree(line, LINESIZE);
 		cfree(tmp_file, tmp_size);
