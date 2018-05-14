@@ -2,7 +2,7 @@
 
 /* execute `q list-all` to test */
 bool get_line(char *line, FILE *qfile) {
-	if (fgets(line, LINESIZE - 1, qfile) > 0) return true;
+	if (fgets(line, LINESIZE, qfile) > 0) return true;
 	else return false;
 }
 
