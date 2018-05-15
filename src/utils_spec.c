@@ -183,7 +183,7 @@ spec("Utils") {
 			}
 
 			it("deletes the second line of the queuefile") {
-				char *deleted = "SECOND LINE\n"; /*del_line(2, QNAME);*/
+				char *deleted = del_line(2, QNAME);
 				qfile = fopen(QNAME, "r");
 
 				if (! qfile) {
