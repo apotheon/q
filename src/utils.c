@@ -44,7 +44,7 @@ bool qexists() {
 	return (cd_qdir() && exists(QNAME));
 }
 
-char *del_line(uint16_t itemno, char *fname) {
+char *del_line(uint16_t itemnum, char *fname) {
 	size_t tmp_size = 42;
 
 	char *tmp_file = calloc(tmp_size, sizeof(*tmp_file));
@@ -61,7 +61,7 @@ char *del_line(uint16_t itemno, char *fname) {
 	char *line = calloc(LINESIZE, sizeof(*line));
 	check_alloc(line);
 
-	if (itemno == 1) {
+	if (itemnum == 1) {
 		int next = 0;
 
 		for (int cnum = 0; (next = fgetc(ofile)) != EOF; ++cnum) {
