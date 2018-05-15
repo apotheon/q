@@ -64,7 +64,11 @@ char *del_line(uint16_t itemno, char *fname) {
 	if (itemno == 1) {
 		int next = 0;
 
-		fgets(deleted, LINESIZE, ofile);
+		for (int cnum = 0; (next = fgetc(ofile)) != EOF; ++cnum) {
+			*(deleted + cnum) = next;
+			if (next == '\n') break;
+		}
+
 		while ((next = fgetc(ofile)) != EOF) {
 			fputc(next, tfile);
 		}
