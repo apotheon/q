@@ -44,6 +44,31 @@ bool qexists() {
 	return (cd_qdir() && exists(QNAME));
 }
 
+void tempfile(char *action, FILE *fh) {
+	size_t string_size = 42;
+
+	if (strncmp(action, "open", string_size)) {
+		char *tmp_file = calloc(string_size, sizeof(*tmp_file));
+		check_alloc(tmp_file);
+
+		strlcpy(tmp_file, "tempq.XXXXXXXXXXXXX", string_size);
+
+		if (mkstemp(tmp_file) > 0) {
+			unlink(tmp_file);
+		} else {
+			errputs("No tempfile.");
+			exit(EXIT_FAILURE);
+		}
+
+		fh = fopen(tmp_file, "a");
+		cfree(tmp_file, string_size);
+	} else if (strncmp(action, "move", string_size)) {
+		/* move the tempfile */
+	} else {
+		/* blow up */
+	}
+}
+
 char *del_line(uint16_t itemnum, char *fname) {
 	size_t tmp_size = 42;
 
@@ -58,55 +83,40 @@ char *del_line(uint16_t itemnum, char *fname) {
 	FILE *ofile = fopen(fname, "r");
 	FILE *tfile = fopen(tmp_file, "a");
 
-	char *line = calloc(LINESIZE, sizeof(*line));
-	check_alloc(line);
+	int next = 0;
+	int lnum = 1;
 
-	if (itemnum == 1) {
-		int next = 0;
-		int lnum = 1;
+	while ((next = fgetc(ofile)) != EOF) {
+		if (itemnum == lnum) {
+			for (int cnum = 0; next != EOF; ++cnum) {
+				*(deleted + cnum) = next;
 
-		while ((next = fgetc(ofile)) != EOF) {
-			if (itemnum == lnum) {
-				for (int cnum = 0; next != EOF; ++cnum) {
-					*(deleted + cnum) = next;
-
-					if (next == '\n') {
-						next = fgetc(ofile);
-						++lnum;
-						break;
-					}
-
+				if (next == '\n') {
 					next = fgetc(ofile);
+					++lnum;
+					break;
 				}
+
+				next = fgetc(ofile);
 			}
-
-			if (next == '\n') ++lnum;
-			fputc(next, tfile);
 		}
 
-		cfree(line, LINESIZE);
-		fclose(ofile);
-		fclose(tfile);
-
-		if (rename(tmp_file, fname) != 0) {
-			cfree(tmp_file, tmp_size);
-			errputs("Failed to edit file.");
-			puts("Attempted changes may be found in tmpfile.");
-			exit(EXIT_FAILURE);
-		}
-
-		cfree(tmp_file, tmp_size);
-		return deleted;
-	} else {
-		cfree(line, LINESIZE);
-		cfree(tmp_file, tmp_size);
-
-		fclose(ofile);
-		fclose(tfile);
-
-		puts("Command \"remove-number\" was not yet implemented.");
-		exit(EXIT_SUCCESS);
+		if (next == '\n') ++lnum;
+		fputc(next, tfile);
 	}
+
+	fclose(ofile);
+	fclose(tfile);
+
+	if (rename(tmp_file, fname) != 0) {
+		cfree(tmp_file, tmp_size);
+		errputs("Failed to edit file.");
+		puts("Attempted changes may be found in tmpfile.");
+		exit(EXIT_FAILURE);
+	}
+
+	cfree(tmp_file, tmp_size);
+	return deleted;
 }
 
 /* probably not meaningfully testable */
