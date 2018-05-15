@@ -63,13 +63,24 @@ char *del_line(uint16_t itemnum, char *fname) {
 
 	if (itemnum == 1) {
 		int next = 0;
-
-		for (int cnum = 0; (next = fgetc(ofile)) != EOF; ++cnum) {
-			*(deleted + cnum) = next;
-			if (next == '\n') break;
-		}
+		int lnum = 1;
 
 		while ((next = fgetc(ofile)) != EOF) {
+			if (itemnum == lnum) {
+				for (int cnum = 0; next != EOF; ++cnum) {
+					*(deleted + cnum) = next;
+
+					if (next == '\n') {
+						next = fgetc(ofile);
+						++lnum;
+						break;
+					}
+
+					next = fgetc(ofile);
+				}
+			}
+
+			if (next == '\n') ++lnum;
 			fputc(next, tfile);
 		}
 
