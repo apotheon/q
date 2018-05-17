@@ -61,12 +61,34 @@ spec("queuer") {
 	}
 
 	describe("list-all") {
+		after_each() {
+			cd("..");
+		}
+
 		it("should error out with no existing queue") {
 			FILE *qlist;
 
 			char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
 
 			qlist = popen("./q list-all", "r");
+			if (fgets(output, LINESIZE, qlist)) chomp(output);
+			check(linecmp(output, err));
+			pclose(qlist);
+
+			cleanup_testq();
+		}
+
+		it("should error out with empty queue") {
+			FILE *qlist;
+
+			char *err = (
+				"Error reading from queuefile (it may be empty): "
+				"Undefined error: 0"
+			);
+
+			system("./q create-fresh-queue 2>/dev/null");
+
+			qlist = popen("./q list-all 2>&1", "r");
 			if (fgets(output, LINESIZE, qlist)) chomp(output);
 			check(linecmp(output, err));
 			pclose(qlist);
