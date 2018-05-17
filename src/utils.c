@@ -44,31 +44,6 @@ bool qexists() {
 	return (cd_qdir() && exists(QNAME));
 }
 
-void tempfile(char *action, FILE *fh) {
-	size_t string_size = 42;
-
-	if (strncmp(action, "open", string_size)) {
-		char *tmp_file = calloc(string_size, sizeof(*tmp_file));
-		check_alloc(tmp_file);
-
-		strlcpy(tmp_file, "tempq.XXXXXXXXXXXXX", string_size);
-
-		if (mkstemp(tmp_file) > 0) {
-			unlink(tmp_file);
-		} else {
-			errputs("No tempfile.");
-			exit(EXIT_FAILURE);
-		}
-
-		fh = fopen(tmp_file, "a");
-		cfree(tmp_file, string_size);
-	} else if (strncmp(action, "move", string_size)) {
-		/* move the tempfile */
-	} else {
-		/* blow up */
-	}
-}
-
 char *del_line(uint16_t itemnum, char *fname) {
 	size_t tmp_size = 42;
 
