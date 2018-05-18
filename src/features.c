@@ -46,11 +46,14 @@ void print_numbered_file_listing(FILE *qfile) {
 	if ((next = fgetc(qfile)) == EOF) {
 		print_error_empty();
 	} else {
-		while (next != EOF) {
-			printf("%4d ", ++n);
+		printf("%4d ", ++n);
 
-			while ((next != '\n') && (next != EOF)) {
-				putchar(next);
+		while (next != EOF) {
+			putchar(next);
+
+			if ((next == '\n') && ((next = fgetc(qfile)) != EOF)) {
+				printf("%4d ", ++n);
+			} else {
 				next = fgetc(qfile);
 			}
 		}
