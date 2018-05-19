@@ -70,7 +70,6 @@ spec("Features") {
 			}
 
 			it("deletes the second line in the queuefile") {
-				/*
 				check(linecmp(del_item(2), line2));
 				qfile = fopen(QNAME, "r");
 
@@ -86,7 +85,6 @@ spec("Features") {
 					check(linecmp(line, line1));
 					fclose(qfile);
 				}
-				*/
 			}
 		}
 
