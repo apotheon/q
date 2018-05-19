@@ -119,6 +119,12 @@ spec("Features") {
 				}
 			}
 		}
+
+		describe("print_numbered_file_listing()") {
+			it("prints contents of queue in a numbered list") {
+				numlisting = popen("./q list-all 2>/dev/null", "r");
+			}
+		}
 	}
 
 	context("with no queuefile") {
