@@ -1,5 +1,18 @@
 #include "test_helpers.h"
 
+bool filestringcmp(FILE *fd, char *str) {
+	int nextchar = fgetc(fd);
+	int n = 0;
+
+	for (int c; (c = *(str + n)) != '\0'; ++n) {
+		if (c != nextchar) return false;
+		nextchar = fgetc(fd);
+	}
+
+	if (nextchar == EOF) return true;
+	else return false;
+}
+
 /* execute `q list-all` to test */
 bool get_line(char *line, FILE *qfile) {
 	if (fgets(line, LINESIZE, qfile) > 0) return true;
