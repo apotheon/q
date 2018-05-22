@@ -6,6 +6,7 @@
 #include "globals.h"
 #include "utils.h"
 
+bool filestringcmp(FILE *fd, char *str);
 bool get_line(char *line, FILE *qfile);
 bool linecmp(char *firstline, char *secondline);
 
