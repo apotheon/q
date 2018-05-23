@@ -131,8 +131,6 @@ spec("queuer") {
 			if (fgets(output, LINESIZE, qlist)) chomp(output);
 			check(linecmp(output, err));
 			pclose(qlist);
-
-			cleanup_testq();
 		}
 
 		it("should error out with empty queue") {
