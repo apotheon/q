@@ -90,6 +90,8 @@ void show_head(char *self) {
 				putchar(next);
 				next = fgetc(qfile);
 			}
+
+			puts("");
 		}
 
 		fclose(qfile);

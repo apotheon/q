@@ -77,7 +77,7 @@ char *del_line(uint16_t itemnum, char *fname) {
 		}
 
 		if (next == '\n') ++lnum;
-		fputc(next, tfile);
+		if (next != EOF) fputc(next, tfile);
 	}
 
 	fclose(ofile);
