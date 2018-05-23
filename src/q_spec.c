@@ -13,6 +13,28 @@ spec("queuer") {
 	char *output = calloc(LINESIZE, sizeof(*output));
 	check_alloc(output);
 
+	describe("add") {
+		it("should error out when no todo string provided") {
+			prep_testq();
+
+			cd(getenv("HOME"));
+			cd("..");
+
+			char *err = (
+				"Command or argument(s) invalid: ./q add\n"
+				"USAGE: ./q <command> [argument]\n"
+				"Try \"./q help\" for more info.\n"
+			);
+
+			FILE *qadd = popen("./q add 2>&1", "r");
+
+			check(filestringcmp(qadd, err));
+			pclose(qadd);
+
+			cleanup_testq();
+		}
+	}
+
 	describe("create-fresh-queue") {
 		before_each() {
 			cd(getenv("HOME"));
