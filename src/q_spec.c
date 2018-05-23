@@ -74,6 +74,7 @@ spec("queuer") {
 		}
 
 		it("should delete the first item in the queue and keep the second") {
+			/* Consider moving this test to feature spec. */
 			system("./q del > /dev/null");
 
 			char *numlisting = "   1 SECOND LINE\n";
