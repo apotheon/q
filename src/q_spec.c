@@ -81,8 +81,19 @@ spec("queuer") {
 
 			check(filestringcmp(qlist, numlisting));
 			pclose(qlist);
+		}
 
-			cleanup_testq();
+		it("should show deleted item and new top item after deletion") {
+			char *linedel = "deleted: FIRST LINE\n";
+			char *newtop = "SECOND LINE\n";
+
+			FILE *qdel = popen("./q del 2>&1", "r");
+
+			fgets(output, LINESIZE, qdel);
+			check(linecmp(output, linedel));
+
+			fgets(output, LINESIZE, qdel);
+			check(linecmp(output, newtop));
 		}
 	}
 
