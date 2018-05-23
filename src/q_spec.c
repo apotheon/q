@@ -175,22 +175,18 @@ spec("queuer") {
 	}
 
 	describe("show") {
-		before_each() {
+		it("should print the first item in the queue") {
 			prep_testq();
 
 			cd(getenv("HOME"));
 			cd("..");
-		}
 
-		after_each() {
-			cleanup_testq();
-		}
-
-		it("should print the first item in the queue") {
 			char *firstline = "FIRST LINE\n";
 			fgets(output, LINESIZE, popen("./q 2>&1", "r"));
 
 			check(linecmp(output, firstline));
+
+			cleanup_testq();
 		}
 	}
 }
