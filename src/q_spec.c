@@ -61,6 +61,31 @@ spec("queuer") {
 		}
 	}
 
+	describe("del") {
+		before_each() {
+			prep_testq();
+
+			cd(getenv("HOME"));
+			cd("..");
+		}
+
+		after_each() {
+			cleanup_testq();
+		}
+
+		it("should delete the first item in the queue and keep the second") {
+			system("./q del > /dev/null");
+
+			char *numlisting = "   1 SECOND LINE\n";
+			FILE *qlist = popen("./q list-all 2>&1", "r");
+
+			check(filestringcmp(qlist, numlisting));
+			pclose(qlist);
+
+			cleanup_testq();
+		}
+	}
+
 	describe("list-all") {
 		it("should error out with empty queue") {
 			cd(getenv("HOME"));
