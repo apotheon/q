@@ -84,9 +84,9 @@ char *del_line(uint16_t itemnum, char *fname) {
 	fclose(tfile);
 
 	if (rename(tmp_file, fname) != 0) {
+		puts("Attempted changes may be found in tmpfile %s.", tmp_file);
 		cfree(tmp_file, tmp_size);
 		errputs("Failed to edit file.");
-		puts("Attempted changes may be found in tmpfile.");
 		exit(EXIT_FAILURE);
 	}
 
