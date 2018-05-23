@@ -112,7 +112,6 @@ void cmd_with_arg(int count, char **arguments, char *cmd) {
 	}
 }
 
-/* maybe test by executing "q add" command */
 void print_invalid_command_line(int count, char **arguments) {
 	char *self = *(arguments);
 
