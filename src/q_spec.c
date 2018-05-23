@@ -87,6 +87,20 @@ spec("queuer") {
 	}
 
 	describe("list-all") {
+		it("should error out with no existing queue") {
+			cd(getenv("HOME"));
+			cd("..");
+
+			char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
+			FILE *qlist = popen("./q list-all", "r");
+
+			if (fgets(output, LINESIZE, qlist)) chomp(output);
+			check(linecmp(output, err));
+			pclose(qlist);
+
+			cleanup_testq();
+		}
+
 		it("should error out with empty queue") {
 			cd(getenv("HOME"));
 			cd("..");
@@ -106,36 +120,24 @@ spec("queuer") {
 			cleanup_testq();
 		}
 
-		it("should print out a numbered list of queue entries") {
-			prep_testq();
-
-			cd(getenv("HOME"));
-			cd("..");
-
-			char *numlisting = "   1 FIRST LINE\n   2 SECOND LINE\n";
-			FILE *qlist = popen("./q list-all 2>&1", "r");
-
-			check(filestringcmp(qlist, numlisting));
-			pclose(qlist);
-
-			cleanup_testq();
-		}
-
-		context("without an existing queue") {
+		context("with a populated queue") {
 			before_each() {
+				prep_testq();
+
 				cd(getenv("HOME"));
 				cd("..");
 			}
 
-			it("should error out with no existing queue") {
-				char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
-				FILE *qlist = popen("./q list-all", "r");
-
-				if (fgets(output, LINESIZE, qlist)) chomp(output);
-				check(linecmp(output, err));
-				pclose(qlist);
-
+			after_each() {
 				cleanup_testq();
+			}
+
+			it("should print out a numbered list of queue entries") {
+				char *numlisting = "   1 FIRST LINE\n   2 SECOND LINE\n";
+				FILE *qlist = popen("./q list-all 2>&1", "r");
+
+				check(filestringcmp(qlist, numlisting));
+				pclose(qlist);
 			}
 		}
 	}
