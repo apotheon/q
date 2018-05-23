@@ -13,7 +13,6 @@ bool filestringcmp(FILE *fd, char *str) {
 	else return false;
 }
 
-/* execute `q list-all` to test */
 bool get_line(char *line, FILE *qfile) {
 	if (fgets(line, LINESIZE, qfile) > 0) return true;
 	else return false;

@@ -129,7 +129,6 @@ void print_error_empty() {
 	perror("Error reading from queuefile (it may be empty)");
 }
 
-/* maybe test by executing "q create-fresh-queue" with an existing queue */
 void print_error_exists(char *dir, char *q) {
 	char *home = getenv("HOME");
 	printf("The file \"%s/%s/%s\" already exists.\n", home, dir, q);
