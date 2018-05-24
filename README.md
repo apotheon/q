@@ -17,10 +17,9 @@ Now you know everything.
 ## Why doesn't it do everything?
 
 This is a C rewrite of the original shell script implementation.  The C version
-is nearly feature-complete, but it still lacks the ability to remove arbitrary
-queue entries by number, which is not strictly necessary and should not be part
-of standard q workflow anyway.  I should probably call this a complete version
-1.0 release, but so far I'm too indecisive to call it anything in particular.
+is now a feature-complete equivalent, with improvements.  I should probably
+call this a complete version 1.0 release, but so far I'm too indecisive to call
+it anything in particular.
 
 It is also intended to get somewhat close to adhering to the Unix philosophy of
 software design: Do One Thing Well.  As such, it should not do things that are
@@ -29,11 +28,11 @@ lacks, feel free to let me know, but I do not anticipate getting many "good
 idea" feature requests for this project.  See more about this in the "Why is q
 awesome?" section below.
 
-If you're interested, you can still get [the source of the shell version][sh],
-which has a working implementation of the `remove-number` command.  It is also
-probably a less-safe program, because I'm too lazy to do much in the way of
+You can still get [the source of the shell version][sh] if you want it.  The
+shell script is probably a less-safe program, because I'm too lazy to do much
 error-checking with shell script code, which I find excruciating.  Writing C is
-fun, though.
+fun, though, and I actually have a test suite for the C version, so hopefully
+it's "safer" in the edge cases.
 
 ## Why is q awesome?
 
@@ -172,9 +171,9 @@ install the `q` binary:
     make help
 
 Changing the name of the binary from `q` to whatever you like shouldn't break
-anything, though output will still refer to the program as `q`.  The name `q`
-is nice and short, so I like it, but I'll probably make it possible to use
-whatever name you want to give the binary in help output and so on later.
+anything.  The name `q` is nice and short, so I like it, but I'll probably make
+it possible to use whatever name you want to give the binary with the standard
+make targets for building, later.
 
 ## How can I contribute?
 
