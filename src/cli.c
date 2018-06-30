@@ -131,11 +131,6 @@ void print_error_exists(char *dir, char *q) {
 }
 
 /* probably not meaningfully testable */
-void print_error_open() {
-	perror("Error opening queuefile.");
-}
-
-/* probably not meaningfully testable */
 void print_error_qfile_missing(char *self) {
 	printf("No queuefile found.  Try `%s create-fresh-queue`.\n", self);
 }
