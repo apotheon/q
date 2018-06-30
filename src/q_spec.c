@@ -176,6 +176,12 @@ spec("queuer") {
 		}
 	}
 
+	describe("rot") {
+		it("should error out with no existing queue") {
+			check(test_no_queue_error("./q rot 2>&1", output));
+		}
+	}
+
 	describe("show") {
 		it("should print the first item in the queue") {
 			prep_testq();
@@ -208,6 +214,10 @@ spec("queuer") {
 			pclose(qhead);
 
 			cleanup_testq();
+		}
+
+		it("should error out with no existing queue") {
+			check(test_no_queue_error("./q 2>&1", output));
 		}
 	}
 }
