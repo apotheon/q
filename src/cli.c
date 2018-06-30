@@ -123,8 +123,7 @@ void print_invalid_command_line(int count, char **arguments) {
 	cfreeprint(try_text(self), LINESIZE);
 }
 
-/* probably not meaningfully testable */
-void print_error_exists(char *dir, char *q) {
+void print_error_qfile_exists(char *dir, char *q) {
 	/* rework to avoid env var */
 	char *home = getenv("HOME");
 	printf("The file \"%s/%s/%s\" already exists.\n", home, dir, q);

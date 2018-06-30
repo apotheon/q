@@ -17,7 +17,7 @@ char *try_text(char *self);
 
 void cmd_with_arg(int count, char **arguments, char *cmd);
 void print_invalid_command_line(int count, char **arguments);
-void print_error_exists(char *dir, char *q);
+void print_error_qfile_exists(char *dir, char *q);
 void print_error_qfile_missing(char *self);
 
 #endif
