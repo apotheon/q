@@ -28,6 +28,20 @@ bool pathcmp(char *firstpath, char *secondpath) {
 	else return false;
 }
 
+bool test_no_queue_error(char *command_string, char *output) {
+	cd(getenv("HOME"));
+	cd("..");
+
+	char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
+
+	FILE *qrun = popen(command_string, "r");
+
+	if (fgets(output, LINESIZE, qrun)) chomp(output);
+	pclose(qrun);
+
+	return linecmp(output, err);
+}
+
 void create_dir(char *dirname) {
 	if (! exists(dirname)) newdir(dirname);
 }
@@ -71,18 +85,4 @@ void cleanup_testq() {
 		cd(getenv("HOME"));
 		remove_qdir();
 	}
-}
-
-bool test_no_queue_error(char *command_string, char *output) {
-	cd(getenv("HOME"));
-	cd("..");
-
-	char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
-
-	FILE *qrun = popen(command_string, "r");
-
-	if (fgets(output, LINESIZE, qrun)) chomp(output);
-	pclose(qrun);
-
-	return linecmp(output, err);
 }
