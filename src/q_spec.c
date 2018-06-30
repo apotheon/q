@@ -35,7 +35,7 @@ spec("queuer") {
 		}
 
 		it("should error out with no existing queue") {
-			check(test_error_no_queue("./q add foobar 2>&1", output));
+			check(test_no_queue_error("./q add foobar 2>&1", output));
 		}
 	}
 
@@ -126,13 +126,13 @@ spec("queuer") {
 		}
 
 		it("should error out with no existing queue") {
-			check(test_error_no_queue("./q del 2>&1", output));
+			check(test_no_queue_error("./q del 2>&1", output));
 		}
 	}
 
 	describe("list-all") {
 		it("should error out with no existing queue") {
-			check(test_error_no_queue("./q list-all 2>&1", output));
+			check(test_no_queue_error("./q list-all 2>&1", output));
 		}
 
 		it("should error out with empty queue") {
