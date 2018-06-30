@@ -35,16 +35,7 @@ spec("queuer") {
 		}
 
 		it("should error out with no existing queue") {
-			cd(getenv("HOME"));
-			cd("..");
-
-			char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
-
-			FILE *qadd = popen("./q add foobar 2>&1", "r");
-
-			if (fgets(output, LINESIZE, qadd)) chomp(output);
-			check(linecmp(output, err));
-			pclose(qadd);
+			check(test_error_no_queue("./q add foobar 2>&1", output));
 		}
 	}
 
@@ -135,30 +126,13 @@ spec("queuer") {
 		}
 
 		it("should error out with no existing queue") {
-			cd(getenv("HOME"));
-			cd("..");
-
-			char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
-
-			FILE *qdel = popen("./q del 2>&1", "r");
-
-			if (fgets(output, LINESIZE, qdel)) chomp(output);
-			check(linecmp(output, err));
-			pclose(qdel);
+			check(test_error_no_queue("./q del 2>&1", output));
 		}
 	}
 
 	describe("list-all") {
 		it("should error out with no existing queue") {
-			cd(getenv("HOME"));
-			cd("..");
-
-			char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
-			FILE *qlist = popen("./q list-all", "r");
-
-			if (fgets(output, LINESIZE, qlist)) chomp(output);
-			check(linecmp(output, err));
-			pclose(qlist);
+			check(test_error_no_queue("./q list-all 2>&1", output));
 		}
 
 		it("should error out with empty queue") {
