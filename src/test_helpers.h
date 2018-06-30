@@ -10,7 +10,7 @@ bool filestringcmp(FILE *fd, char *str);
 bool get_line(char *line, FILE *qfile);
 bool linecmp(char *firstline, char *secondline);
 
-bool test_error_no_queue(char *tested_command, char *output);
+bool test_no_queue_error(char *tested_command, char *output);
 
 void create_dir(char *dirname);
 void create_qdir();

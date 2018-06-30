@@ -73,7 +73,7 @@ void cleanup_testq() {
 	}
 }
 
-bool test_error_no_queue(char *command_string, char *output) {
+bool test_no_queue_error(char *command_string, char *output) {
 	cd(getenv("HOME"));
 	cd("..");
 
