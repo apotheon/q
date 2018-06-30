@@ -188,5 +188,24 @@ spec("queuer") {
 
 			cleanup_testq();
 		}
+
+		it("should error out with empty queue") {
+			cd(getenv("HOME"));
+			cd("..");
+
+			char *err = (
+				"Error reading from queuefile (it may be empty): "
+				"Undefined error: 0"
+			);
+
+			system("./q create-fresh-queue 2>/dev/null");
+			FILE *qhead = popen("./q 2>&1", "r");
+
+			if (fgets(output, LINESIZE, qhead)) chomp(output);
+			check(linecmp(output, err));
+			pclose(qhead);
+
+			cleanup_testq();
+		}
 	}
 }
