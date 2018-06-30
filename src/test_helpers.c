@@ -72,3 +72,17 @@ void cleanup_testq() {
 		remove_qdir();
 	}
 }
+
+bool test_error_no_queue(char *command_string, char *output) {
+	cd(getenv("HOME"));
+	cd("..");
+
+	char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
+
+	FILE *qrun = popen(command_string, "r");
+
+	if (fgets(output, LINESIZE, qrun)) chomp(output);
+	pclose(qrun);
+
+	return linecmp(output, err);
+}
