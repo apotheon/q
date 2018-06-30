@@ -33,6 +33,19 @@ spec("queuer") {
 
 			cleanup_testq();
 		}
+
+		it("should error out with no existing queue") {
+			cd(getenv("HOME"));
+			cd("..");
+
+			char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
+
+			FILE *qadd = popen("./q add foobar 2>&1", "r");
+
+			if (fgets(output, LINESIZE, qadd)) chomp(output);
+			check(linecmp(output, err));
+			pclose(qadd);
+		}
 	}
 
 	describe("create-fresh-queue") {
