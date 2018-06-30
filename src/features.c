@@ -1,5 +1,7 @@
 #include "features.h"
 
+char *err_empty = "Error reading from queuefile (it may be empty)";
+
 char *del_item(uint16_t itemno) {
 	return del_line(itemno, QNAME);
 }
@@ -44,7 +46,7 @@ void print_numbered_file_listing(FILE *qfile) {
 	int next = 0;
 
 	if ((next = fgetc(qfile)) == EOF) {
-		print_error_empty();
+		perror(err_empty);
 	} else {
 		printf("%4d ", ++n);
 
@@ -84,7 +86,7 @@ void show_head(char *self) {
 		if (! qfile) {
 			print_error_open();
 		} else if ((next = fgetc(qfile)) == EOF) {
-			print_error_empty();
+			perror(err_empty);
 		} else {
 			while ((next != EOF) && (next != '\n')) {
 				putchar(next);
