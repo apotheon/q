@@ -1,6 +1,7 @@
 #include "features.h"
 
-char *err_emptyq = "Error reading from queuefile (it may be empty)";
+const char *err_emptyq = "Error reading from queuefile (it may be empty)";
+const char *err_openq = "Error opening queuefile.";
 
 char *del_item(uint16_t itemno) {
 	return del_line(itemno, QNAME);
@@ -10,7 +11,7 @@ void add_item(char *input, char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "a");
 
-		if (! qfile) print_error_open();
+		if (! qfile) perror(err_openq);
 		else fprintf(qfile, "%s\n", input);
 
 		fclose(qfile);
@@ -32,7 +33,7 @@ void list_all(char *self) {
 	if (qexists()) {
 		FILE *qfile = fopen(QNAME, "r");
 
-		if (! qfile) print_error_open();
+		if (! qfile) perror(err_openq);
 		else print_numbered_file_listing(qfile);
 
 		fclose(qfile);
@@ -84,7 +85,7 @@ void show_head(char *self) {
 		int next = 0;
 
 		if (! qfile) {
-			print_error_open();
+			perror(err_openq);
 		} else if ((next = fgetc(qfile)) == EOF) {
 			perror(err_emptyq);
 		} else {
