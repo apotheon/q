@@ -97,39 +97,54 @@ spec("queuer") {
 	}
 
 	describe("del") {
-		before_each() {
-			prep_testq();
+		context("with a populated queue") {
+			before_each() {
+				prep_testq();
 
+				cd(getenv("HOME"));
+				cd("..");
+			}
+
+			after_each() {
+				cleanup_testq();
+			}
+
+			it("should delete the first item in the queue and keep the second") {
+				/* Consider moving this test to feature spec. */
+				system("./q del > /dev/null");
+
+				char *numlisting = "   1 SECOND LINE\n";
+				FILE *qlist = popen("./q list-all 2>&1", "r");
+
+				check(filestringcmp(qlist, numlisting));
+				pclose(qlist);
+			}
+
+			it("should show deleted item and new top item after deletion") {
+				char *linedel = "deleted: FIRST LINE\n";
+				char *newtop = "SECOND LINE\n";
+
+				FILE *qdel = popen("./q del 2>&1", "r");
+
+				fgets(output, LINESIZE, qdel);
+				check(linecmp(output, linedel));
+
+				fgets(output, LINESIZE, qdel);
+				check(linecmp(output, newtop));
+			}
+		}
+
+		it("should error out with no existing queue") {
 			cd(getenv("HOME"));
 			cd("..");
-		}
 
-		after_each() {
-			cleanup_testq();
-		}
-
-		it("should delete the first item in the queue and keep the second") {
-			/* Consider moving this test to feature spec. */
-			system("./q del > /dev/null");
-
-			char *numlisting = "   1 SECOND LINE\n";
-			FILE *qlist = popen("./q list-all 2>&1", "r");
-
-			check(filestringcmp(qlist, numlisting));
-			pclose(qlist);
-		}
-
-		it("should show deleted item and new top item after deletion") {
-			char *linedel = "deleted: FIRST LINE\n";
-			char *newtop = "SECOND LINE\n";
+			char *err = "No queuefile found.  Try `./q create-fresh-queue`.";
 
 			FILE *qdel = popen("./q del 2>&1", "r");
 
-			fgets(output, LINESIZE, qdel);
-			check(linecmp(output, linedel));
-
-			fgets(output, LINESIZE, qdel);
-			check(linecmp(output, newtop));
+			if (fgets(output, LINESIZE, qdel)) chomp(output);
+			check(linecmp(output, err));
+			pclose(qdel);
 		}
 	}
 
