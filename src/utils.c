@@ -97,8 +97,12 @@ char *del_line(uint16_t itemnum, char *fname) {
 /* probably not meaningfully testable */
 
 void cfree(char *text, size_t text_size) {
+#ifdef __OpenBSD__
+	explicit_bzero(text, text_size);
+#else
 	for (unsigned long i = 0; i < text_size; ++i) *(text + i) = '\0';
 	free(text);
+#endif
 }
 
 void cfreeprint(char *text, size_t text_size) {
