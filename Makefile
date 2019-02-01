@@ -1,4 +1,4 @@
-CC?=clang
+CC?=clang -std=c99
 
 default:
 	$(CC) -o q src/q.c src/cli.c src/features.c src/utils.c
