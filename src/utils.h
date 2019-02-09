@@ -1,8 +1,23 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#ifdef __OpenBSD__
+#define mem0(text, text_size) explicit_bzero
+#elif __STDC_LIB_EXT1__
+#define mem0(text, text_size) memset_s
+#elif __linux__
+/* test this on a Linux-based system some day */
+/* puts("Linux memzero_explicit"); */
+#define mem0(text, text_size) memzero_explicit
+#else
+#define mem0(text, text_size) \
+for (unsigned long i = 0; i < (text_size); ++i) \
+*((text) + i) = '\0'
+#endif
+
 #include <errno.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <sys/stat.h>
 #include "globals.h"
 

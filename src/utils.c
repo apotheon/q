@@ -97,18 +97,8 @@ char *del_line(uint16_t itemnum, char *fname) {
 /* probably not meaningfully testable */
 
 void cfree(char *text, size_t text_size) {
-#ifdef __OpenBSD__
-	explicit_bzero(text, text_size);
-#elif __STDC_LIB_EXT1__
-	memset_s(text, text_size);
-#elif __linux__
-	/* test this on a Linux-based system some day */
-	/* puts("Linux memzero_explicit"); */
-	memzero_explicit(text, text_size);
-#else
-	for (unsigned long i = 0; i < text_size; ++i) *(text + i) = '\0';
+	mem0(text, text_size);
 	free(text);
-#endif
 }
 
 void cfreeprint(char *text, size_t text_size) {
