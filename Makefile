@@ -1,5 +1,7 @@
 CC?=clang -std=c99
 
+TESTCC?=MALLOC_OPTIONS=S $(CC)
+
 default:
 	$(CC) -o q src/q.c src/cli.c src/features.c src/utils.c
 
@@ -21,24 +23,24 @@ sync:
 	fossgit $(GITCLONES)/q/
 
 testcli:
-	@$(CC) src/cli_spec.c src/cli.c src/features.c src/utils.c
+	@$(TESTCC) src/cli_spec.c src/cli.c src/features.c src/utils.c
 	@HOME="`pwd`/tmp" a.out
 	@rm a.out
 
 testfeatures:
-	@$(CC) src/features_spec.c src/features.c src/cli.c src/utils.c src/test_helpers.c
+	@$(TESTCC) src/features_spec.c src/features.c src/cli.c src/utils.c src/test_helpers.c
 	@HOME="`pwd`/tmp" a.out
 	@rm a.out
 
 testq:
-	@$(CC) -o q src/q.c src/cli.c src/features.c src/utils.c -DDIRNAME='".quebert"'
-	@$(CC) src/q_spec.c src/test_helpers.c src/utils.c -DDIRNAME='".quebert"'
+	@$(TESTCC) -o q src/q.c src/cli.c src/features.c src/utils.c -DDIRNAME='".quebert"'
+	@$(TESTCC) src/q_spec.c src/test_helpers.c src/utils.c -DDIRNAME='".quebert"'
 	@HOME="`pwd`/tmp" a.out
 	@rm a.out
 	@rm q
 
 testutils:
-	@$(CC) src/utils_spec.c src/utils.c src/test_helpers.c
+	@$(TESTCC) src/utils_spec.c src/utils.c src/test_helpers.c
 	@HOME="`pwd`/tmp" a.out
 	@rm a.out
 
