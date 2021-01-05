@@ -20,7 +20,7 @@ local: default
 
 sync:
 	fossil sync
-	fossgit $(GITCLONES)/q/
+	fossgit
 
 testcli:
 	@$(TESTCC) src/cli_spec.c src/cli.c src/features.c src/utils.c
