@@ -1,4 +1,5 @@
-CC?=clang -std=c99
+CCOMPILER?=clang -std=c99 -pedantic-errors
+CC=$(CCOMPILER)
 
 TESTCC?=MALLOC_OPTIONS=S $(CC)
 
@@ -6,6 +7,9 @@ default:
 	$(CC) -o q src/q.c src/cli.c src/features.c src/utils.c
 
 help:
+	@echo 'USAGE: [CCOMPILER=<command>] make [target]'
+	@echo ''
+	@echo 'TARGETS:'
 	@echo '	default       build q binary'
 	@echo '	local         build q binary and move to ~/bin/q'
 	@echo '	sync          sync Fossil repo and update Git mirror'
